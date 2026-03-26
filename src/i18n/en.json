@@ -1,0 +1,117 @@
+{
+  "common": {
+    "title": "RL Odyssey",
+    "subtitle": "Learn Reinforcement Learning",
+    "start": "Set Sail",
+    "continue": "Continue Voyage",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip to Challenge",
+    "retry": "Retry (Free!)",
+    "settings": "Settings",
+    "language": "Language",
+    "save": "Save Progress",
+    "load": "Load Progress",
+    "export": "Export Save",
+    "import": "Import Save",
+    "gold": "Gold",
+    "rank": "Rank",
+    "cards": "Cards",
+    "pause": "Pause",
+    "play": "Play",
+    "speed": "Speed",
+    "step": "Step",
+    "reset": "Reset"
+  },
+  "tutorial": {
+    "title": "Starting Harbor",
+    "welcome": "Welcome, young explorer!",
+    "choosePet": "Choose your Pixel Pet",
+    "pets": {
+      "dog": "Pixel Dog",
+      "cat": "Pixel Cat",
+      "robot": "Pixel Robot"
+    },
+    "step1": {
+      "title": "You ARE the Pet",
+      "desc": "Use arrow keys to move around the grid. Find the treat!"
+    },
+    "step2": {
+      "title": "Now You're Blindfolded",
+      "desc": "The screen goes dark. Can you find the treat from memory?"
+    },
+    "step3": {
+      "title": "The Learning Loop",
+      "agent": "You",
+      "state": "Where you are",
+      "action": "Choose a direction",
+      "reward": "Feedback",
+      "learning": "Remember this!",
+      "desc": "Watch your pet learn to find the treat on its own!"
+    },
+    "step4": {
+      "title": "The Big Question",
+      "desc": "There are MANY ways to teach your pet to learn. Each island teaches a different method. Which route will you sail first?"
+    }
+  },
+  "map": {
+    "title": "The Sea of Intelligence",
+    "startingHarbor": "Starting Harbor",
+    "convergenceHarbor": "Convergence Harbor",
+    "valueArchipelago": "Value Archipelago",
+    "policyVolcanic": "Policy Volcanic Isle",
+    "continuousGlacier": "Continuous Glacier",
+    "difficulty": {
+      "easy": "Recommended first voyage",
+      "medium": "Builds on Value Archipelago ideas",
+      "hard": "Most advanced concepts"
+    },
+    "locked": "Complete the tutorial first",
+    "hardRouteWarning": "This route explores advanced ideas. We recommend starting with Value Archipelago — but you're the captain! Ready to set sail?"
+  },
+  "value": {
+    "name": "Value Archipelago",
+    "theme": "Everything Can Be Scored",
+    "bandit": {
+      "name": "Port Bandit",
+      "algorithm": "Multi-Armed Bandit",
+      "quest": "The Gambler's Dilemma",
+      "metaphor": "A row of treasure chests — which one pays out the most?",
+      "card": "Explorer's Instinct"
+    },
+    "qtable": {
+      "name": "Port Q-Table",
+      "algorithm": "Q-Learning",
+      "quest": "Escape the Cursed Island",
+      "metaphor": "Drawing a treasure map — mark how good each spot is.",
+      "card": "The Cartographer"
+    },
+    "deep": {
+      "name": "Port Deep",
+      "algorithm": "DQN (Deep Q-Network)",
+      "quest": "Pixel Arcade Challenge",
+      "metaphor": "The treasure map is too big to draw by hand — train a pattern recognition assistant!",
+      "card": "Neural Navigator"
+    },
+    "boss": {
+      "name": "The Greedy Pirate",
+      "desc": "A pirate who ALWAYS picks the highest immediate reward. Can your trained agent outperform pure greed?",
+      "card": "The Patient Strategist"
+    }
+  },
+  "bounty": {
+    "rank": {
+      "S": "Legendary",
+      "A": "High Bounty",
+      "B": "Standard",
+      "C": "Rookie"
+    },
+    "navigator": {
+      "1": "Apprentice Sailor",
+      "2": "Navigator",
+      "3": "First Mate",
+      "4": "Captain",
+      "5": "Admiral of Intelligence"
+    }
+  }
+}

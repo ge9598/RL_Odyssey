@@ -1,0 +1,117 @@
+{
+  "common": {
+    "title": "RL Odyssey",
+    "subtitle": "学习强化学习",
+    "start": "启航",
+    "continue": "继续航行",
+    "back": "返回",
+    "next": "下一步",
+    "skip": "跳到挑战",
+    "retry": "重试（免费！）",
+    "settings": "设置",
+    "language": "语言",
+    "save": "保存进度",
+    "load": "读取进度",
+    "export": "导出存档",
+    "import": "导入存档",
+    "gold": "金币",
+    "rank": "段位",
+    "cards": "卡牌",
+    "pause": "暂停",
+    "play": "播放",
+    "speed": "速度",
+    "step": "单步",
+    "reset": "重置"
+  },
+  "tutorial": {
+    "title": "出发港",
+    "welcome": "欢迎，年轻的探险家！",
+    "choosePet": "选择你的像素宠物",
+    "pets": {
+      "dog": "像素狗",
+      "cat": "像素猫",
+      "robot": "像素机器人"
+    },
+    "step1": {
+      "title": "你就是宠物",
+      "desc": "用方向键移动，找到零食！"
+    },
+    "step2": {
+      "title": "蒙上眼睛",
+      "desc": "屏幕变黑了。你能凭记忆找到零食吗？"
+    },
+    "step3": {
+      "title": "学习循环",
+      "agent": "你",
+      "state": "你在哪里",
+      "action": "选择方向",
+      "reward": "反馈",
+      "learning": "记住这个！",
+      "desc": "看你的宠物自己学会找到零食！"
+    },
+    "step4": {
+      "title": "大问题",
+      "desc": "教宠物学习有很多方法。每座岛屿教一种不同的方法。你想先去哪条航线？"
+    }
+  },
+  "map": {
+    "title": "智慧之海",
+    "startingHarbor": "出发港",
+    "convergenceHarbor": "融合之港",
+    "valueArchipelago": "价值群岛",
+    "policyVolcanic": "策略火山岛",
+    "continuousGlacier": "连续冰川岛",
+    "difficulty": {
+      "easy": "推荐首次航行",
+      "medium": "需要价值群岛的基础",
+      "hard": "最高级概念"
+    },
+    "locked": "先完成教程",
+    "hardRouteWarning": "这条航线探索高级概念。我们推荐先去价值群岛——但你是船长！准备好了吗？"
+  },
+  "value": {
+    "name": "价值群岛",
+    "theme": "万物皆可打分",
+    "bandit": {
+      "name": "老虎机港",
+      "algorithm": "多臂老虎机",
+      "quest": "赌徒的困境",
+      "metaphor": "一排宝箱——哪个给的最多？",
+      "card": "探险家的直觉"
+    },
+    "qtable": {
+      "name": "Q表港",
+      "algorithm": "Q学习",
+      "quest": "逃离诅咒之岛",
+      "metaphor": "画一张寻宝图——标注每个位置的价值。",
+      "card": "制图师"
+    },
+    "deep": {
+      "name": "深度港",
+      "algorithm": "DQN（深度Q网络）",
+      "quest": "像素街机挑战",
+      "metaphor": "寻宝图太大画不下了——训练一个图案识别助手！",
+      "card": "神经领航员"
+    },
+    "boss": {
+      "name": "贪婪海盗",
+      "desc": "一个总是选择眼前最高奖励的海盗。你训练的智能体能打败纯粹的贪心吗？",
+      "card": "耐心的策略师"
+    }
+  },
+  "bounty": {
+    "rank": {
+      "S": "传说级",
+      "A": "高额悬赏",
+      "B": "标准",
+      "C": "新手"
+    },
+    "navigator": {
+      "1": "见习水手",
+      "2": "航海士",
+      "3": "大副",
+      "4": "船长",
+      "5": "智慧提督"
+    }
+  }
+}

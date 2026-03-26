@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* ===== Custom Theme ===== */
+@theme {
+  --color-navy: #0a0e27;
+  --color-navy-light: #141832;
+  --color-navy-lighter: #1e2448;
+
+  /* Value Archipelago — Tropical */
+  --color-tropical-turquoise: #40e0d0;
+  --color-tropical-gold: #ffd700;
+  --color-tropical-sand: #f5deb3;
+  --color-tropical-palm: #2e8b57;
+
+  /* Policy Volcanic Isle */
+  --color-volcanic-red: #dc143c;
+  --color-volcanic-orange: #ff6347;
+  --color-volcanic-charcoal: #36454f;
+  --color-volcanic-molten: #ff8c00;
+
+  /* Continuous Glacier */
+  --color-glacier-blue: #87ceeb;
+  --color-glacier-white: #f0f8ff;
+  --color-glacier-aurora: #7b68ee;
+  --color-glacier-steel: #708090;
+
+  /* Convergence Harbor */
+  --color-convergence-sunrise: #ffa500;
+  --color-convergence-deep: #000080;
+
+  /* UI Accent */
+  --color-accent: #00d4ff;
+  --color-accent-warm: #ff6b35;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  /* Fonts — bilingual: EN pixel + CN compatible */
+  --font-pixel: "Silkscreen", "ZCOOL QingKe HuangYou", system-ui, sans-serif;
+  --font-body: "VT323", "Noto Sans SC", system-ui, sans-serif;
+}
+
+/* ===== Base Styles ===== */
+body {
+  margin: 0;
+  background-color: var(--color-navy);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(123, 104, 238, 0.03) 0%, transparent 50%);
+  color: #e2e8f0;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.6;
+  font-feature-settings: "kern" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ===== Pixel Art Rendering ===== */
+.pixel-render {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ===== Pixel Font Utilities ===== */
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* ===== HD Pixel Border ===== */
+.pixel-border {
+  border: 2px solid rgba(0, 212, 255, 0.4);
+  box-shadow:
+    0 0 8px rgba(0, 212, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.pixel-border-gold {
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  box-shadow:
+    0 0 8px rgba(255, 215, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ===== HD Pixel Shadow ===== */
+.pixel-shadow {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ===== Glow Utilities ===== */
+.glow-accent {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.glow-gold {
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.glow-box-accent {
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), 0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+.glow-box-gold {
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2), 0 0 30px rgba(255, 215, 0, 0.1);
+}
+
+/* ===== Glass Panel ===== */
+.glass-panel {
+  background: rgba(20, 24, 50, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-navy-lighter), rgba(0, 212, 255, 0.2));
+  border: 1px solid var(--color-navy);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-navy-lighter), rgba(0, 212, 255, 0.4));
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-navy);
+}
+
+/* ===== Focus Styles ===== */
+:focus-visible {
+  outline: 2px solid rgba(0, 212, 255, 0.6);
+  outline-offset: 2px;
+}
+
+/* ===== Canvas Reset ===== */
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ===== Animated Background Gradient ===== */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animated-bg {
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease infinite;
+}
+
+/* ===== Shimmer Text ===== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #00d4ff 0%,
+    #40e0d0 25%,
+    #ffd700 50%,
+    #40e0d0 75%,
+    #00d4ff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ===== Water Wave Animation ===== */
+@keyframes wave {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(5px) translateY(-2px); }
+  50% { transform: translateX(0) translateY(2px); }
+  75% { transform: translateX(-5px) translateY(-1px); }
+}
+
+.animate-wave {
+  animation: wave 6s ease-in-out infinite;
+}
+
+/* ===== Float Animation ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
