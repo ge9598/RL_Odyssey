@@ -4,6 +4,10 @@ import type { PortId, PortProgress, BountyRank } from '@/types/algorithm';
 import { NAVIGATOR_RANKS, BOUNTY_MULTIPLIERS } from '@/types/algorithm';
 
 interface GameState {
+  // Character
+  playerName: string | null;
+  selectedPet: string | null;
+
   // Progress
   tutorialCompleted: boolean;
   currentLocation: string;
@@ -15,6 +19,8 @@ interface GameState {
   navigatorLevel: number;
 
   // Actions
+  createCharacter: (name: string, pet: string) => void;
+  setSelectedPet: (emoji: string) => void;
   completeTutorial: () => void;
   setLocation: (location: string) => void;
   unlockPort: (portId: PortId) => void;
@@ -26,12 +32,20 @@ interface GameState {
 export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({
+      playerName: null,
+      selectedPet: null,
       tutorialCompleted: false,
       currentLocation: 'harbor',
       unlockedPorts: [],
       portProgress: {},
       totalGold: 0,
       navigatorLevel: 1,
+
+      createCharacter: (name, pet) =>
+        set({ playerName: name, selectedPet: pet }),
+
+      setSelectedPet: (emoji) =>
+        set({ selectedPet: emoji }),
 
       completeTutorial: () =>
         set({

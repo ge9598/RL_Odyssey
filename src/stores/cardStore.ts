@@ -4,7 +4,7 @@ import type { PortId, BountyRank } from '@/types/algorithm';
 
 export interface AlgorithmCard {
   id: string;
-  portId: PortId | 'boss-greedy-pirate';
+  portId: PortId | 'boss-greedy-pirate' | 'sarsa' | 'double-dqn' | 'dueling-dqn';
   name: string;
   nameZh: string;
   signatureMove: string;
@@ -76,6 +76,17 @@ export const ALGORITHM_CARDS: AlgorithmCard[] = [
     stats: { sampleEfficiency: 3, stability: 4, scalability: 2, simplicity: 4, flexibility: 3 },
   },
   {
+    id: 'the-cautious-one',
+    portId: 'sarsa',
+    name: 'The Cautious One',
+    nameZh: '谨慎者',
+    signatureMove: 'Learn from what you actually do, not what you could have done',
+    signatureMoveZh: '从你实际采取的行动中学习，而不是假设的行动',
+    strengths: ['Safe near cliffs', 'On-policy learning'],
+    weaknesses: ['Slightly suboptimal on average', 'Slower convergence'],
+    stats: { sampleEfficiency: 3, stability: 5, scalability: 2, simplicity: 4, flexibility: 2 },
+  },
+  {
     id: 'neural-navigator',
     portId: 'deep',
     name: 'Neural Navigator',
@@ -85,6 +96,28 @@ export const ALGORITHM_CARDS: AlgorithmCard[] = [
     strengths: ['Handles complex inputs', 'Scales to big problems'],
     weaknesses: ['Needs lots of data', 'Can be unstable'],
     stats: { sampleEfficiency: 2, stability: 3, scalability: 5, simplicity: 2, flexibility: 4 },
+  },
+  {
+    id: 'the-skeptic',
+    portId: 'double-dqn',
+    name: 'The Skeptic',
+    nameZh: '怀疑论者',
+    signatureMove: "Don't trust a single opinion — check the other network too",
+    signatureMoveZh: '不要相信单一意见——也听听另一个网络怎么说',
+    strengths: ['Reduces overestimation', 'More accurate Q-values'],
+    weaknesses: ['Slightly more complex', 'Marginal gain on simple tasks'],
+    stats: { sampleEfficiency: 3, stability: 4, scalability: 5, simplicity: 3, flexibility: 4 },
+  },
+  {
+    id: 'the-analyst',
+    portId: 'dueling-dqn',
+    name: 'The Analyst',
+    nameZh: '分析师',
+    signatureMove: 'Separate "how good is this place?" from "how good is this action here?"',
+    signatureMoveZh: '把"这个地方有多好"和"在这里做这个动作有多好"分开',
+    strengths: ['Better state evaluation', 'Stronger in action-sparse environments'],
+    weaknesses: ['More complex architecture', 'Small improvement on dense tasks'],
+    stats: { sampleEfficiency: 3, stability: 4, scalability: 5, simplicity: 2, flexibility: 5 },
   },
   {
     id: 'patient-strategist',

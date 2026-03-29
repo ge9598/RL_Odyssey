@@ -1,4 +1,19 @@
 {
+  "characterCreation": {
+    "title": "Name Your Captain",
+    "nameLabel": "Captain's Name",
+    "namePlaceholder": "Enter your name...",
+    "chooseAvatar": "Choose Your Avatar",
+    "confirm": "Set Sail",
+    "nameRequired": "Please enter a name to continue",
+    "avatarRequired": "Please choose an avatar",
+    "avatars": {
+      "captain": "Captain",
+      "pirate": "Pirate",
+      "explorer": "Explorer",
+      "navigator": "Navigator"
+    }
+  },
   "common": {
     "title": "RL Odyssey",
     "subtitle": "Learn Reinforcement Learning",
@@ -27,31 +42,61 @@
     "title": "Starting Harbor",
     "welcome": "Welcome, young explorer!",
     "choosePet": "Choose your Pixel Pet",
+    "petHint": "Click to choose your companion!",
     "pets": {
       "dog": "Pixel Dog",
       "cat": "Pixel Cat",
       "robot": "Pixel Robot"
     },
     "step1": {
+      "stepLabel": "Step 1",
       "title": "You ARE the Pet",
-      "desc": "Use arrow keys to move around the grid. Find the treat!"
+      "desc": "Use arrow keys to move around the grid. Find the treat!",
+      "controlHint": "or WASD or click",
+      "found": "Great! You found it!",
+      "foundSub": "That was easy when you can see everything, right?"
     },
     "step2": {
+      "stepLabel": "Step 2",
       "title": "Now You're Blindfolded",
-      "desc": "The screen goes dark. Can you find the treat from memory?"
+      "desc": "The screen goes dark. Can you find the treat from memory?",
+      "blindfolded": "You can only see nearby cells!",
+      "found": "You found it in the dark!",
+      "foundSub": "That was harder, right? What if your pet could LEARN which direction is usually good?"
     },
     "step3": {
+      "stepLabel": "Step 3",
       "title": "The Learning Loop",
-      "agent": "You",
-      "state": "Where you are",
-      "action": "Choose a direction",
-      "reward": "Feedback",
-      "learning": "Remember this!",
-      "desc": "Watch your pet learn to find the treat on its own!"
+      "rlLoop": "The Learning Loop",
+      "agent": "Agent",
+      "agentDesc": "(your pet)",
+      "state": "State",
+      "action": "Action",
+      "actionDesc": "(up/down/left/right)",
+      "reward": "Reward",
+      "learning": "Learning",
+      "desc": "Watch your pet learn to find the treat on its own!",
+      "treatsFound": "Treats found",
+      "episodes": "Episodes",
+      "learning_msg": "Your pet is learning!",
+      "memoryMap": "Memory Map",
+      "cold": "low",
+      "hot": "high",
+      "memoryDesc": "Brighter = pet thinks this spot leads to treats"
     },
     "step4": {
+      "stepLabel": "Step 4",
       "title": "The Big Question",
-      "desc": "There are MANY ways to teach your pet to learn. Each island teaches a different method. Which route will you sail first?"
+      "congrats": "You just saw the core of ALL reinforcement learning!",
+      "desc": "There are MANY ways to teach your pet to learn. Each island teaches a different method. Which route will you sail first?",
+      "concept_agent": "Agent",
+      "concept_agent_desc": "Your pet — the learner who makes decisions",
+      "concept_state": "State",
+      "concept_state_desc": "Where you are — the current situation",
+      "concept_action": "Action",
+      "concept_action_desc": "What you do — the choice you make",
+      "concept_reward": "Reward",
+      "concept_reward_desc": "Feedback — did it work well or badly?"
     }
   },
   "map": {
@@ -97,6 +142,27 @@
       "name": "The Greedy Pirate",
       "desc": "A pirate who ALWAYS picks the highest immediate reward. Can your trained agent outperform pure greed?",
       "card": "The Patient Strategist"
+    },
+    "sarsa": {
+      "name": "Port SARSA",
+      "algorithm": "SARSA",
+      "quest": "Cliffside Race",
+      "metaphor": "The cautious explorer — learns from what it actually does, not what it could do",
+      "card": "The Cautious One"
+    },
+    "doubledqn": {
+      "name": "Port Twin",
+      "algorithm": "Double DQN",
+      "quest": "The Skeptic's Trial",
+      "metaphor": "Don't trust a single opinion — two evaluators to avoid overconfidence",
+      "card": "The Skeptic"
+    },
+    "duelingdqn": {
+      "name": "Port Duel",
+      "algorithm": "Dueling DQN",
+      "quest": "The Analyst's Exam",
+      "metaphor": "Split 'how good is this place?' from 'how good is this action here?'",
+      "card": "The Analyst"
     }
   },
   "bounty": {
@@ -113,5 +179,579 @@
       "4": "Captain",
       "5": "Admiral of Intelligence"
     }
+  },
+  "port": {
+    "steps": {
+      "story": "Story",
+      "primer": "Concept Primer",
+      "feel": "Feel the Problem",
+      "meet": "Meet the Algorithm",
+      "watch": "Watch It Learn",
+      "quest": "Quest Challenge",
+      "summary": "Summary & Reward",
+      "unlock": "Set Sail!"
+    },
+    "skipToChallenge": "Skip to Challenge",
+    "step": "Step",
+    "of": "of",
+    "bandit": {
+      "story": "You arrive at a mysterious cove lined with treasure chests. Each chest glows with a different color. A weathered pirate leans against a palm tree and grins: 'Five chests, one hundred chances. Think you can figure out which one pays the most?'",
+      "primer": "What is probability? Think of it like a weather forecast. When they say '70% chance of rain,' they mean if today happened 100 times, it would rain about 70 of those times. Each treasure chest has its own hidden probability of giving you gold.",
+      "summary": "You learned the Multi-Armed Bandit problem — the art of balancing exploration (trying new things) with exploitation (sticking with what works). The epsilon-greedy strategy helps: most of the time pick the best option, but occasionally try something new."
+    },
+    "qtable": {
+      "story": "You reach a cursed island covered in fog. An old sailor warns you: 'This island shifts and traps those who wander blindly. Only a true cartographer — one who maps every path — can escape.'",
+      "primer": "What is a table of values? Think of a spreadsheet where each row is a location and each column is a direction. The numbers tell you how good each choice is.",
+      "summary": "You learned Q-Learning — an algorithm that builds a complete map of how good every action is at every location. By balancing exploration and exploitation, it finds the optimal path through any grid world. The key insight: ask your future self for advice (the Bellman equation)."
+    },
+    "deep": {
+      "story": "You've mapped the treasure-filled islands, but now you face a vast ocean of possibilities. An old navigator says: 'When the map becomes too big to draw, you need a brain that can see patterns.' Welcome to the world of neural networks.",
+      "primer": "What is a neural network? Think of it like a smart pattern-matching machine. Just like your brain recognizes faces without checking every pixel, a neural network learns to recognize patterns in data. It has layers of 'neurons' that pass information forward, getting smarter with each example it sees.",
+      "summary": "You learned DQN — Deep Q-Network — which replaces the Q-table with a neural network that can handle huge state spaces. Two key tricks make it work: Experience Replay (studying from shuffled memories) and a Target Network (having a stable teacher). DQN was the first algorithm to master Atari games!"
+    },
+    "sarsa": {
+      "story": "You reach a mountain trail with a shortcut along the cliff edge. A veteran explorer warns you: 'The fast path is tempting, but it's dangerous. A wise navigator learns from every slip — not just the theoretical best move.' Enter SARSA, the cautious algorithm.",
+      "primer": "What is on-policy learning? It means your algorithm learns from the actions it actually takes — including risky exploratory moves. This makes it more realistic about the dangers ahead.",
+      "summary": "SARSA learns from what it actually does, not what it could theoretically do. This on-policy approach makes it naturally more cautious near dangerous areas. The tiny change from Q-Learning (using the actual next action instead of the greedy best) leads to surprisingly different behavior!"
+    },
+    "doubledqn": {
+      "story": "You find an ancient oracle who claims to know the value of every treasure. But whispers say the oracle always gives the highest estimate — never an honest one. To find the truth, you need a second opinion. Enter Double DQN: the algorithm that checks its own optimism.",
+      "primer": "What is overestimation bias? When you always take the maximum of noisy estimates, you tend to overestimate. It's like asking a salesperson how good their product is — they'll always say great!",
+      "summary": "Double DQN fixes DQN's overestimation problem by separating which action to pick from how to evaluate it. The online network selects the action; the target network evaluates it. This tiny change reduces bias and often leads to better-performing agents."
+    },
+    "duelingdqn": {
+      "story": "You've learned to score actions. But there's a deeper question: is an action good because of WHERE you are, or WHAT you did? A wise analyst splits the two — understanding a state's inherent value separately from the advantage of each action. Enter Dueling DQN.",
+      "primer": "What is state value? It's how good it is to just BE in a state, regardless of what you do next. Some states are inherently bad (near a cliff), others are inherently good (near the exit). This separation helps the network learn more efficiently.",
+      "summary": "Dueling DQN splits Q-values into state value V(s) and advantage A(s,a). This lets the network efficiently learn which states are good (even when actions barely differ) and which actions stand out. The result: better Q-value estimates with the same training data."
+    },
+    "primer": {
+      "heading": "Quick Concept",
+      "gotIt": "Got it!",
+      "skipHint": "Already know this? Skip ahead!"
+    },
+    "summary": {
+      "questComplete": "Quest Complete!",
+      "newCard": "New Card Collected!",
+      "takeaway": "Key Takeaway",
+      "continue": "Continue"
+    },
+    "unlock": {
+      "newPort": "New Port Unlocked!",
+      "sailNext": "Sail to Next Port",
+      "returnToIsland": "Return to Island",
+      "islandComplete": "Island Complete!",
+      "bossAwaits": "The Boss Awaits..."
+    }
+  },
+  "chart": {
+    "legend": {
+      "reward": "Step Reward",
+      "average": "Avg Reward",
+      "cumulative": "Cumulative",
+      "baseline": "Random Baseline"
+    }
+  },
+  "bandit": {
+    "feel": {
+      "title": "Feel the Problem",
+      "instruction": "Click a treasure chest to open it! You have 20 turns to earn as much gold as possible.",
+      "turnsLeft": "Turns Left",
+      "result": "You earned {{gold}} gold!",
+      "bestChest": "The best chest was #{{chest}}. Did you figure it out?",
+      "segue": "Now let's see how an algorithm tackles this..."
+    },
+    "meet": {
+      "title": "Meet the Algorithm",
+      "slide0": "You have 5 treasure chests. How would you decide which one to open next?",
+      "slide1title": "Strategy 1: Always Pick the Best",
+      "slide1a": "Simple idea: always open the chest that has given the most gold so far.",
+      "slide1b": "But what if you got unlucky on your first try? You might miss the real best chest forever!",
+      "slide2title": "Watch: Pure Greedy in Action",
+      "slide2desc": "Step {{steps}}/15 — The greedy strategy only picks what looks best...",
+      "slide2note": "Notice how it gets stuck on one chest? It never checks if other chests might be better.",
+      "slide3title": "Strategy 2: Explore Sometimes!",
+      "slide3a": "What if you spent MOST of your turns on the best chest, but SOMETIMES tried a random one?",
+      "slide3b": "Think of it like this: You usually eat at your favorite restaurant, but once in a while you try a new place. That's how you discovered your favorite in the first place!",
+      "slide3c": "This balance between 'sticking with what works' and 'trying something new' is called the Exploration vs Exploitation tradeoff.",
+      "slide4title": "The Epsilon Slider",
+      "slide4desc": "Epsilon controls how often the algorithm explores. Drag the slider to see the balance change:",
+      "exploit": "Exploit",
+      "explore": "Explore",
+      "epsilonExplain": "{{exploit}}% of the time: pick the best known chest. {{explore}}% of the time: try a random chest.",
+      "noExplore": "Zero exploration — you might miss the best chest forever!",
+      "allExplore": "All random — you never use what you've learned!",
+      "slide5title": "Epsilon-Greedy: Simple but Powerful",
+      "slide5desc": "This strategy is called epsilon-greedy. With a small epsilon like 10%, you mostly exploit your knowledge but keep discovering.",
+      "slide5formula": "With probability epsilon: explore (random) | Otherwise: exploit (pick best)",
+      "slide5ready": "Ready to watch the algorithm learn on its own? Let's go!"
+    },
+    "watch": {
+      "title": "Watch It Learn",
+      "desc": "The algorithm picks chests on its own. Watch the values update in real-time!",
+      "controls": "Controls",
+      "strategy": "Strategy",
+      "epsilonGreedy": "ε-Greedy",
+      "rewardChart": "Reward Chart",
+      "seenEnough": "I've Seen Enough"
+    },
+    "quest": {
+      "briefing": "Your quest: Earn as much gold as possible in 100 turns! Choose your strategy wisely — the chests hide a secret...",
+      "rule1": "5 treasure chests, each with a hidden payout rate",
+      "rule2": "100 turns to maximize your total gold",
+      "rule3": "TWIST: Chest payouts CHANGE at turn 50!",
+      "configure": "Choose Your Strategy",
+      "configTitle": "Configure Your Algorithm",
+      "configDesc": "Pick a strategy and tune its settings. Then send your algorithm on the quest!",
+      "tipEpsilon": "Tip: A moderate epsilon (10-20%) balances exploration and exploitation. Too low and you'll miss changes at turn 50!",
+      "tipUCB": "Tip: UCB automatically explores uncertain chests. A moderate c (1-3) usually works well.",
+      "startQuest": "Start Quest!",
+      "turn": "Turn",
+      "shifted": "Shifted!",
+      "shiftBanner": "The tides have changed!",
+      "shiftDesc": "Chest payouts have shifted! Can your algorithm adapt?",
+      "passed": "Quest Complete! Your algorithm outsmarted random chance.",
+      "failed": "Not quite there. Try different settings and retry — it's free!",
+      "yourScore": "Your Score",
+      "randomScore": "Random",
+      "ratio": "Ratio",
+      "goldEarned": "Gold Earned"
+    }
+  },
+  "qtable": {
+    "feel": {
+      "title": "Feel the Problem",
+      "instruction": "Navigate the grid to find the exit! Use arrow keys, WASD, or click adjacent cells.",
+      "movesLeft": "Moves Left",
+      "reward": "Reward",
+      "controls": "Arrow keys / WASD to move, or click an adjacent cell",
+      "legendPlayer": "You (cyan dot)",
+      "legendExit": "Exit",
+      "legendTreasure": "Treasure (+5)",
+      "legendTrap": "Trap (-5)",
+      "legendWall": "Gray = Wall",
+      "escaped": "You escaped in {{moves}} moves!",
+      "pathLength": "Your path was {{length}} steps long.",
+      "outOfMoves": "Out of moves!",
+      "didntEscape": "You couldn't find the exit in time. Navigating a maze is harder than it looks!",
+      "segue": "What if an algorithm could learn the best path by trying thousands of times? Let's meet Q-Learning..."
+    },
+    "meet": {
+      "title": "Meet Q-Learning",
+      "slide0": "What if you could draw a map of how good each direction is at every spot? That's exactly what Q-Learning does!",
+      "slide1title": "The Q-Table: Your Treasure Map",
+      "slide1a": "Imagine a big spreadsheet. Each row is a position on the grid. Each column is a direction (up, right, down, left). The numbers inside are scores — how good is it to go that direction from that spot?",
+      "slide1b": "At the start, all scores are 0 — the agent knows nothing. As it explores, the scores fill in based on experience.",
+      "tablePosition": "Position",
+      "tableUp": "Up",
+      "tableRight": "Right",
+      "tableDown": "Down",
+      "tableLeft": "Left",
+      "slide2title": "Ask Your Future Self for Advice",
+      "slide2a": "Here's the clever part: when you get a reward, don't just update THIS spot. Also peek at the next spot and ask: 'What's the best thing I can do from there?'",
+      "slide2b": "It's like asking a friend who already explored ahead: 'Hey, if I go right, what's the best score I can get from there?'",
+      "slide2c": "This is called the Bellman equation — a fancy name for a simple idea:",
+      "slide3title": "Watch It Learn Step by Step",
+      "slide3desc": "Step {{step}} | Episode {{episode}} — Watch the Q-values (colors) update in real-time on this tiny 3x3 grid!",
+      "slide3note": "Warm colors = high value, cool colors = low value. Arrows show the best action per cell.",
+      "slide4title": "How Fast Should It Learn?",
+      "slide4desc": "The learning rate controls how much each experience changes the Q-table. Too fast = chaotic. Too slow = takes forever.",
+      "learningRate": "Learning Rate (alpha)",
+      "oldValue": "Old Q",
+      "change": "Change",
+      "newValue": "New Q",
+      "lrLow": "Very cautious! Each experience barely changes the map. Stable, but slow to learn.",
+      "lrHigh": "Very aggressive! The map swings wildly with each experience. Fast but chaotic.",
+      "lrMedium": "A nice balance. The map updates steadily without overreacting.",
+      "slide5title": "Q-Learning: Build a Complete Treasure Map!",
+      "slide5desc": "Q-Learning builds a complete map of the best moves. Given enough exploration, it finds the optimal path through any grid world.",
+      "slide5ready": "Ready to watch Q-Learning tackle a real maze? Let's go!"
+    },
+    "watch": {
+      "title": "Watch It Learn",
+      "desc": "Q-Learning explores the grid and builds its treasure map. Watch the Q-values update in real-time!",
+      "episode": "Episode",
+      "hyperparams": "Hyperparameters",
+      "learningRate": "Learning Rate (alpha)",
+      "discount": "Discount Factor (gamma)",
+      "display": "Display Options",
+      "heatmap": "Value Heatmap",
+      "arrows": "Best Action Arrows",
+      "qtableViz": "Q-Table Detail View",
+      "qtableTitle": "Q-Table Heatmap",
+      "qtableDesc": "Each cell is split into 4 triangles (up/right/down/left). Brighter = higher Q-value.",
+      "rewardChart": "Episode Reward",
+      "rewardDesc": "Total reward per episode. Higher is better — watch it improve over time!",
+      "seenEnough": "I've Seen Enough"
+    },
+    "quest": {
+      "briefing": "A cursed island with traps, treasure, and a hidden exit. First YOU try to escape, then Q-Learning gives it a shot. Can the algorithm beat your path?",
+      "rule1": "6x8 grid with walls, traps (-5), treasures (+5), and an exit (+10)",
+      "rule2": "You get 20 moves to try escaping manually",
+      "rule3": "Then Q-Learning trains and tries to find a shorter path",
+      "startManual": "Start Manual Play",
+      "manualTitle": "Your Turn: Escape the Island!",
+      "manualDesc": "Navigate to the exit (green F). Use arrow keys or click adjacent cells.",
+      "manualEscaped": "You escaped in {{moves}} moves!",
+      "manualFailed": "Out of moves! You didn't reach the exit.",
+      "manualBenchmark": "Your benchmark: {{length}} steps. Can Q-Learning do better?",
+      "trainNow": "Train Q-Learning",
+      "configTitle": "Configure Q-Learning",
+      "configDesc": "Your benchmark is {{benchmark}} steps. Tune the hyperparameters and see if Q-Learning can find a shorter path!",
+      "episodes": "Training Episodes",
+      "tip": "Tip: A learning rate around 0.1-0.3 with discount 0.9-0.99 usually works well. More episodes = better results.",
+      "startTraining": "Start Training!",
+      "trainingProgress": "Q-Learning is training...",
+      "yourBenchmark": "Your Benchmark",
+      "steps": "steps",
+      "passed": "Q-Learning found a shorter path than yours! The algorithm learned the optimal route.",
+      "failed": "Q-Learning couldn't beat your path. Try more episodes or different settings!",
+      "yourPath": "Your Path",
+      "qlPath": "Q-Learning Path",
+      "ratio": "Ratio",
+      "goldEarned": "Gold Earned",
+      "learnedPath": "Q-Learning's learned path (highlighted in gold):"
+    }
+  },
+  "dqn": {
+    "feel": {
+      "title": "Feel the Problem",
+      "intro": "Try to break all the bricks! Use the paddle to bounce the ball. Can you clear the board?",
+      "controls": "Use arrow keys or move your mouse to control the paddle.",
+      "startButton": "Start Playing!",
+      "score": "Score",
+      "time": "Time",
+      "controlHint": "Arrow keys or mouse to move paddle",
+      "resultTitle": "Nice Try!",
+      "yourScore": "Your Score",
+      "resultMessage": "Now let's see if a neural network can learn to beat you!"
+    },
+    "meet": {
+      "letsWatch": "Let's Watch It Learn!",
+      "slide1": {
+        "title": "The Map Is Too Big!",
+        "content": "Remember Q-Learning's treasure map? For a pixel game, the map would need MILLIONS of entries — one for every possible screen. We can't draw that by hand!",
+        "tooBig": "Millions of cells... impossible!"
+      },
+      "slide2": {
+        "title": "Meet the Pattern Matcher",
+        "content": "Instead of a giant table, we use a neural network — a pattern-matching machine. Give it the game screen, and it tells you how good each action is. It's like having a smart assistant who can read any map!"
+      },
+      "slide3": {
+        "title": "Studying from a Shuffled Notebook",
+        "content": "You know how shuffling flashcards helps you study better? The AI keeps a notebook of memories and studies them in random order. This is called Experience Replay — it prevents the AI from only remembering the last thing that happened."
+      },
+      "slide4": {
+        "title": "Having a Stable Teacher",
+        "content": "Imagine if your teacher's answers changed every second — confusing, right? DQN keeps a stable 'teacher' network that only updates occasionally. The 'student' learns fast, then the teacher slowly catches up."
+      },
+      "slide5": {
+        "title": "How It All Works Together",
+        "content": "DQN combines four ideas into one powerful learner:",
+        "step1": "Play the game and remember what happened",
+        "step2": "Shuffle memories and study a random batch",
+        "step3": "Use the neural network to predict Q-values",
+        "step4": "Periodically copy to the stable teacher"
+      },
+      "slide6": {
+        "title": "DQN = Q-Learning + Brain Power",
+        "content": "Deep Q-Network takes Q-Learning's idea of 'scoring every action' and supercharges it with a neural network, shuffled studying, and a stable teacher. Let's see it in action!"
+      }
+    },
+    "watch": {
+      "stats": "Training Stats",
+      "episode": "Episode",
+      "score": "Score",
+      "epsilon": "Exploration",
+      "loss": "Loss",
+      "replaySize": "Replay Buffer",
+      "bestEp": "Best Episode",
+      "hyperparams": "Hyperparameters",
+      "learningRate": "Learning Rate",
+      "epsilonSlider": "Epsilon (Exploration)",
+      "bufferSize": "Replay Buffer Size",
+      "replaySample": "Replay Memories",
+      "rewardChart": "Episode Rewards",
+      "continue": "Ready for the Quest!"
+    },
+    "quest": {
+      "title": "Pixel Arcade Challenge",
+      "briefing": "Beat your own high score with AI! First, play Breakout yourself. Then, configure and train a DQN agent to beat you.",
+      "step1": "1. Play Breakout manually — set your benchmark",
+      "step2": "2. Configure the DQN — tune learning rate & memory",
+      "step3": "3. Train and watch — can the AI beat your score?",
+      "bountyRanks": "Bounty Ranks",
+      "beatBy": "Beat your score by",
+      "startManual": "Start Manual Play",
+      "manualPhase": "Your Turn — Set a High Score!",
+      "yourBenchmark": "Your Benchmark Score",
+      "configIntro": "Now configure the DQN agent. Choose your hyperparameters wisely!",
+      "configTitle": "Configure Your DQN",
+      "episodes": "Training Episodes",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "currentScore": "Current Score",
+      "bestScore": "Best Score",
+      "playerBenchmark": "Your Score",
+      "ratio": "AI / You",
+      "seeResults": "See Results!",
+      "youScored": "You Scored",
+      "dqnScored": "DQN Scored",
+      "cardEarned": "Card Earned!",
+      "resultMessage": "DQN combines a neural network with shuffled studying and a stable teacher to master games that are too complex for a simple table!"
+    }
+  },
+  "boss": {
+    "pirate": {
+      "title": "BOSS: The Greedy Pirate",
+      "name": "The Greedy Pirate",
+      "dialogue1": "I always grab the closest gold! No one can out-earn me!",
+      "dialogue2": "You think your fancy 'learning' can beat my instincts? Bring it on!",
+      "challengeTitle": "The Challenge",
+      "challengeDesc": "Train a Q-Learning agent to earn more total gold than the Greedy Pirate on a maze with hidden treasure.",
+      "watchPirate": "Watch the Pirate Go!",
+      "pirateRunning": "The Pirate is running...",
+      "pirateRunDesc": "Watch: the pirate grabs every nearby coin without thinking ahead.",
+      "step": "Step",
+      "pirateScore": "Pirate's Total Reward",
+      "pirateExplain": "The pirate grabbed every nearby coin, but missed the big treasure. Can you do better?",
+      "trainAgent": "Time to Train Your Agent!",
+      "hyperparameters": "Hyperparameters",
+      "learningRate": "Learning Rate",
+      "discountFactor": "Discount Factor (Patience)",
+      "explorationRate": "Exploration Rate",
+      "training": "Training",
+      "episodes": "Episodes Trained",
+      "reward": "Reward",
+      "episode": "Episode",
+      "pirateLine": "Pirate",
+      "startRace": "Challenge the Pirate!",
+      "trainMin": "Train at least 10 episodes first",
+      "yourAgent": "Your Agent",
+      "thePirate": "Greedy Pirate",
+      "victory": "You Win!",
+      "defeat": "The Pirate Wins...",
+      "victoryMessage": "Your agent learned that patience beats greed! Long-term thinking led to the big treasure.",
+      "defeatMessage": "The pirate wins this time. Try training longer, or increase the Discount Factor so your agent values future rewards more!",
+      "cardUnlock": "Card Unlocked",
+      "cardName": "The Patient Strategist",
+      "claimReward": "Claim Reward",
+      "victoryFinal": "Boss Defeated!",
+      "lessonLearned": "The secret: an agent that values the future can outperform one that only grabs what's right in front of it.",
+      "continue": "Continue Voyage",
+      "playAgain": "Play Again (Free!)",
+      "legend": "Legend",
+      "legendAgent": "Your Agent",
+      "legendPirate": "Pirate",
+      "legendCoin": "Gold Coin",
+      "legendExit": "Exit",
+      "legendWall": "Wall",
+      "legendTreasure": "Big Treasure"
+    }
+  },
+  "cards": {
+    "title": "Algorithm Card Gallery",
+    "collected": "cards collected",
+    "selectHint": "Select a card to see details",
+    "locked": "Complete the quest to unlock!"
+  },
+  "sarsa": {
+    "feel": {
+      "title": "The Cliff Walk",
+      "instruction": "Navigate from start to exit — but beware the cliff edge! You have 30 moves.",
+      "movesLeft": "Moves Left",
+      "escaped": "Made it safely!",
+      "outOfMoves": "Out of moves!",
+      "segue": "Why does taking the safe path matter? Let's see how SARSA handles it differently from Q-Learning..."
+    },
+    "meet": {
+      "slide0title": "Wait, Didn't We Already Learn Q-Learning?",
+      "slide0desc": "Q-Learning is great, but it has a blind spot — it always imagines the best possible future action, even if it wouldn't actually take that action. SARSA asks: what if we learned from what we actually do?",
+      "slide0example": "Imagine Q-Learning is confident near a cliff because it imagines a perfect step. SARSA remembers it actually slips sometimes!",
+      "slide1title": "On-Policy vs Off-Policy",
+      "slide1a": "Q-Learning is 'off-policy' — it learns from the best possible action (greedy), even if it explores.",
+      "slide1b": "SARSA is 'on-policy' — it learns from the action it actually chose, including random exploration moves.",
+      "slide1analogy": "It's like: Q-Learning studies from someone else's perfect diary. SARSA studies from its own actual diary.",
+      "slide2title": "The SARSA Update Rule",
+      "slide2a": "Both use almost the same formula, but with one key difference:",
+      "slide2formula1": "Q-Learning: Q(s,a) ← Q(s,a) + α[r + γ × max Q(s',a') − Q(s,a)]",
+      "slide2formula2": "SARSA:      Q(s,a) ← Q(s,a) + α[r + γ × Q(s', a') − Q(s,a)]",
+      "slide2note": "In SARSA, a' is the NEXT action the policy will actually take — not just the theoretical best!",
+      "slide3title": "Why This Matters Near Cliffs",
+      "slide3desc": "On the cliff walk, Q-Learning learns: 'Running along the edge is optimal!' (because the best path is optimal). SARSA learns: 'Running along the edge is dangerous!' (because it slips off sometimes during exploration).",
+      "slide3safe": "SARSA takes the safe path",
+      "slide3risky": "Q-Learning may risk the cliff edge",
+      "slide4title": "The Trade-off",
+      "slide4a": "SARSA is more cautious — it avoids risky paths that might lead to disaster during exploration.",
+      "slide4b": "Q-Learning is more optimistic — it finds the theoretically best path.",
+      "slide4c": "Which is better? Depends on the environment! For safety-critical tasks, SARSA wins.",
+      "summary1": "SARSA is on-policy: it learns from what it actually does, including exploration mistakes",
+      "summary2": "Near cliffs and danger zones, SARSA is more conservative — which can be a strength",
+      "summary3": "The only difference from Q-Learning: use the actual next action, not the greedy best"
+    },
+    "watch": {
+      "title": "SARSA vs Q-Learning",
+      "desc": "Watch both train on the same cliff grid. Which takes the safer path?",
+      "sarsa": "SARSA",
+      "qlearning": "Q-Learning",
+      "seenEnough": "I've Seen Enough"
+    },
+    "quest": {
+      "title": "Cliffside Race",
+      "briefing": "Train SARSA and Q-Learning on a cliff walk. Which algorithm stays safer near the dangerous edge?",
+      "rule1": "Both algorithms train on the same cliff-edge grid",
+      "rule2": "Traps represent the cliff edge — falling off costs big!",
+      "rule3": "SARSA should learn to avoid the cliff, Q-Learning might risk it",
+      "configTitle": "Configure Training",
+      "learningRate": "Learning Rate",
+      "episodes": "Training Episodes",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "sarsa": "SARSA",
+      "qlearning": "Q-Learning",
+      "avgReward": "Avg Reward (last 20 eps)",
+      "passed": "Quest Complete! You saw how on-policy learning shapes behavior.",
+      "failed": "Keep exploring — try more episodes!",
+      "duelingAvg": "SARSA Avg",
+      "retry": "Retry"
+    }
+  },
+  "doubledqn": {
+    "feel": {
+      "title": "The Overestimation Trap",
+      "instruction": "Navigate the grid. Notice: some paths look better than they actually are!",
+      "movesLeft": "Moves Left",
+      "teaserTitle": "DQN's Dirty Secret",
+      "teaserDesc": "DQN can overestimate Q-values — it thinks some actions are way better than they really are. This leads to poor decisions!",
+      "escaped": "You made it!",
+      "outOfMoves": "Out of moves!",
+      "segue": "What if we could fix DQN's overestimation? Let's meet Double DQN..."
+    },
+    "meet": {
+      "slide0title": "DQN Has a Flaw: It's Too Optimistic!",
+      "slide0desc": "Remember how DQN uses a target network? There's a problem: when picking the best future Q-value, DQN always picks the maximum — and maximums are often overestimated.",
+      "slide0example": "It's like asking your most optimistic friend to rate every restaurant — they'll always say '10/10!' even for bad ones.",
+      "slide1title": "The Overestimation Problem",
+      "slide1a": "DQN computes the target like this:",
+      "slide1formula": "Target = r + γ × max_a' Q_target(s', a')",
+      "slide1b": "The problem: using the same network to both SELECT the best action AND EVALUATE it creates an upward bias. The max tends to be too high!",
+      "slide2title": "Double DQN: Two Networks, Better Estimates",
+      "slide2a": "The fix is elegant: use the online network to SELECT which action is best, but use the target network to EVALUATE that action's value.",
+      "slide2formula1": "Step 1: a* = argmax Q_online(s', a')  [online picks the action]",
+      "slide2formula2": "Step 2: Target = r + γ × Q_target(s', a*)  [target evaluates it]",
+      "slide2b": "This decoupling breaks the overestimation cycle!",
+      "slide3title": "See the Difference",
+      "slide3desc": "Same state, three scenarios. DQN overestimates, Double DQN is more accurate:",
+      "slide3state": "State",
+      "slide3dqn": "DQN Q-values",
+      "slide3ddqn": "Double DQN Q-values",
+      "slide3real": "True Q-values (approx.)",
+      "slide4title": "Why Does It Matter?",
+      "slide4a": "Overestimated Q-values lead to overconfident policies — the agent thinks it's doing better than it is.",
+      "slide4b": "With more accurate values, Double DQN often finds better policies, especially in harder environments.",
+      "slide4c": "The change is tiny (just 2 lines of code) but the impact can be significant!",
+      "summary1": "Double DQN decouples action selection from action evaluation",
+      "summary2": "The online network picks the best action; the target network evaluates it",
+      "summary3": "Small change, real improvement — especially in complex environments"
+    },
+    "watch": {
+      "title": "DQN vs Double DQN",
+      "desc": "Watch both train side by side. Double DQN should show less overestimation!",
+      "dqn": "DQN",
+      "ddqn": "Double DQN",
+      "overestimation": "Avg Overestimation",
+      "seenEnough": "I've Seen Enough"
+    },
+    "quest": {
+      "title": "The Skeptic's Trial",
+      "briefing": "Train DQN and Double DQN on the same environment. Double DQN should match or beat DQN's performance with less overestimation.",
+      "rule1": "Both algorithms train on the same grid environment",
+      "rule2": "Double DQN must match at least 95% of DQN's average reward",
+      "rule3": "Watch the overestimation gap — Double DQN stays more accurate",
+      "configTitle": "Configure Training",
+      "learningRate": "Learning Rate",
+      "episodes": "Training Episodes",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "dqn": "DQN",
+      "ddqn": "Double DQN",
+      "avgReward": "Avg Reward (last 20 eps)",
+      "passed": "The Skeptic approves! Double DQN matched DQN's performance with better accuracy.",
+      "failed": "Try more episodes or tune the learning rate!",
+      "duelingAvg": "Double DQN Avg",
+      "retry": "Retry"
+    }
+  },
+  "duelingdqn": {
+    "feel": {
+      "title": "Where You Are vs What You Do",
+      "instruction": "Navigate the grid. Think: does the direction matter, or does location determine your fate?",
+      "movesLeft": "Moves Left",
+      "question": "Think about it: in some spots, it barely matters which way you go (trapped in a dead end). In others, one direction is clearly best. Can you feel the difference?",
+      "vHint": "How good is just BEING here, regardless of direction?",
+      "aHint": "How much BETTER is one direction compared to the average?",
+      "escaped": "You made it!",
+      "outOfMoves": "Out of moves!",
+      "segue": "That feeling — 'this place is bad no matter what I do' — is exactly what the State Value captures!"
+    },
+    "meet": {
+      "slide0title": "One Score or Two?",
+      "slide0desc": "Standard DQN outputs one Q-value per action. Dueling DQN says: let's split that into two parts — how good is this STATE, and how good is this ACTION here?",
+      "slide0example": "Dead end: all directions are bad because the STATE is bad. Open path: direction RIGHT has a big advantage over others.",
+      "slide1title": "V(s) — State Value",
+      "slide1a": "V(s) asks: 'How good is it to be in this state at all?' Not 'what should I do' — just 'where am I?'",
+      "slide1analogy": "It's like standing in a room — some rooms are inherently dangerous (near a cliff), others are safe (near the exit). That's V(s).",
+      "slide1b": "If the state value is very negative, no action can save you much. If it's very positive, most actions will work out fine.",
+      "slide2title": "A(s,a) — The Advantage",
+      "slide2a": "A(s,a) asks: 'How much BETTER is action a compared to the average action in this state?'",
+      "slide2analogy": "Same room — now which door should you take? That extra nudge above average is the Advantage.",
+      "slide2why": "The mean is subtracted so advantages stay centered at zero. Otherwise they'd drift together with V(s).",
+      "slide3title": "Interactive Decomposition",
+      "slide4title": "Why Split?",
+      "summary1": "V(s) captures how good a state is regardless of action — crucial for states where actions barely differ",
+      "summary2": "A(s,a) captures relative action quality — efficiently identifies the best move",
+      "summary3": "Combined: Q(s,a) = V(s) + A(s,a) − mean(A) — the same Q-value, learned more efficiently"
+    },
+    "watch": {
+      "title": "Dueling DQN in Action",
+      "desc": "Watch V(s) and A(s,a) split in real time as the agent trains!",
+      "stateValue": "State Value",
+      "advantages": "Advantages",
+      "qValues": "Q-Values",
+      "seenEnough": "I've Seen Enough"
+    },
+    "quest": {
+      "title": "The Analyst's Exam",
+      "briefing": "Train Dueling DQN and compare it against standard DQN. Dueling DQN should improve performance by better separating state value from action advantage.",
+      "rule1": "Both DQN and Dueling DQN train on the same grid",
+      "rule2": "Dueling DQN scores ≥20% better → S rank, ≥10% → A rank",
+      "rule3": "Ties or slight improvement still earn a B — even matching is a win!",
+      "configTitle": "Configure Training",
+      "learningRate": "Learning Rate",
+      "episodes": "Training Episodes",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "dqn": "DQN",
+      "duelingDqn": "Dueling DQN",
+      "passed": "The Analyst's verdict: Dueling DQN separates state value from action advantage for smarter learning!",
+      "failed": "Try more episodes or a different learning rate!",
+      "duelingAvg": "Dueling DQN Avg"
+    }
+  },
+  "policy": {
+    "theme": "The Intuition Brigade",
+    "boss": {
+      "name": "The Chaos Volcano",
+      "desc": "A volcanic eruption where the environment changes every N steps."
+    }
+  },
+  "continuous": {
+    "theme": "The World Isn't Black and White",
+    "boss": {
+      "name": "The Precision Gauntlet",
+      "desc": "A multi-stage obstacle course requiring the right algorithm for each phase."
+    }
+  },
+  "convergence": {
+    "theme": "Where All Routes Meet"
   }
 }

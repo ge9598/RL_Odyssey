@@ -1,4 +1,19 @@
 {
+  "characterCreation": {
+    "title": "为你的船长取名",
+    "nameLabel": "船长的名字",
+    "namePlaceholder": "输入你的名字...",
+    "chooseAvatar": "选择你的头像",
+    "confirm": "出发",
+    "nameRequired": "请输入名字才能继续",
+    "avatarRequired": "请选择一个头像",
+    "avatars": {
+      "captain": "船长",
+      "pirate": "海盗",
+      "explorer": "探险家",
+      "navigator": "航海士"
+    }
+  },
   "common": {
     "title": "RL Odyssey",
     "subtitle": "学习强化学习",
@@ -27,31 +42,61 @@
     "title": "出发港",
     "welcome": "欢迎，年轻的探险家！",
     "choosePet": "选择你的像素宠物",
+    "petHint": "点击选择你的伙伴！",
     "pets": {
       "dog": "像素狗",
       "cat": "像素猫",
       "robot": "像素机器人"
     },
     "step1": {
+      "stepLabel": "第一步",
       "title": "你就是宠物",
-      "desc": "用方向键移动，找到零食！"
+      "desc": "用方向键移动，找到零食！",
+      "controlHint": "或 WASD 或点击",
+      "found": "太棒了！你找到了！",
+      "foundSub": "看得到一切的时候很简单，对吧？"
     },
     "step2": {
+      "stepLabel": "第二步",
       "title": "蒙上眼睛",
-      "desc": "屏幕变黑了。你能凭记忆找到零食吗？"
+      "desc": "屏幕变黑了。你能凭记忆找到零食吗？",
+      "blindfolded": "你只能看到附近的格子！",
+      "found": "你在黑暗中找到了！",
+      "foundSub": "这次更难了吧？如果你的宠物能学会哪个方向通常比较好呢？"
     },
     "step3": {
+      "stepLabel": "第三步",
       "title": "学习循环",
-      "agent": "你",
-      "state": "你在哪里",
-      "action": "选择方向",
-      "reward": "反馈",
-      "learning": "记住这个！",
-      "desc": "看你的宠物自己学会找到零食！"
+      "rlLoop": "学习循环",
+      "agent": "智能体",
+      "agentDesc": "（你的宠物）",
+      "state": "状态",
+      "action": "动作",
+      "actionDesc": "（上/下/左/右）",
+      "reward": "奖励",
+      "learning": "学习",
+      "desc": "看你的宠物自己学会找到零食！",
+      "treatsFound": "找到零食",
+      "episodes": "回合数",
+      "learning_msg": "你的宠物在学习了！",
+      "memoryMap": "记忆地图",
+      "cold": "低",
+      "hot": "高",
+      "memoryDesc": "越亮 = 宠物觉得这个位置离零食越近"
     },
     "step4": {
+      "stepLabel": "第四步",
       "title": "大问题",
-      "desc": "教宠物学习有很多方法。每座岛屿教一种不同的方法。你想先去哪条航线？"
+      "congrats": "你刚才看到了所有强化学习的核心！",
+      "desc": "教宠物学习有很多方法。每座岛屿教一种不同的方法。你想先去哪条航线？",
+      "concept_agent": "智能体",
+      "concept_agent_desc": "你的宠物——做决定的学习者",
+      "concept_state": "状态",
+      "concept_state_desc": "你在哪里——当前的情况",
+      "concept_action": "动作",
+      "concept_action_desc": "你做什么——你做出的选择",
+      "concept_reward": "奖励",
+      "concept_reward_desc": "反馈——做得好还是不好？"
     }
   },
   "map": {
@@ -97,6 +142,27 @@
       "name": "贪婪海盗",
       "desc": "一个总是选择眼前最高奖励的海盗。你训练的智能体能打败纯粹的贪心吗？",
       "card": "耐心的策略师"
+    },
+    "sarsa": {
+      "name": "SARSA港",
+      "algorithm": "SARSA",
+      "quest": "悬崖赛跑",
+      "metaphor": "谨慎的探险家——从实际行动中学习，而不是假设的行动",
+      "card": "谨慎者"
+    },
+    "doubledqn": {
+      "name": "双子港",
+      "algorithm": "双重DQN",
+      "quest": "怀疑者的试炼",
+      "metaphor": "别相信一个意见——两个评估者避免过度自信",
+      "card": "怀疑论者"
+    },
+    "duelingdqn": {
+      "name": "决斗港",
+      "algorithm": "决斗DQN",
+      "quest": "分析师的考验",
+      "metaphor": "把'这个地方有多好'和'在这里做这个动作有多好'分开",
+      "card": "分析师"
     }
   },
   "bounty": {
@@ -113,5 +179,579 @@
       "4": "船长",
       "5": "智慧提督"
     }
+  },
+  "port": {
+    "steps": {
+      "story": "故事",
+      "primer": "概念入门",
+      "feel": "感受问题",
+      "meet": "认识算法",
+      "watch": "观察学习",
+      "quest": "挑战任务",
+      "summary": "总结与奖励",
+      "unlock": "启航！"
+    },
+    "skipToChallenge": "跳到挑战",
+    "step": "步骤",
+    "of": "/",
+    "bandit": {
+      "story": "你来到一个神秘的海湾，岸边排列着宝箱。每个宝箱闪耀着不同的光芒。一个老海盗靠在棕榈树上笑道：'五个宝箱，一百次机会。你能找出哪个给的最多吗？'",
+      "primer": "什么是概率？就像天气预报一样。当他们说'70%可能下雨'，意思是如果今天重复100次，大约70次会下雨。每个宝箱都有自己隐藏的给金币概率。",
+      "summary": "你学会了多臂老虎机问题——在探索（尝试新事物）和利用（坚持已知最好的）之间找平衡的艺术。epsilon-贪心策略很有用：大部分时间选最好的，但偶尔试试新的。"
+    },
+    "qtable": {
+      "story": "你来到一座被迷雾笼罩的诅咒之岛。一个老水手警告你：'这座岛会变幻莫测，盲目行走只会落入陷阱。只有真正的制图师——能绘制每条路径的人——才能逃脱。'",
+      "primer": "什么是价值表？想象一个表格，每一行是一个位置，每一列是一个方向。里面的数字告诉你每个选择有多好。",
+      "summary": "你学会了 Q-Learning——一种为每个位置的每个动作构建完整评分地图的算法。通过平衡探索和利用，它能找到任何网格世界的最优路径。核心洞察：向未来的自己求助（贝尔曼方程）。"
+    },
+    "deep": {
+      "story": "你已经绘制了宝岛的地图，但现在你面对着一片广阔的可能性之海。一位老领航员说：'当地图大到画不下时，你需要一个能看到规律的大脑。'欢迎来到神经网络的世界。",
+      "primer": "什么是神经网络？把它想象成一台聪明的模式识别机器。就像你的大脑不用检查每个像素就能认出人脸一样，神经网络学会识别数据中的模式。它有多层'神经元'来传递信息，每看到一个例子就变得更聪明。",
+      "summary": "你学会了 DQN——深度Q网络——用神经网络代替Q表，能够处理巨大的状态空间。两个关键技巧让它成功：经验回放（从打乱的记忆中学习）和目标网络（有一个稳定的老师）。DQN 是第一个掌握雅达利游戏的算法！"
+    },
+    "sarsa": {
+      "story": "你来到一条山路，捷径就在悬崖边。一位老探险家警告你：'快路很诱人，但很危险。聪明的领航员从每一次失误中学习——而不只是理论上的最佳行动。'SARSA，谨慎的算法，登场了。",
+      "primer": "什么是同策略学习？它意味着你的算法从实际采取的行动中学习——包括冒险的探索动作。这让它对前方的危险有更真实的认知。",
+      "summary": "SARSA从实际行动中学习，而不是理论上的最优行动。这种同策略方法让它在危险区域附近自然地更加谨慎。和Q-Learning的微小差别（使用实际的下一个动作而不是贪心最优）导致了出人意料的不同行为！"
+    },
+    "doubledqn": {
+      "story": "你发现了一个古老的神谕，声称知道每个宝藏的价值。但传言说神谕总是给出最高估计——从不诚实。为了找到真相，你需要第二个意见。双重DQN：检查自身乐观情绪的算法，登场了。",
+      "primer": "什么是过估计偏差？当你总是取噪声估计的最大值时，你往往会高估。就像问销售员他们的产品有多好——他们总会说很棒！",
+      "summary": "双重DQN通过分离选择哪个动作和评估动作来修复DQN的过估计问题。在线网络选择动作；目标网络评估它。这个微小的改变减少了偏差，通常能产生更好的智能体。"
+    },
+    "duelingdqn": {
+      "story": "你已经学会了给动作打分。但有一个更深的问题：一个动作的好坏是因为你在哪里，还是你做了什么？一位睿智的分析师把两者分开——分别理解状态的内在价值和每个动作的优势。决斗DQN，登场了。",
+      "primer": "什么是状态价值？它是无论你做什么，仅仅处于某个状态有多好。有些状态本质上很糟糕（靠近悬崖），有些本质上很好（靠近出口）。这种分离帮助网络更高效地学习。",
+      "summary": "决斗DQN将Q值分为状态价值V(s)和优势A(s,a)。这让网络高效地学习哪些状态是好的（即使动作差别不大）以及哪些动作脱颖而出。结果：用相同的训练数据得到更好的Q值估计。"
+    },
+    "primer": {
+      "heading": "快速概念",
+      "gotIt": "明白了！",
+      "skipHint": "已经知道了？跳过吧！"
+    },
+    "summary": {
+      "questComplete": "任务完成！",
+      "newCard": "获得新卡牌！",
+      "takeaway": "核心要点",
+      "continue": "继续"
+    },
+    "unlock": {
+      "newPort": "新港口已解锁！",
+      "sailNext": "前往下一港口",
+      "returnToIsland": "返回岛屿",
+      "islandComplete": "岛屿完成！",
+      "bossAwaits": "Boss在等着你..."
+    }
+  },
+  "chart": {
+    "legend": {
+      "reward": "每步奖励",
+      "average": "平均奖励",
+      "cumulative": "累计奖励",
+      "baseline": "随机基线"
+    }
+  },
+  "bandit": {
+    "feel": {
+      "title": "感受问题",
+      "instruction": "点击宝箱来打开它！你有20回合来赚取尽可能多的金币。",
+      "turnsLeft": "剩余回合",
+      "result": "你赚了 {{gold}} 金币！",
+      "bestChest": "最好的宝箱是 #{{chest}}。你猜对了吗？",
+      "segue": "现在让我们看看算法是怎么做的..."
+    },
+    "meet": {
+      "title": "认识算法",
+      "slide0": "你有5个宝箱。你会怎么决定下一个打开哪个？",
+      "slide1title": "策略1：总是选最好的",
+      "slide1a": "简单想法：总是打开到目前为止给金币最多的宝箱。",
+      "slide1b": "但如果你第一次运气不好呢？你可能永远会错过真正最好的宝箱！",
+      "slide2title": "观察：纯贪心策略的表现",
+      "slide2desc": "第 {{steps}}/15 步 — 贪心策略只选看起来最好的...",
+      "slide2note": "注意到它卡在一个宝箱上了吗？它从不检查其他宝箱是否更好。",
+      "slide3title": "策略2：有时候探索一下！",
+      "slide3a": "如果你大部分回合选最好的宝箱，但偶尔随机试一个呢？",
+      "slide3b": "就像这样：你通常去最喜欢的餐厅吃饭，但偶尔会尝试新地方。正是这样你才发现了最爱的餐厅！",
+      "slide3c": "在「坚持有效的」和「尝试新东西」之间的平衡叫做 探索与利用 的权衡。",
+      "slide4title": "Epsilon 滑块",
+      "slide4desc": "Epsilon 控制算法多久探索一次。拖动滑块看看平衡变化：",
+      "exploit": "利用",
+      "explore": "探索",
+      "epsilonExplain": "{{exploit}}% 的时间：选已知最好的宝箱。{{explore}}% 的时间：随机试一个。",
+      "noExplore": "零探索——你可能永远错过最好的宝箱！",
+      "allExplore": "全是随机——你根本没利用学到的知识！",
+      "slide5title": "Epsilon-贪心：简单但强大",
+      "slide5desc": "这个策略叫 epsilon-贪心。用一个小的 epsilon 比如 10%，你大部分时间利用已有知识，但保持探索。",
+      "slide5formula": "以概率 epsilon: 探索（随机） | 否则: 利用（选最好的）",
+      "slide5ready": "准备好看算法自己学习了吗？出发！"
+    },
+    "watch": {
+      "title": "观察学习",
+      "desc": "算法自己选择宝箱。实时观察价值更新！",
+      "controls": "控制",
+      "strategy": "策略",
+      "epsilonGreedy": "ε-贪心",
+      "rewardChart": "奖励图表",
+      "seenEnough": "我看够了"
+    },
+    "quest": {
+      "briefing": "你的任务：在100回合内赚取尽可能多的金币！明智地选择你的策略——宝箱藏着秘密...",
+      "rule1": "5个宝箱，每个有隐藏的支付率",
+      "rule2": "100回合来最大化总金币",
+      "rule3": "转折：宝箱支付率在第50回合会改变！",
+      "configure": "选择你的策略",
+      "configTitle": "配置你的算法",
+      "configDesc": "选一个策略并调整参数。然后让你的算法去冒险！",
+      "tipEpsilon": "提示：适中的 epsilon（10-20%）能平衡探索和利用。太低的话在第50回合变化时会吃亏！",
+      "tipUCB": "提示：UCB 会自动探索不确定的宝箱。适中的 c（1-3）通常效果很好。",
+      "startQuest": "开始任务！",
+      "turn": "回合",
+      "shifted": "已变化！",
+      "shiftBanner": "风向变了！",
+      "shiftDesc": "宝箱的支付率已经改变了！你的算法能适应吗？",
+      "passed": "任务完成！你的算法打败了随机策略。",
+      "failed": "还差一点。试试不同的设置，重试是免费的！",
+      "yourScore": "你的分数",
+      "randomScore": "随机",
+      "ratio": "倍率",
+      "goldEarned": "获得金币"
+    }
+  },
+  "qtable": {
+    "feel": {
+      "title": "感受问题",
+      "instruction": "在网格中找到出口！用方向键、WASD或点击相邻格子。",
+      "movesLeft": "剩余步数",
+      "reward": "奖励",
+      "controls": "方向键 / WASD 移动，或点击相邻格子",
+      "legendPlayer": "你（青色圆点）",
+      "legendExit": "出口",
+      "legendTreasure": "宝藏（+5）",
+      "legendTrap": "陷阱（-5）",
+      "legendWall": "灰色 = 墙壁",
+      "escaped": "你用了 {{moves}} 步逃出来了！",
+      "pathLength": "你的路径长 {{length}} 步。",
+      "outOfMoves": "步数用完了！",
+      "didntEscape": "你没能在规定步数内找到出口。迷宫导航比看起来难！",
+      "segue": "如果一个算法能通过成千上万次尝试来学习最佳路径呢？让我们认识 Q-Learning..."
+    },
+    "meet": {
+      "title": "认识 Q-Learning",
+      "slide0": "如果你能画一张地图，标注每个位置每个方向有多好呢？这正是 Q-Learning 做的事！",
+      "slide1title": "Q 表：你的寻宝图",
+      "slide1a": "想象一个大表格。每一行是网格上的一个位置。每一列是一个方向（上、右、下、左）。里面的数字是分数——从那个位置走那个方向有多好？",
+      "slide1b": "一开始所有分数都是 0——智能体什么都不知道。随着探索，分数会根据经验逐渐填上。",
+      "tablePosition": "位置",
+      "tableUp": "上",
+      "tableRight": "右",
+      "tableDown": "下",
+      "tableLeft": "左",
+      "slide2title": "向未来的自己求助",
+      "slide2a": "聪明之处在于：当你获得奖励时，不只是更新当前位置。还要看看下一个位置，问：'从那里我能做的最好是什么？'",
+      "slide2b": "就像问一个已经探索过前方的朋友：'嘿，如果我往右走，从那里我能得到的最好分数是多少？'",
+      "slide2c": "这叫贝尔曼方程——一个简单想法的花哨名字：",
+      "slide3title": "一步一步看它学习",
+      "slide3desc": "第 {{step}} 步 | 第 {{episode}} 轮——在这个小小的 3x3 网格上实时观察 Q 值（颜色）更新！",
+      "slide3note": "暖色 = 高价值，冷色 = 低价值。箭头表示每个格子的最佳动作。",
+      "slide4title": "学得多快合适？",
+      "slide4desc": "学习率控制每次经验对 Q 表的改变幅度。太快 = 混乱。太慢 = 太花时间。",
+      "learningRate": "学习率 (alpha)",
+      "oldValue": "旧 Q 值",
+      "change": "变化",
+      "newValue": "新 Q 值",
+      "lrLow": "非常谨慎！每次经验几乎不改变地图。稳定但学得慢。",
+      "lrHigh": "非常激进！地图每次经验都剧烈变化。快但混乱。",
+      "lrMedium": "不错的平衡。地图稳步更新，不会过度反应。",
+      "slide5title": "Q-Learning：构建一张完整的寻宝图！",
+      "slide5desc": "Q-Learning 构建一张完整的最佳路径地图。只要有足够的探索，它能找到任何网格世界的最优路径。",
+      "slide5ready": "准备好看 Q-Learning 挑战真正的迷宫了吗？走吧！"
+    },
+    "watch": {
+      "title": "观察学习",
+      "desc": "Q-Learning 探索网格并构建寻宝图。实时观察 Q 值更新！",
+      "episode": "轮次",
+      "hyperparams": "超参数",
+      "learningRate": "学习率 (alpha)",
+      "discount": "折扣因子 (gamma)",
+      "display": "显示选项",
+      "heatmap": "价值热力图",
+      "arrows": "最佳动作箭头",
+      "qtableViz": "Q 表详细视图",
+      "qtableTitle": "Q 表热力图",
+      "qtableDesc": "每个格子分为 4 个三角形（上/右/下/左）。越亮 = Q 值越高。",
+      "rewardChart": "每轮奖励",
+      "rewardDesc": "每轮的总奖励。越高越好——看它随时间改进！",
+      "seenEnough": "我看够了"
+    },
+    "quest": {
+      "briefing": "一座被诅咒的岛屿，有陷阱、宝藏和隐藏出口。先你来试试逃脱，然后 Q-Learning 来挑战。算法能比你更快吗？",
+      "rule1": "6x8 网格，有墙壁、陷阱（-5）、宝藏（+5）和出口（+10）",
+      "rule2": "你有 20 步来尝试手动逃脱",
+      "rule3": "然后 Q-Learning 训练并尝试找到更短的路径",
+      "startManual": "开始手动操作",
+      "manualTitle": "你的回合：逃离岛屿！",
+      "manualDesc": "导航到出口（绿色 F）。用方向键或点击相邻格子。",
+      "manualEscaped": "你用了 {{moves}} 步逃出来了！",
+      "manualFailed": "步数用完了！你没到达出口。",
+      "manualBenchmark": "你的基准：{{length}} 步。Q-Learning 能做得更好吗？",
+      "trainNow": "训练 Q-Learning",
+      "configTitle": "配置 Q-Learning",
+      "configDesc": "你的基准是 {{benchmark}} 步。调整超参数，看看 Q-Learning 能否找到更短的路径！",
+      "episodes": "训练轮数",
+      "tip": "提示：学习率 0.1-0.3 配合折扣因子 0.9-0.99 通常效果好。更多轮数 = 更好结果。",
+      "startTraining": "开始训练！",
+      "trainingProgress": "Q-Learning 正在训练...",
+      "yourBenchmark": "你的基准",
+      "steps": "步",
+      "passed": "Q-Learning 找到了比你更短的路径！算法学会了最优路线。",
+      "failed": "Q-Learning 没能超过你。试试更多轮数或不同设置！",
+      "yourPath": "你的路径",
+      "qlPath": "Q-Learning 路径",
+      "ratio": "倍率",
+      "goldEarned": "获得金币",
+      "learnedPath": "Q-Learning 学到的路径（金色高亮）："
+    }
+  },
+  "dqn": {
+    "feel": {
+      "title": "感受问题",
+      "intro": "试试打碎所有砖块！用挡板弹球。你能清空整个板吗？",
+      "controls": "用方向键或鼠标来控制挡板。",
+      "startButton": "开始游戏！",
+      "score": "分数",
+      "time": "时间",
+      "controlHint": "方向键或鼠标移动挡板",
+      "resultTitle": "不错的尝试！",
+      "yourScore": "你的分数",
+      "resultMessage": "现在让我们看看神经网络能不能学会打败你！"
+    },
+    "meet": {
+      "letsWatch": "来看它学习吧！",
+      "slide1": {
+        "title": "地图太大了！",
+        "content": "还记得Q学习的寻宝图吗？对于一个像素游戏，这张图需要数百万个格子——每个可能的画面一个。我们不可能手工画出来！",
+        "tooBig": "数百万个格子...不可能！"
+      },
+      "slide2": {
+        "title": "认识模式匹配器",
+        "content": "我们用一个神经网络代替巨大的表格——一台模式匹配机器。给它游戏画面，它就告诉你每个动作有多好。就像有一个能看懂任何地图的聪明助手！"
+      },
+      "slide3": {
+        "title": "从打乱的笔记本中学习",
+        "content": "你知道打乱闪卡能帮你更好地复习吗？AI保留一本记忆笔记本，随机顺序复习。这叫做经验回放——它防止AI只记住最后发生的事。"
+      },
+      "slide4": {
+        "title": "有一个稳定的老师",
+        "content": "想象你的老师每秒都在变——很混乱，对吧？DQN保留一个稳定的'老师'网络，只偶尔更新。'学生'快速学习，然后老师慢慢跟上。"
+      },
+      "slide5": {
+        "title": "如何配合工作",
+        "content": "DQN把四个想法组合成一个强大的学习者：",
+        "step1": "玩游戏，记住发生了什么",
+        "step2": "打乱记忆，随机抽取一批学习",
+        "step3": "用神经网络预测Q值",
+        "step4": "定期复制给稳定的老师"
+      },
+      "slide6": {
+        "title": "DQN = Q学习 + 大脑升级",
+        "content": "深度Q网络用Q学习'给每个动作打分'的思路，加上神经网络、随机复习和稳定老师来增强它。来看看它的表现吧！"
+      }
+    },
+    "watch": {
+      "stats": "训练数据",
+      "episode": "回合",
+      "score": "分数",
+      "epsilon": "探索率",
+      "loss": "损失",
+      "replaySize": "经验池",
+      "bestEp": "最佳回合",
+      "hyperparams": "超参数",
+      "learningRate": "学习率",
+      "epsilonSlider": "Epsilon（探索率）",
+      "bufferSize": "经验池大小",
+      "replaySample": "回放记忆",
+      "rewardChart": "回合奖励",
+      "continue": "准备好挑战了！"
+    },
+    "quest": {
+      "title": "像素街机挑战",
+      "briefing": "用AI打败你自己的最高分！先自己玩打砖块，然后配置训练一个DQN智能体来打败你。",
+      "step1": "1. 手动玩打砖块——设定你的基准",
+      "step2": "2. 配置DQN——调整学习率和记忆",
+      "step3": "3. 训练和观察——AI能打败你的分数吗？",
+      "bountyRanks": "悬赏等级",
+      "beatBy": "超过你的分数",
+      "startManual": "开始手动游戏",
+      "manualPhase": "你的回合——创造最高分！",
+      "yourBenchmark": "你的基准分数",
+      "configIntro": "现在配置DQN智能体。明智地选择超参数！",
+      "configTitle": "配置你的DQN",
+      "episodes": "训练回合数",
+      "startTraining": "开始训练！",
+      "trainingTitle": "训练进行中...",
+      "currentScore": "当前分数",
+      "bestScore": "最高分",
+      "playerBenchmark": "你的分数",
+      "ratio": "AI / 你",
+      "seeResults": "查看结果！",
+      "youScored": "你的得分",
+      "dqnScored": "DQN得分",
+      "cardEarned": "获得卡牌！",
+      "resultMessage": "DQN把神经网络和打乱复习、稳定老师结合在一起，掌握那些简单表格搞不定的复杂游戏！"
+    }
+  },
+  "boss": {
+    "pirate": {
+      "title": "BOSS：贪婪海盗",
+      "name": "贪婪海盗",
+      "dialogue1": "我总是抓最近的金子！没人能比我赚更多！",
+      "dialogue2": "你觉得你那套花哨的'学习'能打败我的直觉？来吧！",
+      "challengeTitle": "挑战",
+      "challengeDesc": "训练一个Q学习智能体，在有隐藏宝藏的迷宫中赚取比贪婪海盗更多的金币。",
+      "watchPirate": "看海盗出发！",
+      "pirateRunning": "海盗正在跑...",
+      "pirateRunDesc": "看：海盗抓取每个附近的金币，完全不考虑长远。",
+      "step": "步数",
+      "pirateScore": "海盗总奖励",
+      "pirateExplain": "海盗抓了每个附近的金币，但错过了大宝藏。你能做得更好吗？",
+      "trainAgent": "训练你的智能体！",
+      "hyperparameters": "超参数",
+      "learningRate": "学习率",
+      "discountFactor": "折扣因子（耐心度）",
+      "explorationRate": "探索率",
+      "training": "训练",
+      "episodes": "已训练轮数",
+      "reward": "奖励",
+      "episode": "轮次",
+      "pirateLine": "海盗",
+      "startRace": "挑战海盗！",
+      "trainMin": "先训练至少10轮",
+      "yourAgent": "你的智能体",
+      "thePirate": "贪婪海盗",
+      "victory": "你赢了！",
+      "defeat": "海盗赢了...",
+      "victoryMessage": "你的智能体学会了耐心胜过贪婪！长远思考找到了大宝藏。",
+      "defeatMessage": "海盗这次赢了。试着训练更久，或者提高折扣因子让智能体更重视未来奖励！",
+      "cardUnlock": "卡牌解锁",
+      "cardName": "耐心的策略师",
+      "claimReward": "领取奖励",
+      "victoryFinal": "Boss已击败！",
+      "lessonLearned": "秘密：一个重视未来的智能体，能打败只看眼前的贪心者。",
+      "continue": "继续航行",
+      "playAgain": "再玩一次（免费！）",
+      "legend": "图例",
+      "legendAgent": "你的智能体",
+      "legendPirate": "海盗",
+      "legendCoin": "金币",
+      "legendExit": "出口",
+      "legendWall": "墙壁",
+      "legendTreasure": "大宝藏"
+    }
+  },
+  "cards": {
+    "title": "算法卡牌图鉴",
+    "collected": "张卡牌已收集",
+    "selectHint": "选择一张卡牌查看详情",
+    "locked": "完成任务来解锁！"
+  },
+  "sarsa": {
+    "feel": {
+      "title": "悬崖漫步",
+      "instruction": "从起点导航到出口——但小心悬崖边！你有30步。",
+      "movesLeft": "剩余步数",
+      "escaped": "安全到达！",
+      "outOfMoves": "没有步数了！",
+      "segue": "为什么走安全路线很重要？让我们看看SARSA和Q-Learning有何不同..."
+    },
+    "meet": {
+      "slide0title": "等等，我们不是已经学了Q-Learning吗？",
+      "slide0desc": "Q-Learning很棒，但它有个盲点——它总是想象最佳的未来行动，即使它实际上不会采取那个行动。SARSA问：如果我们从实际做的事中学习呢？",
+      "slide0example": "想象Q-Learning在悬崖旁很自信，因为它想象了完美的一步。SARSA记得它有时会滑倒！",
+      "slide1title": "同策略 vs 离策略",
+      "slide1a": "Q-Learning是'离策略'——它从最佳可能行动（贪心）中学习，即使在探索时也是如此。",
+      "slide1b": "SARSA是'同策略'——它从实际选择的行动中学习，包括随机探索行动。",
+      "slide1analogy": "就像：Q-Learning从别人的完美日记中学习。SARSA从自己的实际日记中学习。",
+      "slide2title": "SARSA更新规则",
+      "slide2a": "两者使用几乎相同的公式，但有一个关键区别：",
+      "slide2formula1": "Q-Learning: Q(s,a) ← Q(s,a) + α[r + γ × max Q(s',a') − Q(s,a)]",
+      "slide2formula2": "SARSA:      Q(s,a) ← Q(s,a) + α[r + γ × Q(s', a') − Q(s,a)]",
+      "slide2note": "在SARSA中，a' 是策略实际将采取的下一个动作——不只是理论上的最佳！",
+      "slide3title": "为什么在悬崖旁这很重要",
+      "slide3desc": "在悬崖漫步中，Q-Learning学到：'沿边缘跑是最优的！'（因为最佳路径是最优的）。SARSA学到：'沿边缘跑很危险！'（因为在探索中有时会掉下去）。",
+      "slide3safe": "SARSA走安全路线",
+      "slide3risky": "Q-Learning可能冒悬崖边的风险",
+      "slide4title": "权衡",
+      "slide4a": "SARSA更谨慎——它避免在探索中可能导致灾难的危险路径。",
+      "slide4b": "Q-Learning更乐观——它找到理论上最优的路径。",
+      "slide4c": "哪个更好？取决于环境！对于安全关键任务，SARSA获胜。",
+      "summary1": "SARSA是同策略的：它从实际做的事学习，包括探索中的错误",
+      "summary2": "在悬崖和危险区域附近，SARSA更保守——这可以是一种优势",
+      "summary3": "与Q-Learning的唯一区别：使用实际的下一个动作，而不是贪心最优"
+    },
+    "watch": {
+      "title": "SARSA vs Q-Learning",
+      "desc": "观察两者在同一悬崖网格上的训练。哪个走更安全的路？",
+      "sarsa": "SARSA",
+      "qlearning": "Q学习",
+      "seenEnough": "我看够了"
+    },
+    "quest": {
+      "title": "悬崖赛跑",
+      "briefing": "在悬崖漫步上训练SARSA和Q-Learning。哪个算法在危险边缘更安全？",
+      "rule1": "两个算法在同一悬崖边网格上训练",
+      "rule2": "陷阱代表悬崖边——掉落代价惨重！",
+      "rule3": "SARSA应该学会避开悬崖，Q-Learning可能会冒险",
+      "configTitle": "配置训练",
+      "learningRate": "学习率",
+      "episodes": "训练轮数",
+      "startTraining": "开始训练！",
+      "trainingTitle": "训练进行中...",
+      "sarsa": "SARSA",
+      "qlearning": "Q学习",
+      "avgReward": "平均奖励（最后20轮）",
+      "passed": "任务完成！你看到了同策略学习如何塑造行为。",
+      "failed": "继续探索——试试更多轮次！",
+      "duelingAvg": "SARSA平均",
+      "retry": "重试"
+    }
+  },
+  "doubledqn": {
+    "feel": {
+      "title": "过估计陷阱",
+      "instruction": "导航网格。注意：有些路径看起来比实际更好！",
+      "movesLeft": "剩余步数",
+      "teaserTitle": "DQN的秘密弱点",
+      "teaserDesc": "DQN可能过估计Q值——它认为某些动作比实际好得多。这导致糟糕的决策！",
+      "escaped": "你做到了！",
+      "outOfMoves": "没有步数了！",
+      "segue": "如果我们能修复DQN的过估计呢？让我们认识双重DQN..."
+    },
+    "meet": {
+      "slide0title": "DQN有个缺陷：它太乐观了！",
+      "slide0desc": "还记得DQN使用目标网络吗？有个问题：在选择最佳未来Q值时，DQN总是选最大值——而最大值往往被过估了。",
+      "slide0example": "就像请你最乐观的朋友给每家餐厅评分——他们总会说'满分！'，哪怕对糟糕的也一样。",
+      "slide1title": "过估计问题",
+      "slide1a": "DQN这样计算目标：",
+      "slide1formula": "目标 = r + γ × max_a' Q_target(s', a')",
+      "slide1b": "问题：用同一个网络既选择最优动作又评估它的价值会产生向上偏差。最大值往往太高了！",
+      "slide2title": "双重DQN：两个网络，更好的估计",
+      "slide2a": "修复很优雅：用在线网络选择哪个动作最好，但用目标网络评估那个动作的价值。",
+      "slide2formula1": "第1步：a* = argmax Q_online(s', a')  [在线网络选动作]",
+      "slide2formula2": "第2步：目标 = r + γ × Q_target(s', a*)  [目标网络评估]",
+      "slide2b": "这种解耦打破了过估计循环！",
+      "slide3title": "看看差别",
+      "slide3desc": "同一状态，三种场景。DQN过估，双重DQN更准确：",
+      "slide3state": "状态",
+      "slide3dqn": "DQN Q值",
+      "slide3ddqn": "双重DQN Q值",
+      "slide3real": "真实Q值（近似）",
+      "slide4title": "为什么重要？",
+      "slide4a": "过估的Q值导致过于自信的策略——智能体认为它表现得比实际更好。",
+      "slide4b": "有了更准确的值，双重DQN通常能找到更好的策略，尤其是在更难的环境中。",
+      "slide4c": "改变很小（只有2行代码），但影响可能很显著！",
+      "summary1": "双重DQN将动作选择和动作评估解耦",
+      "summary2": "在线网络选择最佳动作；目标网络评估它",
+      "summary3": "小改变，真改进——尤其在复杂环境中"
+    },
+    "watch": {
+      "title": "DQN vs 双重DQN",
+      "desc": "观察两者并排训练。双重DQN应该显示更少的过估计！",
+      "dqn": "DQN",
+      "ddqn": "双重DQN",
+      "overestimation": "平均过估计量",
+      "seenEnough": "我看够了"
+    },
+    "quest": {
+      "title": "怀疑者的试炼",
+      "briefing": "在同一环境中训练DQN和双重DQN。双重DQN应以更少的过估计匹配或超过DQN的性能。",
+      "rule1": "两个算法在同一网格环境中训练",
+      "rule2": "双重DQN必须达到DQN平均奖励的至少95%",
+      "rule3": "观察过估计差距——双重DQN保持更准确",
+      "configTitle": "配置训练",
+      "learningRate": "学习率",
+      "episodes": "训练轮数",
+      "startTraining": "开始训练！",
+      "trainingTitle": "训练进行中...",
+      "dqn": "DQN",
+      "ddqn": "双重DQN",
+      "avgReward": "平均奖励（最后20轮）",
+      "passed": "怀疑者认可了！双重DQN以更好的准确性匹配了DQN的性能。",
+      "failed": "试试更多轮次或调整学习率！",
+      "duelingAvg": "双重DQN平均",
+      "retry": "重试"
+    }
+  },
+  "duelingdqn": {
+    "feel": {
+      "title": "你在哪里 vs 你做什么",
+      "instruction": "导航网格。思考：方向重要，还是位置决定命运？",
+      "movesLeft": "剩余步数",
+      "question": "想想：在某些位置，你往哪个方向走几乎无所谓（困在死胡同里）。在其他位置，一个方向明显最好。你能感受到区别吗？",
+      "vHint": "无论朝哪个方向，仅仅在这里有多好？",
+      "aHint": "一个方向比平均水平好多少？",
+      "escaped": "你做到了！",
+      "outOfMoves": "没有步数了！",
+      "segue": "那种感觉——'无论我做什么，这个地方都很糟糕'——正是状态价值所捕捉的！"
+    },
+    "meet": {
+      "slide0title": "一个分数还是两个？",
+      "slide0desc": "标准DQN每个动作输出一个Q值。决斗DQN说：让我们把它分成两部分——这个状态有多好，以及这个动作在这里有多好？",
+      "slide0example": "死胡同：所有方向都很糟，因为状态很糟。开放路径：方向'右'比其他方向有很大优势。",
+      "slide1title": "V(s) — 状态价值",
+      "slide1a": "V(s)问：'处于这个状态本身有多好？'不是'我该做什么'——而是'我在哪里？'",
+      "slide1analogy": "就像站在一个房间里——有些房间本质上很危险（靠近悬崖），有些很安全（靠近出口）。那就是V(s)。",
+      "slide1b": "如果状态价值非常负，没有行动能拯救你多少。如果它非常正，大多数行动都会好。",
+      "slide2title": "A(s,a) — 优势",
+      "slide2a": "A(s,a)问：'动作a比这个状态中的平均动作好多少？'",
+      "slide2analogy": "同一房间——现在你应该走哪扇门？高于平均水平的那份额外推力就是优势。",
+      "slide2why": "减去均值是为了让优势保持在零附近。否则它们会和V(s)一起漂移。",
+      "slide3title": "交互式分解",
+      "slide4title": "为什么要分开？",
+      "summary1": "V(s)捕捉状态的好坏，不管动作如何——对动作差别不大的状态至关重要",
+      "summary2": "A(s,a)捕捉相对动作质量——高效识别最优动作",
+      "summary3": "合并：Q(s,a) = V(s) + A(s,a) − mean(A) — 同样的Q值，学习更高效"
+    },
+    "watch": {
+      "title": "决斗DQN实战",
+      "desc": "实时观察V(s)和A(s,a)在智能体训练时的分解！",
+      "stateValue": "状态价值",
+      "advantages": "优势值",
+      "qValues": "Q值",
+      "seenEnough": "我看够了"
+    },
+    "quest": {
+      "title": "分析师的考验",
+      "briefing": "训练决斗DQN并与标准DQN对比。决斗DQN应该通过更好地分离状态价值和动作优势来改善性能。",
+      "rule1": "DQN和决斗DQN在同一网格上训练",
+      "rule2": "决斗DQN得分≥20%更好 → S级，≥10% → A级",
+      "rule3": "平局或轻微改进仍得B级——哪怕打平也是胜利！",
+      "configTitle": "配置训练",
+      "learningRate": "学习率",
+      "episodes": "训练轮数",
+      "startTraining": "开始训练！",
+      "trainingTitle": "训练进行中...",
+      "dqn": "DQN",
+      "duelingDqn": "决斗DQN",
+      "passed": "分析师的判决：决斗DQN通过分离状态价值和动作优势实现了更智能的学习！",
+      "failed": "试试更多轮次或不同的学习率！",
+      "duelingAvg": "决斗DQN平均"
+    }
+  },
+  "policy": {
+    "theme": "直觉旅团",
+    "boss": {
+      "name": "混沌火山",
+      "desc": "一座火山喷发，环境每N步就会改变。"
+    }
+  },
+  "continuous": {
+    "theme": "世界不是非黑即白",
+    "boss": {
+      "name": "精准挑战",
+      "desc": "多阶段障碍赛，每个阶段需要正确的算法。"
+    }
+  },
+  "convergence": {
+    "theme": "万流归海"
   }
 }
