@@ -2,20 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
 import { PixelButton, PixelPanel } from '@/components/ui';
-
-interface PortInfo {
-  id: string;
-  nameKey: string;
-  algorithmKey: string;
-  emoji: string;
-  route: string;
-}
-
-const VALUE_PORTS: PortInfo[] = [
-  { id: 'bandit', nameKey: 'value.bandit.name', algorithmKey: 'value.bandit.algorithm', emoji: '🎰', route: '/port/bandit' },
-  { id: 'qtable', nameKey: 'value.qtable.name', algorithmKey: 'value.qtable.algorithm', emoji: '🗺️', route: '/port/qtable' },
-  { id: 'deep', nameKey: 'value.deep.name', algorithmKey: 'value.deep.algorithm', emoji: '🧠', route: '/port/deep' },
-];
+import { getIslandConfig } from '@/config/islands';
+import { getPortsForIsland } from '@/config/ports';
 
 export function IslandPage() {
   const { t } = useTranslation();
@@ -23,7 +11,10 @@ export function IslandPage() {
   const { islandId } = useParams<{ islandId: string }>();
   const { unlockedPorts, portProgress } = useGameStore();
 
-  if (islandId !== 'value') {
+  const island = islandId ? getIslandConfig(islandId) : undefined;
+
+  // Unknown island or not yet available
+  if (!island || !island.available) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <PixelPanel>
@@ -36,16 +27,24 @@ export function IslandPage() {
     );
   }
 
+  const ports = getPortsForIsland(island.id);
+  const allPortsCompleted = ports.length > 0 && ports.every(
+    (p) => portProgress[p.id]?.completed,
+  );
+
   return (
     <div className="min-h-screen flex flex-col items-center p-8">
-      <h2 className="font-pixel text-base text-[#40e0d0] mb-2 glow-accent" style={{ textShadow: '0 0 10px rgba(64,224,208,0.4)' }}>
-        {t('value.name')}
+      <h2
+        className="font-pixel text-base mb-2 glow-accent"
+        style={{ color: island.glowColor.replace(/[\d.]+\)$/, '1)'), textShadow: `0 0 10px ${island.glowColor}` }}
+      >
+        {t(island.nameKey)}
       </h2>
-      <p className="font-body text-xl text-[#ffd700] mb-8 glow-gold">"{t('value.theme')}"</p>
+      <p className="font-body text-xl text-[#ffd700] mb-8 glow-gold">"{t(island.themeKey)}"</p>
 
       <div className="grid gap-5 max-w-2xl w-full">
-        {VALUE_PORTS.map((port, index) => {
-          const isUnlocked = unlockedPorts.includes(port.id as any);
+        {ports.map((port, index) => {
+          const isUnlocked = unlockedPorts.includes(port.id);
           const progress = portProgress[port.id];
           const isCompleted = progress?.completed;
 
@@ -57,7 +56,7 @@ export function IslandPage() {
             >
               <div
                 className="flex items-center gap-4"
-                onClick={() => isUnlocked && navigate(port.route)}
+                onClick={() => isUnlocked && navigate(`/port/${port.id}`)}
               >
                 <div className="text-3xl">{port.emoji}</div>
                 <div className="flex-1">
@@ -77,7 +76,7 @@ export function IslandPage() {
                   )}
                 </div>
                 {isUnlocked && (
-                  <PixelButton size="sm" onClick={() => navigate(port.route)}>
+                  <PixelButton size="sm" onClick={() => navigate(`/port/${port.id}`)}>
                     →
                   </PixelButton>
                 )}
@@ -86,24 +85,50 @@ export function IslandPage() {
           );
         })}
 
-        {/* Mini-Boss */}
-        <PixelPanel
-          variant="default"
-          className="opacity-45 border-l-4 border-l-[#dc143c]"
-        >
-          <div className="flex items-center gap-4">
-            <div className="text-3xl">🏴‍☠️</div>
-            <div>
-              <h3 className="font-pixel text-xs text-[#f87171]">
-                BOSS: {t('value.boss.name')}
-              </h3>
-              <p className="font-body text-base text-[#e2e8f0]">{t('value.boss.desc')}</p>
-              <span className="font-pixel text-[10px] text-[#708090]">
-                🔒 Complete all ports first
-              </span>
-            </div>
-          </div>
-        </PixelPanel>
+        {/* Boss section */}
+        {island.bossConfig && (() => {
+          const bossProgress = portProgress['boss-greedy-pirate'];
+          const bossCompleted = bossProgress?.completed;
+
+          return (
+            <PixelPanel
+              variant={bossCompleted ? 'gold' : 'default'}
+              className={`border-l-4 border-l-[#dc143c] ${
+                allPortsCompleted
+                  ? 'cursor-pointer hover:border-[rgba(248,113,113,0.6)] hover:shadow-[0_0_16px_rgba(248,113,113,0.15)]'
+                  : 'opacity-45'
+              } transition-all duration-200`}
+            >
+              <div
+                className="flex items-center gap-4"
+                onClick={() => allPortsCompleted && navigate('/boss/greedy-pirate')}
+              >
+                <div className="text-3xl animate-float">{island.bossConfig.emoji}</div>
+                <div className="flex-1">
+                  <h3 className="font-pixel text-xs text-[#f87171]">
+                    BOSS: {t(island.bossConfig.nameKey)}
+                  </h3>
+                  <p className="font-body text-base text-[#e2e8f0]">{t(island.bossConfig.descKey)}</p>
+                  {bossCompleted && bossProgress.bestRank && (
+                    <span className="font-pixel text-[10px] text-[#ffd700] glow-gold">
+                      Best: {bossProgress.bestRank} Rank — {bossProgress.bestGold} gold
+                    </span>
+                  )}
+                  {!allPortsCompleted && (
+                    <span className="font-pixel text-[10px] text-[#708090]">
+                      Complete all ports first
+                    </span>
+                  )}
+                </div>
+                {allPortsCompleted && (
+                  <PixelButton size="sm" variant="danger" onClick={() => navigate('/boss/greedy-pirate')}>
+                    {bossCompleted ? '>' : '!'}
+                  </PixelButton>
+                )}
+              </div>
+            </PixelPanel>
+          );
+        })()}
       </div>
 
       <PixelButton size="sm" variant="secondary" className="mt-8" onClick={() => navigate('/map')}>

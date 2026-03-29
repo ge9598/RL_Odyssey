@@ -9,7 +9,7 @@ export function TopBar() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { totalGold, getNavigatorRank } = useGameStore();
+  const { totalGold, getNavigatorRank, playerName, selectedPet } = useGameStore();
   const { collectedCards } = useCardStore();
   const rank = getNavigatorRank();
 
@@ -33,8 +33,19 @@ export function TopBar() {
 
       <div className="flex items-center gap-5">
         <div className="flex items-center gap-3 font-pixel text-[11px]">
+          {/* Player identity: pet + name */}
+          {(selectedPet || playerName) && (
+            <span className="text-[#e2e8f0] flex items-center gap-1">
+              {selectedPet && <span>{selectedPet}</span>}
+              {playerName && <span className="text-[#00d4ff]">{playerName}</span>}
+            </span>
+          )}
           <span className="text-[#ffd700] glow-gold">💰 {totalGold}</span>
-          <span className="text-[#e2e8f0]">🎴 {collectedCards.length}</span>
+          <span
+            className="text-[#e2e8f0] cursor-pointer hover:text-[#00d4ff] transition-colors"
+            onClick={() => navigate('/cards')}
+            title={t('common.cards')}
+          >🎴 {collectedCards.length}</span>
           <span className="text-[#4ade80]">
             {t(`bounty.navigator.${rank.level}`)}
           </span>

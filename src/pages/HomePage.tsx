@@ -7,7 +7,7 @@ import { LanguageToggle } from '@/components/ui';
 export function HomePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { tutorialCompleted } = useGameStore();
+  const { tutorialCompleted, playerName } = useGameStore();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-10 p-8 relative overflow-hidden">
@@ -48,7 +48,7 @@ export function HomePage() {
             {t('common.continue')}
           </PixelButton>
         ) : (
-          <PixelButton size="lg" onClick={() => navigate('/tutorial')}>
+          <PixelButton size="lg" onClick={() => navigate(playerName ? '/tutorial' : '/create-character')}>
             {t('common.start')}
           </PixelButton>
         )}
