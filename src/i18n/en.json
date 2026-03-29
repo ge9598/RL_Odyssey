@@ -224,6 +224,26 @@
       "primer": "What is state value? It's how good it is to just BE in a state, regardless of what you do next. Some states are inherently bad (near a cliff), others are inherently good (near the exit). This separation helps the network learn more efficiently.",
       "summary": "Dueling DQN splits Q-values into state value V(s) and advantage A(s,a). This lets the network efficiently learn which states are good (even when actions barely differ) and which actions stand out. The result: better Q-value estimates with the same training data."
     },
+    "reinforce": {
+      "story": "You've reached the foot of the Volcanic Isle. A lone archer stands on the cliff, throwing darts at a target. She misses. She misses again. Then — thwack — a bullseye! She grins: 'Every hit, I throw more like that. Every miss, I throw less. That's all I do.' You've just witnessed REINFORCE.",
+      "primer": "What is a probability distribution? Think of it like a spinner on a board game. Instead of landing on one fixed spot, the policy has different-sized slices for each action. The bigger the slice, the more often you pick that action. Learning means reshaping the slices.",
+      "summary": "You learned REINFORCE — the simplest policy gradient method. Instead of scoring positions, it directly tweaks the probability of each action. Good episodes make their actions more likely; bad episodes make them less likely. It's noisy but elegant — the foundation of all policy gradient methods."
+    },
+    "actorcritic": {
+      "story": "Deep in the Volcanic Isle, a martial arts master trains her apprentice. 'Strike left!' the apprentice acts. 'Good — but your stance was weak,' the master critiques. With every exchange, the apprentice's moves sharpen and the master's eye sharpens too. They learn together.",
+      "primer": "What is a baseline? When you say 'that was better than average,' you need to know what average is first. A baseline is that average — it tells us whether a result was surprisingly good or surprisingly bad. Subtracting the baseline from rewards reduces noise in learning.",
+      "summary": "Actor-Critic combines the best of both worlds: the Actor directly optimizes the policy, while the Critic estimates state values to reduce variance. Instead of waiting for a full episode (like REINFORCE), the TD error signal lets learning happen at every step — faster and more stable."
+    },
+    "a2c": {
+      "story": "The volcanic summit comes into view. An army of robot soldiers fans out across the slopes, each exploring a different path. They share everything they learn. An individual might wander for hours; together, they conquer in minutes. This is the power of parallel learning.",
+      "primer": "What is the advantage function? Instead of asking 'how good was this action?', advantage asks 'how much BETTER was this action than what I usually do here?' A(s,a) = Q(s,a) - V(s). Positive advantage: better than expected. Negative: worse.",
+      "summary": "A2C (Advantage Actor-Critic) extends Actor-Critic with parallel workers that share a single policy. Each worker explores independently, then contributes gradients to the shared update. The Advantage function reduces variance further, and synchronous updates keep learning stable."
+    },
+    "ppo": {
+      "story": "You reach the volcanic throne. The final guardian is a patient strategist who has tried every trick — and learned from every mistake. 'I update slowly,' she says, 'but every step forward stays forward. No more crashing back to square one.' This is PPO.",
+      "primer": "What is a clipping function? Imagine you want to change a setting, but only allow changes within a 20% range. If someone says 'change by 50%', you clip it to 20%. PPO uses this to prevent any single update from being too aggressive.",
+      "summary": "PPO (Proximal Policy Optimization) is one of the most widely used RL algorithms today. It adds a clipping mechanism to prevent updates from being too large, so training stays stable. The clip range ε controls the learning speed — too wide causes chaos, too narrow causes stagnation."
+    },
     "primer": {
       "heading": "Quick Concept",
       "gotIt": "Got it!",
@@ -737,11 +757,339 @@
       "duelingAvg": "Dueling DQN Avg"
     }
   },
+  "reinforce": {
+    "feel": {
+      "title": "Feel the Problem: Map Your Instincts",
+      "instruction": "Navigate the grid manually. Notice how certain moves feel 'obviously right' — that instinct is what REINFORCE tries to learn.",
+      "movesLeft": "Moves Left",
+      "reward": "Reward",
+      "controls": "Use arrow keys or buttons to move",
+      "hint": "Try to reach the exit. Avoid traps! Notice which directions feel natural in each spot.",
+      "legendPlayer": "You",
+      "legendTreasure": "Treasure",
+      "legendTrap": "Trap",
+      "legendExit": "Exit",
+      "escaped": "You escaped! {{moves}} moves used.",
+      "outOfMoves": "Out of moves! The agent needs to learn a better route.",
+      "segue": "Each 'obvious right move' you felt? That's exactly what REINFORCE learns — which actions to repeat!"
+    },
+    "meet": {
+      "slide0title": "Throw More Darts Like That!",
+      "slide0desc": "Imagine learning to throw darts. When you hit the bullseye, your brain says 'do that again!' When you miss badly, it says 'less of that.' REINFORCE works the same way — reward good episodes, penalize bad ones.",
+      "slide0key": "No table of values. No separate critic. Just: did that work? Yes → do more of it.",
+      "slide1title": "The Policy is a Probability Distribution",
+      "slide1desc": "Instead of saying 'always go right', the policy says 'go right 60% of the time, up 30%, down 10%.' These probabilities shift as the agent learns.",
+      "policyLabel": "Action probabilities (state 5):",
+      "randomPolicy": "Random (no learning)",
+      "afterGoodRun": "After good episode",
+      "afterBadRun": "After bad episode",
+      "slide1note": "Click the buttons to see how probabilities shift after good and bad experiences!",
+      "slide2title": "The REINFORCE Update Rule",
+      "slide2desc": "After each episode, for every action taken, we update its probability based on how good the total episode return G was:",
+      "formula": "REINFORCE Update:",
+      "formulaNote": "G is the total discounted reward for the episode. Positive G → increase probability. Negative G → decrease probability.",
+      "alphaDesc": "Learning rate — how big each step is",
+      "returnDesc": "Total episode return — was this episode good?",
+      "policyDesc": "Policy log-prob — we nudge this up or down",
+      "slide3title": "Why Wait for the Whole Episode?",
+      "slide3desc": "Unlike Q-Learning which updates every step, REINFORCE waits until the episode ends to compute G. That's the Monte Carlo approach:",
+      "step1": "Play a full episode from start to finish",
+      "step2": "Calculate the total return G from each timestep backward",
+      "step3": "Update all action probabilities proportional to G",
+      "slide3note": "This is 'Monte Carlo' because we use the actual sampled episode, not a prediction. More accurate but higher variance.",
+      "slide4title": "REINFORCE: Key Takeaways",
+      "summary1": "Direct policy optimization — no value table needed. The policy IS the output.",
+      "summary2": "Reward-weighted updates: repeat what worked, avoid what didn't. Simple but effective.",
+      "summary3": "High variance is the tradeoff — results jump around because whole episodes differ. The fix? Add a critic!"
+    },
+    "watch": {
+      "title": "Watch REINFORCE Learn",
+      "desc": "Episode {{ep}} / {{total}}",
+      "agentLabel": "Agent (ep {{ep}})",
+      "learningRate": "Learning Rate",
+      "policyHint": "Policy Probs (selected states)",
+      "rewardChart": "Episode Rewards",
+      "seenEnough": "I've Seen Enough →"
+    },
+    "quest": {
+      "title": "The Dart Tournament",
+      "briefing": "Train a REINFORCE agent to navigate the grid world. Find the right learning rate — too small and it learns slowly, too large and it overshoots and forgets!",
+      "rule1": "Train REINFORCE for 200 episodes on the grid world",
+      "rule2": "Tune the learning rate to find stable improvement",
+      "rule3": "Final rank based on average reward of the last 30 episodes",
+      "configTitle": "Configure Your Policy Gradient",
+      "learningRate": "Learning Rate (α)",
+      "tip": "Hint: A learning rate around 0.01–0.03 usually works well. Too high (> 0.05) causes chaos!",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "trainingDesc": "Episode {{ep}} / {{total}}",
+      "agentLabel": "REINFORCE (ep {{ep}})",
+      "rewardChart": "Episode Rewards",
+      "avgReward": "Avg Reward (last 30)",
+      "passed": "Your dart-thrower found its groove! REINFORCE converged to a solid policy.",
+      "failed": "Try a different learning rate and train again!"
+    }
+  },
+  "actorcritic": {
+    "feel": {
+      "title": "Feel the Problem: Rate Your Own Moves",
+      "instruction": "Navigate the grid. After each move, a 'critic' will rate how good that position is. Compare your gut feeling vs the critic's score!",
+      "movesLeft": "Moves Left",
+      "score": "Position Score",
+      "criticSays": "Critic says:",
+      "hint": "Pay attention to the ratings. Does being near the exit feel different from being near a trap?",
+      "escaped": "You escaped in {{moves}} moves! The critic's scores guided you well.",
+      "outOfMoves": "Out of moves! Notice how the critic rated your final position.",
+      "segue": "That rating system is exactly what the Critic network learns — estimating how good each state is!"
+    },
+    "meet": {
+      "slide0title": "The Master and Apprentice",
+      "slide0desc": "A martial artist (Actor) learns fighting moves. A wise master (Critic) watches and gives feedback after each technique: 'That was better than expected!' or 'That was weaker than I expected.' Both get better with every exchange.",
+      "slide1title": "Two Networks, One Goal",
+      "actorLabel": "The Actor (Policy)",
+      "actorDesc": "Chooses actions. Wants to maximize reward. Learns which moves to make more or less likely.",
+      "criticLabel": "The Critic (Value Network)",
+      "criticDesc": "Evaluates states. Estimates V(s) — how good is it to be HERE? Gives feedback to the Actor.",
+      "slide1note": "They train simultaneously. The Critic's accuracy helps the Actor learn faster.",
+      "slide2title": "The TD Error Signal",
+      "slide2desc": "The key insight: instead of waiting for a full episode return (like REINFORCE), use a one-step TD error:",
+      "tdLabel": "TD Error (δ):",
+      "tdNote": "If δ > 0, the outcome was BETTER than expected — increase the action's probability. If δ < 0, it was worse — decrease it.",
+      "actorUpdateLabel": "Actor update:",
+      "criticUpdateLabel": "Critic update:",
+      "slide2key": "The Critic's TD error replaces the noisy episode return G — reducing variance and enabling online (every-step) learning!",
+      "slide3title": "Side-by-Side: REINFORCE vs Actor-Critic",
+      "slide3desc": "Watch both algorithms on the same grid. Actor-Critic should learn more smoothly thanks to the Critic's guidance.",
+      "slide3note": "Actor-Critic typically shows less variance in its reward curve — the Critic keeps updates focused.",
+      "slide4title": "Actor-Critic: Key Takeaways",
+      "summary1": "Two networks working together: the Actor acts, the Critic advises. Both improve each other.",
+      "summary2": "TD error as feedback signal — no need to wait for full episode return. Update happens every step.",
+      "summary3": "Lower variance than REINFORCE because the Critic's baseline removes noise from the reward signal."
+    },
+    "watch": {
+      "title": "Watch Actor-Critic vs REINFORCE",
+      "desc": "Comparing both on {{total}} episodes",
+      "actorLR": "Actor Learning Rate",
+      "criticLR": "Critic Learning Rate",
+      "rewards": "Reward Comparison",
+      "seenEnough": "I've Seen Enough →"
+    },
+    "quest": {
+      "title": "Master and Apprentice Challenge",
+      "briefing": "Race Actor-Critic against REINFORCE on the same grid. The Actor-Critic pair should outperform plain REINFORCE by learning faster and more stably.",
+      "rule1": "Both Actor-Critic and REINFORCE train for 250 episodes",
+      "rule2": "Rank based on Actor-Critic's advantage over REINFORCE (AC avg - RF avg)",
+      "rule3": "S: advantage ≥ 0.3 reward, A: ≥ 0.15, B: ≥ 0.0 (ties count!)",
+      "configTitle": "Configure Actor-Critic",
+      "actorLR": "Actor Learning Rate",
+      "criticLR": "Critic Learning Rate",
+      "advantage": "AC Advantage",
+      "tip": "Try actor LR ≈ 0.01, critic LR ≈ 0.05. The critic learns faster than the actor.",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Training in Progress...",
+      "passed": "The master-apprentice bond is forged! Actor-Critic outperformed plain REINFORCE.",
+      "failed": "Try tuning the learning rates — actor and critic learn at different speeds!"
+    }
+  },
+  "a2c": {
+    "feel": {
+      "title": "Feel the Power of Parallel Workers",
+      "instruction": "Launch different numbers of workers to solve the maze. See how parallelism speeds up learning!",
+      "selectWorkers": "Select number of workers:",
+      "workerSingle": "worker",
+      "workerPlural": "workers",
+      "worker": "Worker",
+      "launch": "Launch Workers!",
+      "running": "Training...",
+      "hint": "More workers → more diverse experience → faster learning. But is 8x workers really 8x faster?",
+      "solved": "{{workers}} worker(s) solved it in {{time}}ms!",
+      "tryAgain": "Try Again",
+      "segue": "Parallelism gives diminishing returns — but even 2x workers shows clear benefit. Now let's see the real A2C algorithm!"
+    },
+    "meet": {
+      "slide0title": "The Army of Clones",
+      "slide0desc": "Imagine training an army of soldiers, each sent to explore a different part of the battlefield. They all share one brain — every lesson learned by one immediately helps all the others. That's Advantage Actor-Critic (A2C).",
+      "slide1title": "What Makes A2C Different",
+      "point1": "Multiple parallel workers collect experience simultaneously — each sees different parts of the environment",
+      "point2": "All workers share the SAME policy network — learning from all is instantly available to all",
+      "point3": "Synchronous updates: all workers finish their episode batch, then update together",
+      "slide1note": "The synchronized update is key — it keeps training stable, unlike the asynchronous A3C.",
+      "slide2title": "The Advantage Function",
+      "slide2desc": "Instead of raw returns, A2C uses the 'advantage' — how much better was this action than the typical value of this state?",
+      "advantageFormula": "Advantage Function:",
+      "advantageNote": "V(s) is the Critic's estimate of state value. The advantage tells us: was this action above or below average?",
+      "positiveAdv": "Better than expected — do more of this!",
+      "negativeAdv": "Worse than expected — do less of this!",
+      "slide3title": "A2C vs A3C: Sync vs Async",
+      "slide3desc": "Both use parallel workers, but they differ in HOW they update:",
+      "a2cSync": "Synchronous: all workers finish, then update together. Stable and predictable.",
+      "a3cAsync": "Asynchronous: workers update whenever they finish. Faster but unstable on modern hardware.",
+      "slide3note": "A2C is now preferred over A3C because modern CPUs handle sync parallelism efficiently.",
+      "slide4title": "A2C: Key Takeaways",
+      "summary1": "Parallel workers explore different parts of the environment simultaneously — more diverse experience per update",
+      "summary2": "Shared policy network: every worker's experience benefits everyone immediately",
+      "summary3": "Advantage function reduces variance further — only 'above average' actions get reinforced"
+    },
+    "watch": {
+      "title": "Watch A2C's Worker Army",
+      "desc": "Total episodes: {{total}}",
+      "workers": "Workers:",
+      "worker": "Worker",
+      "actorLR": "Actor LR",
+      "sharedRewards": "Worker Reward History",
+      "seenEnough": "I've Seen Enough →"
+    },
+    "quest": {
+      "title": "Army of Clones Challenge",
+      "briefing": "Deploy multiple workers to train faster! Each worker explores independently but shares learning with all others.",
+      "rule1": "Each worker runs 150 episodes on the grid world",
+      "rule2": "Rank based on average reward across all workers (last 20 eps each)",
+      "rule3": "S: avg ≥ -3, A: ≥ -5, B: ≥ -8 — more workers = easier to achieve S!",
+      "configTitle": "Configure Your Worker Army",
+      "selectWorkers": "Number of Workers:",
+      "workersLabel": "workers",
+      "actorLR": "Actor Learning Rate",
+      "tip": "Start with 8 workers and LR ≈ 0.01 for the best results. Parallel experience is powerful!",
+      "startTraining": "Start Training!",
+      "trainingTitle": "Army Training...",
+      "trainingDesc": "{{workers}} workers — {{eps}} / {{total}} total episodes",
+      "workerRewards": "Worker Rewards",
+      "avgReward": "Avg Reward",
+      "passed": "The army marches! Your parallel workers conquered the grid world!",
+      "failed": "Try more workers or a different learning rate!"
+    }
+  },
+  "ppo": {
+    "feel": {
+      "title": "Feel the Problem: Goldilocks Learning",
+      "instruction": "Try different step sizes. Find the Goldilocks zone — not too small, not too large!",
+      "selectStep": "Select a step size (learning rate) and see the effect:",
+      "tagSlow": "Too slow",
+      "tagOk": "Good",
+      "tagChaos": "Chaos!",
+      "triedCount": "Tried {{count}} / {{total}} step sizes",
+      "tryMore": "Try more sizes first",
+      "resultSlow": "Progress is glacial. Learning, but incredibly slowly...",
+      "resultGood": "Smooth and steady! The agent makes consistent progress.",
+      "resultChaos": "CRASH! The update was too large — the agent forgot everything it learned!",
+      "keyInsight": "Key Insight:",
+      "insight": "PPO solves this by clipping the update size. No matter what the gradient says, the policy can't change more than ε in any direction."
+    },
+    "meet": {
+      "slide0title": "The Skateboard Coach",
+      "slide0desc": "You're learning to skateboard. Your coach says: 'Lean forward more.' But if you lean ALL the way forward immediately, you crash. Good coaching means: improve — but not too much at once.",
+      "slide0insight": "PPO is that careful coach. It prevents policy updates from being too aggressive.",
+      "slide1title": "The Problem with Vanilla Policy Gradient",
+      "slide1desc": "Standard policy gradients can take huge steps that destroy what was already learned:",
+      "smallStep": "Too Small",
+      "smallStepDesc": "Learns very slowly. The policy barely changes each update.",
+      "bigStep": "Too Large",
+      "bigStepDesc": "Catastrophic forgetting! One bad update can ruin a well-trained policy.",
+      "slide1note": "The ideal is in between — but how do we enforce that? That's where clipping comes in.",
+      "slide2title": "The Clipping Solution",
+      "slide2desc": "PPO computes a ratio r = π_new(a|s) / π_old(a|s), then CLIPS it within [1-ε, 1+ε]:",
+      "clipFormula": "PPO Clipped Objective:",
+      "clipNote": "The min() takes the pessimistic view: we only allow an update if it's beneficial AND not too large.",
+      "clipDemo": "Try the interactive clip calculator:",
+      "clipZone": "Clip zone",
+      "ratio": "Ratio",
+      "clipped": "CLIPPED ✂️",
+      "notClipped": "OK ✓",
+      "rawRatio": "Raw Ratio",
+      "clippedRatio": "Clipped",
+      "finalUpdate": "Used",
+      "slide3title": "REINFORCE vs PPO Stability",
+      "slide3desc": "Same environment, same goal — but very different training curves:",
+      "reinforceDesc": "Wild swings up and down. One bad update can send it backwards.",
+      "ppoDesc": "Smoother ascent. Constraints prevent catastrophic drops.",
+      "slide3note": "PPO is now the default algorithm at OpenAI, DeepMind, and most RL practitioners.",
+      "slide4title": "PPO: Key Takeaways",
+      "summary1": "Clipped surrogate objective prevents too-large updates — the 'learning speed limit'",
+      "summary2": "Probability ratio r = π_new / π_old measures how much the policy changed — clip if too far from 1",
+      "summary3": "Multi-epoch reuse: PPO replays collected experience multiple times per update — more data efficiency"
+    },
+    "watch": {
+      "title": "Watch PPO vs REINFORCE",
+      "desc": "PPO: ep {{ppoEp}} | REINFORCE: ep {{rfEp}} (of {{total}})",
+      "clipEpsilon": "Clip Epsilon",
+      "clipFraction": "Clips this batch:",
+      "ppoRewards": "PPO Rewards (more stable)",
+      "rfRewards": "REINFORCE Rewards (noisier)",
+      "seenEnough": "I've Seen Enough →"
+    },
+    "quest": {
+      "title": "The Stability Trial",
+      "briefing": "Train PPO on the quest grid. Find the right clip epsilon — too tight means slow learning, too loose means instability!",
+      "rule1": "Train PPO for 300 episodes on the grid world",
+      "rule2": "Tune clip epsilon ε and actor learning rate for stable improvement",
+      "rule3": "S rank: avg reward ≥ -3 AND stability (std dev ≤ 4). Higher = better!",
+      "configTitle": "Configure PPO",
+      "clipEpsilon": "Clip Epsilon (ε)",
+      "hintTooSmall": "Very small ε: PPO will be very conservative — might not learn much.",
+      "hintGood": "Good range! This allows meaningful updates while preventing catastrophic changes.",
+      "hintTooLarge": "Large ε: Updates may be too aggressive, losing PPO's stability benefits.",
+      "actorLR": "Actor Learning Rate",
+      "tip": "Recommended: ε = 0.2, LR = 0.01. These are the 'default' PPO hyperparameters for a reason!",
+      "startTraining": "Start Training!",
+      "trainingTitle": "PPO Training...",
+      "trainingDesc": "Episode {{ep}} / {{total}} — {{time}}s elapsed",
+      "clipFraction": "Clip fraction (this batch):",
+      "rewardTitle": "Episode Rewards",
+      "avgReward": "Avg Reward (last 30)",
+      "passed": "Steady hand! Your PPO agent trained stably and reached a strong policy.",
+      "failed": "Try adjusting ε closer to 0.2 and training again!"
+    }
+  },
+  "chaos": {
+    "boss": {
+      "title": "The Chaos Volcano",
+      "intro": "The volcano erupts in phases, each more dangerous than the last. You must choose the RIGHT algorithm for each phase — or fail! Each phase rewards a different policy strategy.",
+      "phase1desc": "Phase 1 — Simple terrain: A familiar grid world. REINFORCE, Actor-Critic, or PPO?",
+      "phase2desc": "Phase 2 — Harder terrain: A more complex maze. The algorithm that's just 'good enough' may not survive.",
+      "phase3desc": "Phase 3 — Maximum intensity: Push your best policy to the limit!",
+      "startBattle": "Enter the Volcano",
+      "phaseTitle": "Phase {{phase}} of 3",
+      "phaseProgress": "Episode {{ep}} / {{total}}",
+      "selectAlgo": "Choose your algorithm for Phase {{phase}}:",
+      "rewardTitle": "Episode Rewards",
+      "phaseLabel1": "Phase 1",
+      "phaseLabel2": "Phase 2",
+      "phaseLabel3": "Phase 3",
+      "launch": "Launch Agent",
+      "passed": "The Chaos Volcano is conquered! Your algorithm choices proved masterful.",
+      "failed": "The volcano wins this time. Study each phase and choose your algorithms more carefully!"
+    },
+    "selector": {
+      "reinforceDesc": "Simple, high variance. Good baseline but may struggle on harder phases.",
+      "actorcriticDesc": "Critic reduces variance. Better stability than REINFORCE alone.",
+      "ppoDesc": "Clipped updates, most stable. Best for phases where consistency matters."
+    }
+  },
   "policy": {
     "theme": "The Intuition Brigade",
     "boss": {
       "name": "The Chaos Volcano",
       "desc": "A volcanic eruption where the environment changes every N steps."
+    },
+    "reinforce": {
+      "name": "Port Reinforce",
+      "algorithm": "REINFORCE",
+      "metaphor": "Learning to throw darts — if it hits, do more of that!"
+    },
+    "actorcritic": {
+      "name": "Port Critic",
+      "algorithm": "Actor-Critic",
+      "metaphor": "A martial artist (Actor) with a wise master (Critic) giving real-time feedback"
+    },
+    "a2c": {
+      "name": "Port Parallel",
+      "algorithm": "A2C",
+      "metaphor": "Training an army of robots that share notes to learn faster"
+    },
+    "ppo": {
+      "name": "Port Proximal",
+      "algorithm": "PPO",
+      "metaphor": "Don't change too much at once — careful steps so you never forget what you learned"
     }
   },
   "continuous": {

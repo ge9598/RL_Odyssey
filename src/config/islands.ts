@@ -72,7 +72,7 @@ registerIsland({
   difficulty: 2,
   route: '/island/policy',
   glowColor: 'rgba(220, 20, 60, 0.4)',
-  available: false,
+  available: true,
   portIds: ['reinforce', 'actor-critic', 'a2c', 'ppo'],
   bossConfig: {
     nameKey: 'policy.boss.name',

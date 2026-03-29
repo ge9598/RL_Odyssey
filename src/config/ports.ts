@@ -584,6 +584,154 @@ registerPort({
 });
 
 // ---------------------------------------------------------------------------
+// Policy Volcanic Isle: REINFORCE step components (lazy)
+// ---------------------------------------------------------------------------
+
+const ReinforceFeel = lazy(() => import('@/components/reinforce/ReinforceFeel').then(m => ({ default: m.ReinforceFeel })));
+const ReinforceMeet = lazy(() => import('@/components/reinforce/ReinforceMeet').then(m => ({ default: m.ReinforceMeet })));
+const ReinforceWatch = lazy(() => import('@/components/reinforce/ReinforceWatch').then(m => ({ default: m.ReinforceWatch })));
+const ReinforceQuest = lazy(() => import('@/components/reinforce/ReinforceQuest').then(m => ({ default: m.ReinforceQuest })));
+
+// ---------------------------------------------------------------------------
+// Policy Volcanic Isle: Actor-Critic step components (lazy)
+// ---------------------------------------------------------------------------
+
+const ActorCriticFeel = lazy(() => import('@/components/actorcritic/ActorCriticFeel').then(m => ({ default: m.ActorCriticFeel })));
+const ActorCriticMeet = lazy(() => import('@/components/actorcritic/ActorCriticMeet').then(m => ({ default: m.ActorCriticMeet })));
+const ActorCriticWatch = lazy(() => import('@/components/actorcritic/ActorCriticWatch').then(m => ({ default: m.ActorCriticWatch })));
+const ActorCriticQuest = lazy(() => import('@/components/actorcritic/ActorCriticQuest').then(m => ({ default: m.ActorCriticQuest })));
+
+// ---------------------------------------------------------------------------
+// Policy Volcanic Isle: A2C step components (lazy)
+// ---------------------------------------------------------------------------
+
+const A2CFeel = lazy(() => import('@/components/a2c/A2CFeel').then(m => ({ default: m.A2CFeel })));
+const A2CMeet = lazy(() => import('@/components/a2c/A2CMeet').then(m => ({ default: m.A2CMeet })));
+const A2CWatch = lazy(() => import('@/components/a2c/A2CWatch').then(m => ({ default: m.A2CWatch })));
+const A2CQuest = lazy(() => import('@/components/a2c/A2CQuest').then(m => ({ default: m.A2CQuest })));
+
+// ---------------------------------------------------------------------------
+// Policy Volcanic Isle: PPO step components (lazy)
+// ---------------------------------------------------------------------------
+
+const PPOFeel = lazy(() => import('@/components/ppo/PPOFeel').then(m => ({ default: m.PPOFeel })));
+const PPOMeet = lazy(() => import('@/components/ppo/PPOMeet').then(m => ({ default: m.PPOMeet })));
+const PPOWatch = lazy(() => import('@/components/ppo/PPOWatch').then(m => ({ default: m.PPOWatch })));
+const PPOQuest = lazy(() => import('@/components/ppo/PPOQuest').then(m => ({ default: m.PPOQuest })));
+
+// ---- Policy Volcanic Isle: Port Reinforce ----------------------------------
+
+registerPort({
+  id: 'reinforce',
+  island: 'policy',
+  nameKey: 'policy.reinforce.name',
+  algorithmKey: 'policy.reinforce.algorithm',
+  emoji: '\uD83C\uDFAF', // direct hit
+  metaphorKey: 'policy.reinforce.metaphor',
+  order: 0,
+  steps: [
+    { id: 'reinforce-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.reinforce.story', emoji: '\uD83C\uDFAF' } },
+    { id: 'reinforce-primer', type: 'primer', component: PrimerStep, skippable: true, durationHint: '30s', meta: { primerKey: 'port.reinforce.primer' } },
+    { id: 'reinforce-feel', type: 'feel', component: ReinforceFeel, skippable: true, durationHint: '2 min' },
+    { id: 'reinforce-meet', type: 'meet', component: ReinforceMeet, skippable: true, durationHint: '3 min' },
+    { id: 'reinforce-watch', type: 'watch', component: ReinforceWatch, skippable: true, durationHint: '2 min' },
+    { id: 'reinforce-quest', type: 'quest', component: ReinforceQuest, skippable: false, durationHint: '5 min' },
+    { id: 'reinforce-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'instinct-thrower', summaryKey: 'port.reinforce.summary' } },
+    { id: 'reinforce-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'actor-critic', nextPortNameKey: 'policy.actorcritic.name' } },
+  ],
+  quest: {
+    baseGold: 500,
+    thresholds: { S: -3, A: -5, B: -8, C: -12 },
+    cardId: 'instinct-thrower',
+  },
+  unlocks: 'actor-critic',
+});
+
+// ---- Policy Volcanic Isle: Port Actor-Critic --------------------------------
+
+registerPort({
+  id: 'actor-critic',
+  island: 'policy',
+  nameKey: 'policy.actorcritic.name',
+  algorithmKey: 'policy.actorcritic.algorithm',
+  emoji: '\uD83E\uDD47', // 1st place medal
+  metaphorKey: 'policy.actorcritic.metaphor',
+  order: 1,
+  steps: [
+    { id: 'actorcritic-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.actorcritic.story', emoji: '\uD83E\uDD47' } },
+    { id: 'actorcritic-primer', type: 'primer', component: PrimerStep, skippable: true, durationHint: '30s', meta: { primerKey: 'port.actorcritic.primer' } },
+    { id: 'actorcritic-feel', type: 'feel', component: ActorCriticFeel, skippable: true, durationHint: '2 min' },
+    { id: 'actorcritic-meet', type: 'meet', component: ActorCriticMeet, skippable: true, durationHint: '3 min' },
+    { id: 'actorcritic-watch', type: 'watch', component: ActorCriticWatch, skippable: true, durationHint: '2 min' },
+    { id: 'actorcritic-quest', type: 'quest', component: ActorCriticQuest, skippable: false, durationHint: '5 min' },
+    { id: 'actorcritic-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'dual-mind', summaryKey: 'port.actorcritic.summary' } },
+    { id: 'actorcritic-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'a2c', nextPortNameKey: 'policy.a2c.name' } },
+  ],
+  quest: {
+    baseGold: 700,
+    thresholds: { S: 0.3, A: 0.15, B: 0.0, C: -0.1 },
+    cardId: 'dual-mind',
+  },
+  unlocks: 'a2c',
+});
+
+// ---- Policy Volcanic Isle: Port A2C ----------------------------------------
+
+registerPort({
+  id: 'a2c',
+  island: 'policy',
+  nameKey: 'policy.a2c.name',
+  algorithmKey: 'policy.a2c.algorithm',
+  emoji: '\u2694\uFE0F', // crossed swords
+  metaphorKey: 'policy.a2c.metaphor',
+  order: 2,
+  steps: [
+    { id: 'a2c-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.a2c.story', emoji: '\u2694\uFE0F' } },
+    { id: 'a2c-primer', type: 'primer', component: PrimerStep, skippable: true, durationHint: '30s', meta: { primerKey: 'port.a2c.primer' } },
+    { id: 'a2c-feel', type: 'feel', component: A2CFeel, skippable: true, durationHint: '2 min' },
+    { id: 'a2c-meet', type: 'meet', component: A2CMeet, skippable: true, durationHint: '3 min' },
+    { id: 'a2c-watch', type: 'watch', component: A2CWatch, skippable: true, durationHint: '2 min' },
+    { id: 'a2c-quest', type: 'quest', component: A2CQuest, skippable: false, durationHint: '5 min' },
+    { id: 'a2c-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'hivemind-captain', summaryKey: 'port.a2c.summary' } },
+    { id: 'a2c-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'ppo', nextPortNameKey: 'policy.ppo.name' } },
+  ],
+  quest: {
+    baseGold: 900,
+    thresholds: { S: -3, A: -5, B: -8, C: -12 },
+    cardId: 'hivemind-captain',
+  },
+  unlocks: 'ppo',
+});
+
+// ---- Policy Volcanic Isle: Port PPO ----------------------------------------
+
+registerPort({
+  id: 'ppo',
+  island: 'policy',
+  nameKey: 'policy.ppo.name',
+  algorithmKey: 'policy.ppo.algorithm',
+  emoji: '\uD83D\uDEE4\uFE0F', // small airplane
+  metaphorKey: 'policy.ppo.metaphor',
+  order: 3,
+  steps: [
+    { id: 'ppo-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.ppo.story', emoji: '\uD83D\uDEE4\uFE0F' } },
+    { id: 'ppo-primer', type: 'primer', component: PrimerStep, skippable: true, durationHint: '30s', meta: { primerKey: 'port.ppo.primer' } },
+    { id: 'ppo-feel', type: 'feel', component: PPOFeel, skippable: true, durationHint: '2 min' },
+    { id: 'ppo-meet', type: 'meet', component: PPOMeet, skippable: true, durationHint: '3 min' },
+    { id: 'ppo-watch', type: 'watch', component: PPOWatch, skippable: true, durationHint: '2 min' },
+    { id: 'ppo-quest', type: 'quest', component: PPOQuest, skippable: false, durationHint: '5 min' },
+    { id: 'ppo-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'steady-hand', summaryKey: 'port.ppo.summary' } },
+    { id: 'ppo-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: null, nextPortNameKey: '' } },
+  ],
+  quest: {
+    baseGold: 1100,
+    thresholds: { S: -3, A: -5, B: -8, C: -10 },
+    cardId: 'steady-hand',
+  },
+  unlocks: null,
+});
+
+// ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
 
