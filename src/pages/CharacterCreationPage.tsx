@@ -5,13 +5,6 @@ import { useGameStore } from '@/stores/gameStore';
 import { PixelButton, PixelPanel } from '@/components/ui';
 import { LanguageToggle } from '@/components/ui';
 
-const AVATARS = [
-  { emoji: '⚓', key: 'captain' },
-  { emoji: '🏴‍☠️', key: 'pirate' },
-  { emoji: '🧭', key: 'explorer' },
-  { emoji: '🗺️', key: 'navigator' },
-] as const;
-
 const MAX_NAME_LENGTH = 16;
 
 export function CharacterCreationPage() {
@@ -20,8 +13,6 @@ export function CharacterCreationPage() {
   const createCharacter = useGameStore((s) => s.createCharacter);
 
   const [name, setName] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [hoveredAvatar, setHoveredAvatar] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,11 +29,8 @@ export function CharacterCreationPage() {
       setError(t('characterCreation.nameRequired'));
       return;
     }
-    if (!selectedAvatar) {
-      setError(t('characterCreation.avatarRequired'));
-      return;
-    }
-    createCharacter(trimmed, selectedAvatar);
+    // Pet is chosen during tutorial; use empty string placeholder here
+    createCharacter(trimmed, '');
     navigate('/tutorial');
   };
 
@@ -103,40 +91,10 @@ export function CharacterCreationPage() {
             </div>
           </div>
 
-          {/* Avatar selection */}
-          <div>
-            <p className="font-pixel text-xs text-[#708090] mb-3">
-              {t('characterCreation.chooseAvatar')}
-            </p>
-            <div className="flex gap-4 justify-center">
-              {AVATARS.map((av) => {
-                const isSelected = selectedAvatar === av.emoji;
-                const isHovered = hoveredAvatar === av.key;
-                return (
-                  <button
-                    key={av.key}
-                    onClick={() => setSelectedAvatar(av.emoji)}
-                    onMouseEnter={() => setHoveredAvatar(av.key)}
-                    onMouseLeave={() => setHoveredAvatar(null)}
-                    className={`
-                      flex flex-col items-center gap-2 p-4 rounded-sm cursor-pointer
-                      pixel-border bg-[rgba(20,24,50,0.6)]
-                      transition-all duration-200
-                      ${isSelected ? 'border-[rgba(255,215,0,0.8)] shadow-[0_0_20px_rgba(255,215,0,0.3)] scale-110' : ''}
-                      ${isHovered && !isSelected ? 'border-[rgba(0,212,255,0.5)] scale-105' : ''}
-                    `}
-                  >
-                    <span className={`text-4xl transition-transform duration-200 ${isSelected ? 'animate-bounce' : ''}`}>
-                      {av.emoji}
-                    </span>
-                    <span className={`font-pixel text-[9px] ${isSelected ? 'text-[#ffd700] glow-gold' : 'text-[#708090]'}`}>
-                      {t(`characterCreation.avatars.${av.key}`)}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Hint */}
+          <p className="font-body text-base text-[#708090] text-center">
+            {t('characterCreation.petHint', 'You\'ll choose your companion in the tutorial!')}
+          </p>
 
           {/* Error message */}
           {error && (
@@ -149,7 +107,7 @@ export function CharacterCreationPage() {
           <div className="flex justify-center pt-1">
             <PixelButton
               size="lg"
-              variant={name.trim() && selectedAvatar ? 'primary' : 'secondary'}
+              variant={name.trim() ? 'primary' : 'secondary'}
               onClick={handleConfirm}
             >
               {t('characterCreation.confirm')} ⚓

@@ -195,7 +195,11 @@
     "step": "Step",
     "of": "of",
     "bandit": {
-      "story": "You arrive at a mysterious cove lined with treasure chests. Each chest glows with a different color. A weathered pirate leans against a palm tree and grins: 'Five chests, one hundred chances. Think you can figure out which one pays the most?'",
+      "story": {
+        "archie1": "Captain, we've reached a mysterious bay. See those glowing treasure chests on the shore?",
+        "npc1": "Five chests, one hundred turns. Which one gives the most gold? Heh heh... good luck figuring THAT out!",
+        "archie2": "Beware — the Chaos Engine wants you to open only one chest and get greedy. We must learn to explore!"
+      },
       "primer": "What is probability? Think of it like a weather forecast. When they say '70% chance of rain,' they mean if today happened 100 times, it would rain about 70 of those times. Each treasure chest has its own hidden probability of giving you gold.",
       "summary": "You learned the Multi-Armed Bandit problem — the art of balancing exploration (trying new things) with exploitation (sticking with what works). The epsilon-greedy strategy helps: most of the time pick the best option, but occasionally try something new."
     },
@@ -1102,5 +1106,31 @@
   },
   "convergence": {
     "theme": "Where All Routes Meet"
+  },
+  "home": {
+    "crawl": {
+      "prelude": "A long time ago, in a sea far, far away...",
+      "line1": "In the Sea of Intelligence, the ultimate secret awaits discovery: the Optimal Strategy.",
+      "line2": "Many sailors set forth to find it. None returned.",
+      "line3": "A dark force — the Chaos Engine — is corrupting the algorithms of this sea.",
+      "line4": "Only a new captain, sailing with a learning companion, can restore order...",
+      "skip": "Click to skip"
+    }
+  },
+  "archie": {
+    "intro": "I'm Archie! Every good captain needs a navigator. I'll guide you through the Sea of Intelligence!",
+    "petPrompt": "Every captain needs a First Mate. Choose your learning companion!",
+    "bridge": {
+      "bandit_qtable": "But what if there are doors behind doors? We need a method that handles sequential decisions...",
+      "qtable_sarsa": "SARSA learns from what it actually does — not what it could do. Near cliffs, that caution saves lives.",
+      "sarsa_deep": "The Q-table explodes in complex worlds. What if we had a brain that could generalize patterns?",
+      "deep_doubledqn": "DQN can be overconfident. What if two brains checked each other's work?",
+      "doubledqn_duelingdqn": "Is a move good because of WHERE you are, or WHAT you did there?",
+      "duelingdqn_boss": "You've mastered all value methods. But the Chaos Engine's champion awaits...",
+      "reinforce_actorcritic": "What if your pet had a coach giving constant feedback instead of waiting for the episode to end?",
+      "actorcritic_a2c": "Training an army of clones simultaneously — they share notes to learn much faster!",
+      "a2c_ppo": "Too much change at once makes you forget everything. PPO puts guardrails on each learning step.",
+      "ppo_boss": "You've mastered policy methods. Now face the Chaos Engine's unstable avatar..."
+    }
   }
 }

@@ -1,11 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { getPortConfig } from '@/config/ports';
 import type { PortStepProps } from '@/config/ports';
 import { PortStepShell } from '@/components/port/PortStepShell';
-import { PixelButton } from '@/components/ui';
+import { PixelButton, NarrativeDialogue } from '@/components/ui';
+import type { DialogueLine } from '@/components/ui/NarrativeDialogue';
 import { useGameStore } from '@/stores/gameStore';
 import { getIslandConfig } from '@/config/islands';
 import type { PortId } from '@/types/algorithm';
@@ -28,6 +29,10 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
 
   const nextPortId = (meta.nextPortId as string) ?? portConfig?.unlocks ?? null;
   const nextPortNameKey = (meta.nextPortNameKey as string) ?? '';
+
+  // Optional Archie bridge key for this transition
+  const bridgeKey = meta.bridgeKey as string | undefined;
+  const [bridgeDone, setBridgeDone] = useState(!bridgeKey);
 
   // Look up boss config for this island when there's no next port
   const islandConfig = portConfig?.island ? getIslandConfig(portConfig.island) : undefined;
@@ -95,8 +100,25 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
           </div>
         </div>
 
-        {/* Unlock message */}
-        {hasNext ? (
+        {/* Archie bridge dialogue */}
+        {bridgeKey && !bridgeDone && (() => {
+          const bridgeLine: DialogueLine = {
+            speaker: 'Archie 🦜',
+            portrait: '🦜',
+            text: t(bridgeKey),
+          };
+          return (
+            <NarrativeDialogue
+              lines={[bridgeLine]}
+              onComplete={() => setBridgeDone(true)}
+              speakerColor="#ffd700"
+            />
+          );
+        })()}
+
+        {/* Unlock message (shown after bridge dialogue, if any) */}
+        {(!bridgeKey || bridgeDone) && (
+          hasNext ? (
           <>
             <p className="font-pixel text-xs text-[#4ade80] uppercase tracking-wider">
               {t('port.unlock.newPort', 'New Port Unlocked!')}
@@ -110,7 +132,7 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
               </p>
             </div>
           </>
-        ) : (
+          ) : (
           <>
             <p className="font-pixel text-xs text-[#ffd700] uppercase tracking-wider glow-gold">
               {t('port.unlock.islandComplete', 'All ports on this island complete!')}
@@ -144,6 +166,7 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
               </p>
             )}
           </>
+          )
         )}
       </div>
 
