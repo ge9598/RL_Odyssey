@@ -1,5 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import type { GridWorldConfig } from '@/algorithms/qlearning';
+import { useGameStore } from '@/stores/gameStore';
+import { DEFAULT_PET } from '@/config/pets';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -37,7 +39,6 @@ const TREASURE_COLLECTED_BG = 'rgba(255, 215, 0, 0.05)';
 const TREASURE_COLLECTED_ICON = 'rgba(255, 215, 0, 0.3)';
 const EXIT_BG = 'rgba(74, 222, 128, 0.2)';
 const EXIT_ICON = '#4ade80';
-const PLAYER_COLOR = '#00d4ff';
 const PLAYER_GLOW = 'rgba(0, 212, 255, 0.5)';
 const ARROW_COLOR = 'rgba(255, 255, 255, 0.6)';
 const PATH_COLOR = 'rgba(255, 215, 0, 0.4)';
@@ -90,6 +91,9 @@ export function GridWorld({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animFrameRef = useRef(0);
+  const petEmoji = useGameStore((s) => s.selectedPet || DEFAULT_PET);
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   // Animated player position for smooth movement
   const playerAnimRef = useRef({ x: playerPos % cols, y: Math.floor(playerPos / cols) });
@@ -378,26 +382,26 @@ export function GridWorld({
         ctx.stroke();
       }
 
-      // Player
+      // Player — render as pet emoji with glow halo
       const px = playerAnimRef.current.x * cellW + cellW / 2;
       const py = playerAnimRef.current.y * cellH + cellH / 2;
-      const playerR = Math.min(cellW, cellH) * 0.3;
+      const emojiSize = Math.min(cellW, cellH) * 0.72;
 
-      // Glow
       ctx.save();
+      // Subtle glow halo behind emoji
       ctx.shadowColor = PLAYER_GLOW;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = 14;
       ctx.beginPath();
-      ctx.arc(px, py, playerR, 0, Math.PI * 2);
-      ctx.fillStyle = PLAYER_COLOR;
+      ctx.arc(px, py, emojiSize * 0.46, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 212, 255, 0.18)';
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Inner highlight
-      ctx.beginPath();
-      ctx.arc(px - playerR * 0.2, py - playerR * 0.2, playerR * 0.35, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-      ctx.fill();
+      // Emoji
+      ctx.font = `${emojiSize}px "Noto Color Emoji", "Segoe UI Emoji", "Apple Color Emoji", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(petEmojiRef.current, px, py + emojiSize * 0.04);
       ctx.restore();
 
       animFrameRef.current = requestAnimationFrame(render);
