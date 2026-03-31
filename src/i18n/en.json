@@ -260,7 +260,8 @@
       "sailNext": "Sail to Next Port",
       "returnToIsland": "Return to Island",
       "islandComplete": "Island Complete!",
-      "bossAwaits": "The Boss Awaits..."
+      "bossAwaits": "The Boss Awaits...",
+      "faceTheBoss": "Face the Boss!"
     }
   },
   "chart": {

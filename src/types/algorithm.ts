@@ -72,6 +72,8 @@ export type PortId =
 
 export type IslandId = 'value' | 'policy' | 'continuous' | 'convergence';
 
+export type BossId = 'greedy-pirate' | 'chaos-volcano';
+
 export type PortStep =
   | 'story'
   | 'primer'

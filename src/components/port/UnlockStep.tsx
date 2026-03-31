@@ -1,10 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { getPortConfig } from '@/config/ports';
 import type { PortStepProps } from '@/config/ports';
 import { PortStepShell } from '@/components/port/PortStepShell';
+import { PixelButton } from '@/components/ui';
 import { useGameStore } from '@/stores/gameStore';
+import { getIslandConfig } from '@/config/islands';
 import type { PortId } from '@/types/algorithm';
 
 // ---------------------------------------------------------------------------
@@ -17,6 +20,7 @@ import type { PortId } from '@/types/algorithm';
 
 function UnlockStep({ portId, onComplete }: PortStepProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const portConfig = getPortConfig(portId);
   const unlockStepConfig = portConfig?.steps.find((s) => s.type === 'unlock');
@@ -24,6 +28,10 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
 
   const nextPortId = (meta.nextPortId as string) ?? portConfig?.unlocks ?? null;
   const nextPortNameKey = (meta.nextPortNameKey as string) ?? '';
+
+  // Look up boss config for this island when there's no next port
+  const islandConfig = portConfig?.island ? getIslandConfig(portConfig.island) : undefined;
+  const bossConfig = !nextPortId ? islandConfig?.bossConfig : undefined;
 
   const unlockPort = useGameStore((s) => s.unlockPort);
 
@@ -107,9 +115,34 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
             <p className="font-pixel text-xs text-[#ffd700] uppercase tracking-wider glow-gold">
               {t('port.unlock.islandComplete', 'All ports on this island complete!')}
             </p>
-            <p className="font-body text-lg text-[#e2e8f0]">
-              {t('port.unlock.bossAwaits', 'A greater challenge awaits...')}
-            </p>
+            {bossConfig ? (
+              <>
+                <p className="font-body text-lg text-[#f87171]">
+                  {t('port.unlock.bossAwaits', 'A greater challenge awaits...')}
+                </p>
+                <div
+                  className="text-4xl animate-float select-none"
+                  style={{ animation: 'portStepFadeIn 0.6s ease-out 0.3s both' }}
+                >
+                  {bossConfig.emoji}
+                </div>
+                <p className="font-pixel text-xs text-[#f87171]">
+                  BOSS: {t(bossConfig.nameKey)}
+                </p>
+                <PixelButton
+                  variant="danger"
+                  size="md"
+                  onClick={() => navigate(bossConfig.bossRoute)}
+                  className="mt-2"
+                >
+                  {t('port.unlock.faceTheBoss', 'Face the Boss!')} →
+                </PixelButton>
+              </>
+            ) : (
+              <p className="font-body text-lg text-[#e2e8f0]">
+                {t('port.unlock.bossAwaits', 'A greater challenge awaits...')}
+              </p>
+            )}
           </>
         )}
       </div>

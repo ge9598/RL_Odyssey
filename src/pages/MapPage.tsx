@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
 import { PixelButton, PixelPanel } from '@/components/ui';
+import { getIslandConfig } from '@/config/islands';
 
 interface IslandNode {
   id: string;
@@ -18,7 +19,15 @@ interface IslandNode {
 export function MapPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { unlockedPorts } = useGameStore();
+  const { unlockedPorts, portProgress } = useGameStore();
+
+  // Check if all value island ports are completed to unlock Policy island
+  const valueIsland = getIslandConfig('value');
+  const allValuePortsComplete = Boolean(
+    valueIsland &&
+    valueIsland.portIds.length > 0 &&
+    valueIsland.portIds.every((id) => portProgress[id]?.completed),
+  );
 
   const islands: IslandNode[] = [
     {
@@ -40,7 +49,7 @@ export function MapPage() {
       route: '/island/policy',
       x: '50%',
       y: '30%',
-      available: false,
+      available: allValuePortsComplete,
       glowColor: 'rgba(255,99,71,0.4)',
     },
     {
@@ -179,8 +188,14 @@ export function MapPage() {
 
         <PixelPanel title={t('map.policyVolcanic')}>
           <p className="font-body text-lg">⭐⭐ {t('map.difficulty.medium')}</p>
-          <p className="font-body text-base text-[#ff6347]">The Intuition Brigade</p>
-          <p className="font-pixel text-[9px] text-[#708090] mt-3">Phase 2</p>
+          <p className="font-body text-base text-[#ff6347]">{t('policy.theme', 'The Intuition Brigade')}</p>
+          {allValuePortsComplete ? (
+            <PixelButton size="sm" className="mt-3" onClick={() => navigate('/island/policy')}>
+              {t('common.start')} →
+            </PixelButton>
+          ) : (
+            <p className="font-pixel text-[9px] text-[#708090] mt-3">{t('map.locked')}</p>
+          )}
         </PixelPanel>
 
         <PixelPanel title={t('map.continuousGlacier')}>
