@@ -251,7 +251,9 @@
     "primer": {
       "heading": "Quick Concept",
       "gotIt": "Got it!",
-      "skipHint": "Already know this? Skip ahead!"
+      "skipHint": "Already know this? Skip ahead!",
+      "moreDetail": "Want to know more?",
+      "lessDetail": "Show less"
     },
     "summary": {
       "questComplete": "Quest Complete!",

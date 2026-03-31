@@ -256,7 +256,9 @@
     "primer": {
       "heading": "快速概念",
       "gotIt": "明白了！",
-      "skipHint": "已经知道了？跳过吧！"
+      "skipHint": "已经知道了？跳过吧！",
+      "moreDetail": "想了解更多？",
+      "lessDetail": "收起详情"
     },
     "summary": {
       "questComplete": "任务完成！",
