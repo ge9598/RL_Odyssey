@@ -12,7 +12,7 @@ import { PortStepShell } from '@/components/port/PortStepShell';
 // Displays an animated emoji, the story text, and a "Continue" button.
 // ---------------------------------------------------------------------------
 
-function StoryStep({ portId, onComplete, onSkip }: PortStepProps) {
+function StoryStep({ portId, onComplete, onSkip, onBack }: PortStepProps) {
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
 
@@ -32,6 +32,7 @@ function StoryStep({ portId, onComplete, onSkip }: PortStepProps) {
       durationHint={storyStepConfig?.durationHint}
       onNext={onComplete}
       onSkip={onSkip}
+      onBack={onBack}
       nextLabel={t('common.continue', 'Continue')}
     >
       <div className="flex flex-col items-center text-center py-6 gap-6">

@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
 import { useCardStore } from '@/stores/cardStore';
+import { SoundManager } from '@/systems/SoundManager';
 import { LanguageToggle } from './LanguageToggle';
 import { PixelButton } from './PixelButton';
+import { AnimatedCounter } from './AnimatedCounter';
 
 export function TopBar() {
   const { t } = useTranslation();
@@ -12,8 +15,20 @@ export function TopBar() {
   const { totalGold, getNavigatorRank, playerName, selectedPet } = useGameStore();
   const { collectedCards } = useCardStore();
   const rank = getNavigatorRank();
+  const [soundOn, setSoundOn] = useState(SoundManager.sfxEnabled);
 
   const showBack = location.pathname !== '/';
+
+  const toggleSound = () => {
+    const next = !soundOn;
+    setSoundOn(next);
+    SoundManager.sfxEnabled = next;
+    if (next) {
+      SoundManager.musicVolume = 0.25;
+    } else {
+      SoundManager.musicVolume = 0;
+    }
+  };
 
   return (
     <header className="flex items-center justify-between px-5 py-2.5 bg-[rgba(13,18,48,0.9)] backdrop-blur-sm border-b border-[rgba(0,212,255,0.1)] shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
@@ -40,7 +55,9 @@ export function TopBar() {
               {playerName && <span className="text-[#00d4ff]">{playerName}</span>}
             </span>
           )}
-          <span className="text-[#ffd700] glow-gold">💰 {totalGold}</span>
+          <span className="text-[#ffd700] glow-gold">
+            💰 <AnimatedCounter value={totalGold} className="text-[#ffd700] glow-gold" />
+          </span>
           <span
             className="text-[#e2e8f0] cursor-pointer hover:text-[#00d4ff] transition-colors"
             onClick={() => navigate('/cards')}
@@ -50,6 +67,14 @@ export function TopBar() {
             {t(`bounty.navigator.${rank.level}`)}
           </span>
         </div>
+        {/* Sound toggle */}
+        <button
+          onClick={toggleSound}
+          title={soundOn ? 'Mute' : 'Unmute'}
+          className="font-pixel text-sm text-[#708090] hover:text-[#e2e8f0] transition-colors cursor-pointer"
+        >
+          {soundOn ? '🔊' : '🔇'}
+        </button>
         <LanguageToggle />
       </div>
     </header>

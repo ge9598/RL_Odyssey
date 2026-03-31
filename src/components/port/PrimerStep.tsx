@@ -11,7 +11,7 @@ import { PortStepShell } from '@/components/port/PortStepShell';
 // Shows a brief animated explanation of a prerequisite concept.
 // ---------------------------------------------------------------------------
 
-function PrimerStep({ portId, onComplete, onSkip }: PortStepProps) {
+function PrimerStep({ portId, onComplete, onSkip, onBack }: PortStepProps) {
   const { t } = useTranslation();
 
   const portConfig = getPortConfig(portId);
@@ -27,6 +27,7 @@ function PrimerStep({ portId, onComplete, onSkip }: PortStepProps) {
       durationHint={primerStepConfig?.durationHint}
       onNext={onComplete}
       onSkip={onSkip}
+      onBack={onBack}
       nextLabel={t('port.primer.gotIt', 'Got it!')}
     >
       <div className="flex flex-col items-center text-center py-6 gap-6">
