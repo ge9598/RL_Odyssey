@@ -8,6 +8,10 @@ export interface IslandBossConfig {
   nameKey: string;
   descKey: string;
   emoji: string;
+  /** Unique boss identifier used for portProgress lookup. */
+  bossId: string;
+  /** Navigation route for the boss encounter page. */
+  bossRoute: string;
 }
 
 export interface IslandConfig {
@@ -59,6 +63,8 @@ registerIsland({
     nameKey: 'value.boss.name',
     descKey: 'value.boss.desc',
     emoji: '\uD83C\uDFF4\u200D\u2620\uFE0F', // pirate flag
+    bossId: 'boss-greedy-pirate',
+    bossRoute: '/boss/greedy-pirate',
   },
 });
 
@@ -78,6 +84,8 @@ registerIsland({
     nameKey: 'policy.boss.name',
     descKey: 'policy.boss.desc',
     emoji: '\uD83C\uDF0B',
+    bossId: 'boss-chaos-volcano',
+    bossRoute: '/boss/chaos-volcano',
   },
 });
 
@@ -97,6 +105,8 @@ registerIsland({
     nameKey: 'continuous.boss.name',
     descKey: 'continuous.boss.desc',
     emoji: '\u2744\uFE0F',
+    bossId: 'boss-precision-gauntlet',
+    bossRoute: '/boss/precision-gauntlet',
   },
 });
 

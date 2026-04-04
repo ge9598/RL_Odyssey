@@ -1,10 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { getPortConfig } from '@/config/ports';
 import type { PortStepProps } from '@/config/ports';
 import { PortStepShell } from '@/components/port/PortStepShell';
+import { PixelButton } from '@/components/ui';
 import { useGameStore } from '@/stores/gameStore';
+import { getIslandConfig } from '@/config/islands';
 import type { PortId } from '@/types/algorithm';
 
 // ---------------------------------------------------------------------------
@@ -13,10 +16,13 @@ import type { PortId } from '@/types/algorithm';
 // Reads `meta.nextPortId` and `meta.nextPortNameKey` from the port step config.
 // Triggers gameStore.unlockPort() for the next port (if any).
 // Shows a CSS-based sailing animation and a "Set Sail!" action.
+// When it's the last port on an island (no nextPortId) and the island has a
+// bossConfig, shows a Boss teaser button.
 // ---------------------------------------------------------------------------
 
 function UnlockStep({ portId, onComplete }: PortStepProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const portConfig = getPortConfig(portId);
   const unlockStepConfig = portConfig?.steps.find((s) => s.type === 'unlock');
@@ -25,7 +31,14 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
   const nextPortId = (meta.nextPortId as string) ?? portConfig?.unlocks ?? null;
   const nextPortNameKey = (meta.nextPortNameKey as string) ?? '';
 
+  // Bridge dialogue shown before heading to the next port / boss
+  const bridgeKey = (meta.bridgeKey as string) ?? '';
+
   const unlockPort = useGameStore((s) => s.unlockPort);
+
+  // Island boss config (if this is the last port on the island)
+  const islandConfig = portConfig?.island ? getIslandConfig(portConfig.island) : undefined;
+  const bossConfig = !nextPortId ? islandConfig?.bossConfig : undefined;
 
   // Unlock the next port once on mount
   const unlocked = useRef(false);
@@ -87,6 +100,19 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
           </div>
         </div>
 
+        {/* Bridge explanation (Archie's "why the next algorithm" hint) */}
+        {bridgeKey && (
+          <div
+            className="glass-panel pixel-border rounded-sm px-5 py-3 max-w-lg"
+            style={{ animation: 'portStepFadeIn 0.6s ease-out 0.2s both' }}
+          >
+            <span className="text-2xl mr-2">🦜</span>
+            <span className="font-body text-lg text-[#c8d0e0] italic">
+              {t(bridgeKey)}
+            </span>
+          </div>
+        )}
+
         {/* Unlock message */}
         {hasNext ? (
           <>
@@ -110,6 +136,35 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
             <p className="font-body text-lg text-[#e2e8f0]">
               {t('port.unlock.bossAwaits', 'A greater challenge awaits...')}
             </p>
+
+            {/* Boss teaser */}
+            {bossConfig && (
+              <div
+                className="pixel-border rounded-sm px-6 py-5 border-l-4 border-l-[#dc143c] glass-panel max-w-sm"
+                style={{
+                  animation: 'portStepFadeIn 0.8s ease-out 0.6s both',
+                  borderColor: 'rgba(220,20,60,0.5)',
+                }}
+              >
+                <div className="text-4xl mb-2 animate-float">{bossConfig.emoji}</div>
+                <p className="font-pixel text-xs text-[#f87171] uppercase tracking-wider mb-1">
+                  BOSS {t('port.unlock.incoming', 'Incoming')}
+                </p>
+                <p className="font-pixel text-sm text-[#ffd700] glow-gold mb-2">
+                  {t(bossConfig.nameKey)}
+                </p>
+                <p className="font-body text-base text-[#e2e8f0] mb-4">
+                  {t(bossConfig.descKey)}
+                </p>
+                <PixelButton
+                  size="sm"
+                  variant="danger"
+                  onClick={() => navigate(bossConfig.bossRoute)}
+                >
+                  {t('port.unlock.faceTheBoss', 'Face the Boss!')} ⚔️
+                </PixelButton>
+              </div>
+            )}
           </>
         )}
       </div>

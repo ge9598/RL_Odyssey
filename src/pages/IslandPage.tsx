@@ -87,7 +87,8 @@ export function IslandPage() {
 
         {/* Boss section */}
         {island.bossConfig && (() => {
-          const bossProgress = portProgress['boss-greedy-pirate'];
+          const { bossId, bossRoute } = island.bossConfig;
+          const bossProgress = portProgress[bossId];
           const bossCompleted = bossProgress?.completed;
 
           return (
@@ -101,7 +102,7 @@ export function IslandPage() {
             >
               <div
                 className="flex items-center gap-4"
-                onClick={() => allPortsCompleted && navigate('/boss/greedy-pirate')}
+                onClick={() => allPortsCompleted && navigate(bossRoute)}
               >
                 <div className="text-3xl animate-float">{island.bossConfig.emoji}</div>
                 <div className="flex-1">
@@ -121,7 +122,7 @@ export function IslandPage() {
                   )}
                 </div>
                 {allPortsCompleted && (
-                  <PixelButton size="sm" variant="danger" onClick={() => navigate('/boss/greedy-pirate')}>
+                  <PixelButton size="sm" variant="danger" onClick={() => navigate(bossRoute)}>
                     {bossCompleted ? '>' : '!'}
                   </PixelButton>
                 )}

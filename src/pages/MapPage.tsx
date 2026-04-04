@@ -18,7 +18,12 @@ interface IslandNode {
 export function MapPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { unlockedPorts } = useGameStore();
+  const { unlockedPorts, portProgress } = useGameStore();
+
+  // Value Archipelago is complete when all 6 ports + boss are done
+  const VALUE_PORT_IDS = ['bandit', 'qtable', 'sarsa', 'deep', 'double-dqn', 'dueling-dqn'];
+  const valueIslandComplete = VALUE_PORT_IDS.every((id) => portProgress[id]?.completed);
+  const policyAvailable = valueIslandComplete || unlockedPorts.includes('reinforce');
 
   const islands: IslandNode[] = [
     {
@@ -40,7 +45,7 @@ export function MapPage() {
       route: '/island/policy',
       x: '50%',
       y: '30%',
-      available: false,
+      available: policyAvailable,
       glowColor: 'rgba(255,99,71,0.4)',
     },
     {
@@ -179,8 +184,16 @@ export function MapPage() {
 
         <PixelPanel title={t('map.policyVolcanic')}>
           <p className="font-body text-lg">⭐⭐ {t('map.difficulty.medium')}</p>
-          <p className="font-body text-base text-[#ff6347]">The Intuition Brigade</p>
-          <p className="font-pixel text-[9px] text-[#708090] mt-3">Phase 2</p>
+          <p className="font-body text-base text-[#ff6347]">{t('policy.theme')}</p>
+          {policyAvailable ? (
+            <PixelButton size="sm" className="mt-3" onClick={() => navigate('/island/policy')}>
+              {t('common.start')} →
+            </PixelButton>
+          ) : (
+            <p className="font-pixel text-[9px] text-[#708090] mt-3">
+              {t('map.policyLocked', 'Complete Value Archipelago first')}
+            </p>
+          )}
         </PixelPanel>
 
         <PixelPanel title={t('map.continuousGlacier')}>
