@@ -8,6 +8,9 @@
  */
 
 import { useRef, useEffect, useCallback } from 'react';
+import { useGameStore } from '@/stores/gameStore';
+import { drawPetEmoji } from '@/utils/petRenderer';
+import { DEFAULT_PET } from '@/config/pets';
 
 export interface MazeReward {
   pos: number;
@@ -40,7 +43,7 @@ const COLOR_WALL_TOP = '#4a5d6f';
 const COLOR_GRID = 'rgba(0,212,255,0.06)';
 const COLOR_EXIT = '#4ade80';
 const COLOR_START = 'rgba(0,212,255,0.15)';
-const COLOR_PLAYER = '#00d4ff';
+// COLOR_PLAYER replaced by pet emoji rendering
 const COLOR_PLAYER_TRAIL = 'rgba(0,212,255,0.25)';
 const COLOR_PIRATE = '#f87171';
 const COLOR_PIRATE_TRAIL = 'rgba(248,113,113,0.25)';
@@ -151,6 +154,11 @@ export function DelayedRewardMaze({
 }: DelayedRewardMazeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Pet emoji from store — ref to avoid stale closure in rAF loop
+  const petEmoji = useGameStore((s) => s.selectedPet) ?? DEFAULT_PET;
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   const wallSet = useRef(new Set(walls));
   useEffect(() => {
@@ -319,7 +327,7 @@ export function DelayedRewardMaze({
     if (!wallSet.current.has(playerPos)) {
       const px = (playerPos % cols) * cellSize + cellSize / 2;
       const py = Math.floor(playerPos / cols) * cellSize + cellSize / 2;
-      drawCharacter(ctx, px, py, cellSize, COLOR_PLAYER, false);
+      drawPetEmoji(ctx, petEmojiRef.current, px, py, cellSize * 0.6, { glow: true });
     }
   }, [
     rows,

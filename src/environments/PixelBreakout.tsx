@@ -8,6 +8,9 @@
 
 import { useRef, useEffect, useCallback } from 'react';
 import { clamp } from '@/utils/math';
+import { useGameStore } from '@/stores/gameStore';
+import { drawPetEmoji } from '@/utils/petRenderer';
+import { DEFAULT_PET } from '@/config/pets';
 
 // -- Game constants --
 const COLS = 8;
@@ -140,6 +143,11 @@ export function PixelBreakout({
   const lastTimeRef = useRef(0);
   const accumulatorRef = useRef(0);
   const gameOverCalledRef = useRef(false);
+
+  // Pet emoji — via ref to avoid re-creating render loop
+  const petEmoji = useGameStore((s) => s.selectedPet) ?? DEFAULT_PET;
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   const paddleW = width * PADDLE_WIDTH_FRAC;
   const brickW = (width - (COLS + 1) * BRICK_PADDING) / COLS;
@@ -367,6 +375,9 @@ export function PixelBreakout({
     ctx.shadowBlur = 8;
     ctx.fillRect(paddleLeft, paddleTop, paddleW, PADDLE_HEIGHT);
     ctx.shadowBlur = 0;
+
+    // Pet emoji above the paddle
+    drawPetEmoji(ctx, petEmojiRef.current, s.paddleX, paddleTop - 16, 22, { glow: true });
 
     // Draw ball
     ctx.fillStyle = '#ffffff';

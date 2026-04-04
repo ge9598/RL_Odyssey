@@ -1,5 +1,8 @@
 import { useRef, useEffect, useCallback } from 'react';
 import type { GridWorldConfig } from '@/algorithms/qlearning';
+import { useGameStore } from '@/stores/gameStore';
+import { drawPetEmoji } from '@/utils/petRenderer';
+import { DEFAULT_PET } from '@/config/pets';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -37,8 +40,7 @@ const TREASURE_COLLECTED_BG = 'rgba(255, 215, 0, 0.05)';
 const TREASURE_COLLECTED_ICON = 'rgba(255, 215, 0, 0.3)';
 const EXIT_BG = 'rgba(74, 222, 128, 0.2)';
 const EXIT_ICON = '#4ade80';
-const PLAYER_COLOR = '#00d4ff';
-const PLAYER_GLOW = 'rgba(0, 212, 255, 0.5)';
+// PLAYER_COLOR / PLAYER_GLOW replaced by pet emoji rendering
 const ARROW_COLOR = 'rgba(255, 255, 255, 0.6)';
 const PATH_COLOR = 'rgba(255, 215, 0, 0.4)';
 
@@ -90,6 +92,11 @@ export function GridWorld({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animFrameRef = useRef(0);
+
+  // Pet emoji from store — via ref to avoid re-creating the animation loop
+  const petEmoji = useGameStore((s) => s.selectedPet) ?? DEFAULT_PET;
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   // Animated player position for smooth movement
   const playerAnimRef = useRef({ x: playerPos % cols, y: Math.floor(playerPos / cols) });
@@ -378,27 +385,11 @@ export function GridWorld({
         ctx.stroke();
       }
 
-      // Player
+      // Player — rendered as pet emoji with cyan glow
       const px = playerAnimRef.current.x * cellW + cellW / 2;
       const py = playerAnimRef.current.y * cellH + cellH / 2;
-      const playerR = Math.min(cellW, cellH) * 0.3;
-
-      // Glow
-      ctx.save();
-      ctx.shadowColor = PLAYER_GLOW;
-      ctx.shadowBlur = 12;
-      ctx.beginPath();
-      ctx.arc(px, py, playerR, 0, Math.PI * 2);
-      ctx.fillStyle = PLAYER_COLOR;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Inner highlight
-      ctx.beginPath();
-      ctx.arc(px - playerR * 0.2, py - playerR * 0.2, playerR * 0.35, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-      ctx.fill();
-      ctx.restore();
+      const petSize = Math.min(cellW, cellH) * 0.65;
+      drawPetEmoji(ctx, petEmojiRef.current, px, py, petSize, { glow: true });
 
       animFrameRef.current = requestAnimationFrame(render);
     };

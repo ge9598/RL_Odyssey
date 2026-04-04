@@ -4,13 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
 import { PixelButton, PixelPanel } from '@/components/ui';
 import { LanguageToggle } from '@/components/ui';
-
-const AVATARS = [
-  { emoji: '⚓', key: 'captain' },
-  { emoji: '🏴‍☠️', key: 'pirate' },
-  { emoji: '🧭', key: 'explorer' },
-  { emoji: '🗺️', key: 'navigator' },
-] as const;
+import { PETS } from '@/config/pets';
 
 const MAX_NAME_LENGTH = 16;
 
@@ -20,8 +14,8 @@ export function CharacterCreationPage() {
   const createCharacter = useGameStore((s) => s.createCharacter);
 
   const [name, setName] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [hoveredAvatar, setHoveredAvatar] = useState<string | null>(null);
+  const [selectedPet, setSelectedPet] = useState<string | null>(null);
+  const [hoveredPet, setHoveredPet] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,11 +32,11 @@ export function CharacterCreationPage() {
       setError(t('characterCreation.nameRequired'));
       return;
     }
-    if (!selectedAvatar) {
+    if (!selectedPet) {
       setError(t('characterCreation.avatarRequired'));
       return;
     }
-    createCharacter(trimmed, selectedAvatar);
+    createCharacter(trimmed, selectedPet);
     navigate('/tutorial');
   };
 
@@ -103,21 +97,21 @@ export function CharacterCreationPage() {
             </div>
           </div>
 
-          {/* Avatar selection */}
+          {/* Pet selection */}
           <div>
             <p className="font-pixel text-xs text-[#708090] mb-3">
-              {t('characterCreation.chooseAvatar')}
+              {t('tutorial.choosePet')}
             </p>
             <div className="flex gap-4 justify-center">
-              {AVATARS.map((av) => {
-                const isSelected = selectedAvatar === av.emoji;
-                const isHovered = hoveredAvatar === av.key;
+              {PETS.map((pet) => {
+                const isSelected = selectedPet === pet.emoji;
+                const isHovered = hoveredPet === pet.key;
                 return (
                   <button
-                    key={av.key}
-                    onClick={() => setSelectedAvatar(av.emoji)}
-                    onMouseEnter={() => setHoveredAvatar(av.key)}
-                    onMouseLeave={() => setHoveredAvatar(null)}
+                    key={pet.key}
+                    onClick={() => setSelectedPet(pet.emoji)}
+                    onMouseEnter={() => setHoveredPet(pet.key)}
+                    onMouseLeave={() => setHoveredPet(null)}
                     className={`
                       flex flex-col items-center gap-2 p-4 rounded-sm cursor-pointer
                       pixel-border bg-[rgba(20,24,50,0.6)]
@@ -127,10 +121,10 @@ export function CharacterCreationPage() {
                     `}
                   >
                     <span className={`text-4xl transition-transform duration-200 ${isSelected ? 'animate-bounce' : ''}`}>
-                      {av.emoji}
+                      {pet.emoji}
                     </span>
                     <span className={`font-pixel text-[9px] ${isSelected ? 'text-[#ffd700] glow-gold' : 'text-[#708090]'}`}>
-                      {t(`characterCreation.avatars.${av.key}`)}
+                      {t(pet.nameKey)}
                     </span>
                   </button>
                 );
@@ -149,7 +143,7 @@ export function CharacterCreationPage() {
           <div className="flex justify-center pt-1">
             <PixelButton
               size="lg"
-              variant={name.trim() && selectedAvatar ? 'primary' : 'secondary'}
+              variant={name.trim() && selectedPet ? 'primary' : 'secondary'}
               onClick={handleConfirm}
             >
               {t('characterCreation.confirm')} ⚓
