@@ -4,6 +4,7 @@ import { useGameStore } from '@/stores/gameStore';
 import { useCardStore } from '@/stores/cardStore';
 import { LanguageToggle } from './LanguageToggle';
 import { PixelButton } from './PixelButton';
+import { AnimatedCounter } from './AnimatedCounter';
 
 export function TopBar() {
   const { t } = useTranslation();
@@ -40,7 +41,9 @@ export function TopBar() {
               {playerName && <span className="text-[#00d4ff]">{playerName}</span>}
             </span>
           )}
-          <span className="text-[#ffd700] glow-gold">💰 {totalGold}</span>
+          <span className="text-[#ffd700] glow-gold">
+            💰 <AnimatedCounter value={totalGold} />
+          </span>
           <span
             className="text-[#e2e8f0] cursor-pointer hover:text-[#00d4ff] transition-colors"
             onClick={() => navigate('/cards')}

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { getPortConfig } from '@/config/ports';
@@ -7,6 +8,7 @@ import { useGameStore } from '@/stores/gameStore';
 import { useCardStore, ALGORITHM_CARDS } from '@/stores/cardStore';
 import type { AlgorithmCard } from '@/stores/cardStore';
 import type { BountyRank } from '@/types/algorithm';
+import { soundManager } from '@/systems/SoundManager';
 
 // ---------------------------------------------------------------------------
 // Rank badge colors
@@ -48,7 +50,6 @@ function RadarChart({ stats, lang }: { stats: AlgorithmCard['stats']; lang: stri
 
   const angleStep = 360 / RADAR_AXES.length;
 
-  // Grid rings
   const rings = [1, 2, 3, 4, 5].map((level) => {
     const r = (level / 5) * maxR;
     const points = RADAR_AXES.map((_, i) => polarToCart(i * angleStep, r).join(',')).join(' ');
@@ -63,14 +64,12 @@ function RadarChart({ stats, lang }: { stats: AlgorithmCard['stats']; lang: stri
     );
   });
 
-  // Value polygon
   const valuePoints = RADAR_AXES.map((axis, i) => {
     const val = stats[axis];
     const r = (val / 5) * maxR;
     return polarToCart(i * angleStep, r).join(',');
   }).join(' ');
 
-  // Axis labels
   const axisLabels = RADAR_AXES.map((_, i) => {
     const [lx, ly] = polarToCart(i * angleStep, maxR + 16);
     return (
@@ -110,10 +109,41 @@ function RadarChart({ stats, lang }: { stats: AlgorithmCard['stats']; lang: stri
 }
 
 // ---------------------------------------------------------------------------
+// Confetti DOM particle (CSS only, no canvas needed for summary)
+// ---------------------------------------------------------------------------
+
+function ConfettiLayer({ active }: { active: boolean }) {
+  if (!active) return null;
+  const colors = ['#ffd700', '#00d4ff', '#f87171', '#4ade80', '#a78bfa'];
+  return (
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
+      {Array.from({ length: 25 }, (_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-sm"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: '-10px',
+            width: `${4 + Math.random() * 6}px`,
+            height: `${4 + Math.random() * 6}px`,
+            background: colors[i % colors.length],
+            animation: `confettiFall ${1.5 + Math.random()}s ease-in ${Math.random() * 0.8}s forwards`,
+            opacity: 0.9,
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes confettiFall {
+          0%   { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+          100% { transform: translateY(110vh) rotate(${Math.random() > 0.5 ? '' : '-'}720deg); opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // SummaryStep — Generic port summary + card reward
-//
-// Shows quest results (rank, gold earned), the algorithm card with radar
-// chart, and key takeaways.
 // ---------------------------------------------------------------------------
 
 function SummaryStep({ portId, onComplete }: PortStepProps) {
@@ -126,7 +156,6 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
   const summaryKey = (meta.summaryKey as string) ?? `port.${portId}.summary`;
   const cardId = (meta.cardId as string) ?? portConfig?.quest.cardId ?? '';
 
-  // Read quest results from stores
   const portProgress = useGameStore((s) => s.portProgress[portId]);
   const rank: BountyRank = portProgress?.bestRank ?? 'C';
   const gold = portProgress?.bestGold ?? 0;
@@ -137,6 +166,58 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
   const rankInfo = RANK_COLORS[rank];
   const isZh = i18n.language === 'zh';
 
+  // ---- Celebration sequence ----
+  const [phase, setPhase] = useState(0);
+  // phase 0 = rank spin, 1 = rank revealed, 2 = gold, 3 = card, 4 = confetti
+  const [confetti, setConfetti] = useState(false);
+  const [rankDisplay, setRankDisplay] = useState<BountyRank>('C');
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    // Rank spin: cycle C→B→A→S quickly then land on real rank
+    const allRanks: BountyRank[] = ['C', 'B', 'A', 'S'];
+    let count = 0;
+    const spinInterval = setInterval(() => {
+      setRankDisplay(allRanks[count % 4] as BountyRank);
+      count++;
+      if (count >= 8) {
+        clearInterval(spinInterval);
+        setRankDisplay(rank);
+        soundManager.playSfx('rank_reveal');
+        timerRef.current = setTimeout(() => setPhase(1), 200);
+      }
+    }, 80);
+
+    return () => {
+      clearInterval(spinInterval);
+      clearTimeout(timerRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (phase === 1) {
+      timerRef.current = setTimeout(() => {
+        soundManager.playSfx('coin_collect');
+        setPhase(2);
+      }, 500);
+    } else if (phase === 2) {
+      timerRef.current = setTimeout(() => {
+        soundManager.playSfx('card_unlock');
+        setPhase(3);
+      }, 700);
+    } else if (phase === 3 && (rank === 'S' || rank === 'A')) {
+      timerRef.current = setTimeout(() => {
+        setConfetti(true);
+        setTimeout(() => setConfetti(false), 3000);
+        setPhase(4);
+      }, 500);
+    }
+    return () => clearTimeout(timerRef.current);
+  }, [phase, rank]);
+
+  const spinColors = RANK_COLORS[rankDisplay];
+
   return (
     <PortStepShell
       title={t('port.steps.summary', 'Summary & Reward')}
@@ -144,37 +225,53 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
       onNext={onComplete}
       nextLabel={t('port.summary.continue', 'Continue')}
     >
+      <ConfettiLayer active={confetti} />
+
       <div className="flex flex-col items-center gap-8 py-4">
         {/* ---- Quest result banner ---- */}
         <div className="text-center">
           <p className="font-pixel text-xs text-[#708090] uppercase tracking-wider mb-2">
             {t('port.summary.questComplete', 'Quest Complete!')}
           </p>
-          <div className={`font-pixel text-3xl ${rankInfo.text} ${rankInfo.glow} mb-1`}>
-            {rank}
+          {/* Rank — spins during phase 0, then settles */}
+          <div
+            className={`font-pixel text-3xl ${spinColors.text} ${spinColors.glow} mb-1 transition-all duration-100`}
+            style={{
+              animation: phase === 0 ? 'rankSpin 0.08s steps(1) infinite' : 'rankLand 0.3s ease-out',
+            }}
+          >
+            {rankDisplay}
           </div>
           <p className={`font-pixel text-xs ${rankInfo.text}`}>
             {t(`bounty.rank.${rank}`, rankInfo.label)}
           </p>
-          <p className="font-body text-lg text-[#ffd700] glow-gold mt-2">
+          {/* Gold — appears in phase 2+ */}
+          <p
+            className="font-body text-lg text-[#ffd700] glow-gold mt-2"
+            style={{
+              opacity: phase >= 2 ? 1 : 0,
+              transition: 'opacity 0.5s ease-out',
+            }}
+          >
             + {gold} {t('common.gold', 'Gold')}
           </p>
         </div>
 
-        {/* ---- Algorithm card ---- */}
+        {/* ---- Algorithm card — slides in at phase 3+ ---- */}
         {card && (
           <div
             className={`
               pixel-border-gold glass-panel rounded-sm p-5 max-w-sm w-full
               ${hasCard ? 'glow-box-gold' : ''}
             `}
-            style={{ animation: 'portStepFadeIn 0.6s ease-out 0.3s both' }}
+            style={{
+              opacity: phase >= 3 ? 1 : 0,
+              transform: phase >= 3 ? 'translateY(0) rotateY(0deg)' : 'translateY(20px) rotateY(90deg)',
+              transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+            }}
           >
             <div className="flex items-start gap-4">
-              {/* Radar chart */}
               <RadarChart stats={card.stats} lang={i18n.language} />
-
-              {/* Card text */}
               <div className="flex-1 min-w-0">
                 <h4 className="font-pixel text-xs text-[#ffd700] glow-gold mb-1">
                   {isZh ? card.nameZh : card.name}
@@ -182,8 +279,6 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
                 <p className="font-body text-sm text-[#00d4ff] mb-2 italic">
                   "{isZh ? card.signatureMoveZh : card.signatureMove}"
                 </p>
-
-                {/* Strengths */}
                 <div className="mb-1">
                   <span className="font-pixel text-[9px] text-[#4ade80]">+</span>
                   {card.strengths.map((s, i) => (
@@ -192,8 +287,6 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
                     </span>
                   ))}
                 </div>
-
-                {/* Weaknesses */}
                 <div>
                   <span className="font-pixel text-[9px] text-[#f87171]">-</span>
                   {card.weaknesses.map((w, i) => (
@@ -204,8 +297,6 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
                 </div>
               </div>
             </div>
-
-            {/* New card indicator */}
             {!hasCard && (
               <div className="text-center mt-3">
                 <span className="font-pixel text-[10px] text-[#ffd700] animate-pulse glow-gold">
@@ -229,6 +320,17 @@ function SummaryStep({ portId, onComplete }: PortStepProps) {
           </p>
         </div>
       </div>
+
+      <style>{`
+        @keyframes portStepFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes rankLand {
+          0%   { transform: scale(1.6); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
     </PortStepShell>
   );
 }
