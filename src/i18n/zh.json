@@ -611,11 +611,32 @@
       "legendTreasure": "大宝藏"
     }
   },
+  "island": {
+    "portPrefix": "港口 {{index}}：",
+    "lockedPort": "🔒 先完成上一个港口",
+    "bossLabel": "BOSS",
+    "bestResult": "最佳：{{rank}} 段位 — {{gold}} 金币",
+    "comingSoon": "Phase 2+ 即将推出",
+    "completePorts": "先完成所有港口",
+    "bossRematch": "再战",
+    "bossFight": "迎战！"
+  },
   "cards": {
     "title": "算法卡牌图鉴",
     "collected": "张卡牌已收集",
     "selectHint": "选择一张卡牌查看详情",
-    "locked": "完成任务来解锁！"
+    "locked": "完成任务来解锁！",
+    "signatureMove": "招牌技能",
+    "strengths": "优势",
+    "weaknesses": "劣势",
+    "stats": "属性",
+    "statLabels": {
+      "sampleEfficiency": "样本效率",
+      "stability": "稳定性",
+      "scalability": "可扩展性",
+      "simplicity": "简单性",
+      "flexibility": "灵活性"
+    }
   },
   "sarsa": {
     "feel": {

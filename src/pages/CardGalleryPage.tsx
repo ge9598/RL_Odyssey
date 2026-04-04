@@ -5,13 +5,7 @@ import { PixelButton, PixelPanel } from '@/components/ui';
 import { useCardStore, ALGORITHM_CARDS } from '@/stores/cardStore';
 import type { AlgorithmCard } from '@/stores/cardStore';
 
-const STAT_LABELS: Record<string, string> = {
-  sampleEfficiency: 'Sample Eff.',
-  stability: 'Stability',
-  scalability: 'Scalability',
-  simplicity: 'Simplicity',
-  flexibility: 'Flexibility',
-};
+const STAT_KEYS = ['sampleEfficiency', 'stability', 'scalability', 'simplicity', 'flexibility'] as const;
 
 const RANK_COLORS: Record<string, string> = {
   S: '#ffd700',
@@ -39,7 +33,7 @@ function RadarBar({ label, value }: { label: string; value: number }) {
 }
 
 function CardDetail({ card, rank }: { card: AlgorithmCard; rank?: string }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isZh = i18n.language === 'zh';
 
   return (
@@ -61,7 +55,7 @@ function CardDetail({ card, rank }: { card: AlgorithmCard; rank?: string }) {
 
       {/* Signature Move */}
       <div className="glass-panel pixel-border p-3">
-        <p className="font-pixel text-[9px] text-[#ffd700] mb-1">Signature Move</p>
+        <p className="font-pixel text-[9px] text-[#ffd700] mb-1">{t('cards.signatureMove')}</p>
         <p className="font-body text-base text-[#e2e8f0]">
           {isZh ? card.signatureMoveZh : card.signatureMove}
         </p>
@@ -70,14 +64,14 @@ function CardDetail({ card, rank }: { card: AlgorithmCard; rank?: string }) {
       {/* Strengths & Weaknesses */}
       <div className="grid grid-cols-2 gap-3">
         <div className="glass-panel pixel-border p-3">
-          <p className="font-pixel text-[9px] text-[#4ade80] mb-2">✓ Strengths</p>
-          {card.strengths.map((s, i) => (
+          <p className="font-pixel text-[9px] text-[#4ade80] mb-2">✓ {t('cards.strengths')}</p>
+          {(isZh ? card.strengthsZh : card.strengths).map((s, i) => (
             <p key={i} className="font-body text-sm text-[#e2e8f0]">• {s}</p>
           ))}
         </div>
         <div className="glass-panel pixel-border p-3">
-          <p className="font-pixel text-[9px] text-[#f87171] mb-2">✗ Weaknesses</p>
-          {card.weaknesses.map((w, i) => (
+          <p className="font-pixel text-[9px] text-[#f87171] mb-2">✗ {t('cards.weaknesses')}</p>
+          {(isZh ? card.weaknessesZh : card.weaknesses).map((w, i) => (
             <p key={i} className="font-body text-sm text-[#e2e8f0]">• {w}</p>
           ))}
         </div>
@@ -85,9 +79,9 @@ function CardDetail({ card, rank }: { card: AlgorithmCard; rank?: string }) {
 
       {/* Stats */}
       <div className="glass-panel pixel-border p-3">
-        <p className="font-pixel text-[9px] text-[#00d4ff] mb-3">Stats</p>
-        {Object.entries(card.stats).map(([key, val]) => (
-          <RadarBar key={key} label={STAT_LABELS[key] ?? key} value={val} />
+        <p className="font-pixel text-[9px] text-[#00d4ff] mb-3">{t('cards.stats')}</p>
+        {STAT_KEYS.map((key) => (
+          <RadarBar key={key} label={t(`cards.statLabels.${key}`)} value={card.stats[key]} />
         ))}
       </div>
     </div>

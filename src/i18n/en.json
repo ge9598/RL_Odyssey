@@ -611,11 +611,32 @@
       "legendTreasure": "Big Treasure"
     }
   },
+  "island": {
+    "portPrefix": "Port {{index}}:",
+    "lockedPort": "🔒 Complete previous port first",
+    "bossLabel": "BOSS",
+    "bestResult": "Best: {{rank}} Rank — {{gold}} gold",
+    "comingSoon": "Coming in Phase 2+",
+    "completePorts": "Complete all ports first",
+    "bossRematch": "Rematch",
+    "bossFight": "Fight!"
+  },
   "cards": {
     "title": "Algorithm Card Gallery",
     "collected": "cards collected",
     "selectHint": "Select a card to see details",
-    "locked": "Complete the quest to unlock!"
+    "locked": "Complete the quest to unlock!",
+    "signatureMove": "Signature Move",
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "stats": "Stats",
+    "statLabels": {
+      "sampleEfficiency": "Sample Eff.",
+      "stability": "Stability",
+      "scalability": "Scalability",
+      "simplicity": "Simplicity",
+      "flexibility": "Flexibility"
+    }
   },
   "sarsa": {
     "feel": {

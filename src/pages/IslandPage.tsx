@@ -18,7 +18,7 @@ export function IslandPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <PixelPanel>
-          <p className="font-pixel text-sm text-[#708090]">Coming in Phase 2+</p>
+          <p className="font-pixel text-sm text-[#708090]">{t('island.comingSoon')}</p>
           <PixelButton size="sm" className="mt-4" onClick={() => navigate('/map')}>
             ← {t('common.back')}
           </PixelButton>
@@ -61,17 +61,17 @@ export function IslandPage() {
                 <div className="text-3xl">{port.emoji}</div>
                 <div className="flex-1">
                   <h3 className="font-pixel text-xs text-[#e2e8f0]">
-                    Port {index + 1}: {t(port.nameKey)}
+                    {t('island.portPrefix', { index: index + 1 })} {t(port.nameKey)}
                   </h3>
                   <p className="font-body text-lg text-[#00d4ff]">{t(port.algorithmKey)}</p>
                   {isCompleted && progress.bestRank && (
                     <span className="font-pixel text-[10px] text-[#ffd700] glow-gold">
-                      Best: {progress.bestRank} Rank — {progress.bestGold} gold
+                      {t('island.bestResult', { rank: progress.bestRank, gold: progress.bestGold })}
                     </span>
                   )}
                   {!isUnlocked && (
                     <span className="font-pixel text-[10px] text-[#708090]">
-                      🔒 Complete previous port first
+                      {t('island.lockedPort')}
                     </span>
                   )}
                 </div>
@@ -107,23 +107,23 @@ export function IslandPage() {
                 <div className="text-3xl animate-float">{island.bossConfig.emoji}</div>
                 <div className="flex-1">
                   <h3 className="font-pixel text-xs text-[#f87171]">
-                    BOSS: {t(island.bossConfig.nameKey)}
+                    {t('island.bossLabel')}: {t(island.bossConfig.nameKey)}
                   </h3>
                   <p className="font-body text-base text-[#e2e8f0]">{t(island.bossConfig.descKey)}</p>
                   {bossCompleted && bossProgress.bestRank && (
                     <span className="font-pixel text-[10px] text-[#ffd700] glow-gold">
-                      Best: {bossProgress.bestRank} Rank — {bossProgress.bestGold} gold
+                      {t('island.bestResult', { rank: bossProgress.bestRank, gold: bossProgress.bestGold })}
                     </span>
                   )}
                   {!allPortsCompleted && (
                     <span className="font-pixel text-[10px] text-[#708090]">
-                      Complete all ports first
+                      {t('island.completePorts')}
                     </span>
                   )}
                 </div>
                 {allPortsCompleted && (
                   <PixelButton size="sm" variant="danger" onClick={() => navigate(bossRoute)}>
-                    {bossCompleted ? '>' : '!'}
+                    {bossCompleted ? t('island.bossRematch') : t('island.bossFight')}
                   </PixelButton>
                 )}
               </div>
