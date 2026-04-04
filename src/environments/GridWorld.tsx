@@ -92,6 +92,9 @@ export function GridWorld({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animFrameRef = useRef(0);
+  const petEmoji = useGameStore((s) => s.selectedPet || DEFAULT_PET);
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   // Pet emoji from store — via ref to avoid re-creating the animation loop
   const petEmoji = useGameStore((s) => s.selectedPet) ?? DEFAULT_PET;

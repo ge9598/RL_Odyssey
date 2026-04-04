@@ -8,7 +8,7 @@ import { NarrativeDialogue } from '@/components/ui/NarrativeDialogue';
 import type { DialogueLine } from '@/components/ui/NarrativeDialogue';
 
 // ---------------------------------------------------------------------------
-// StoryStep — Generic story intro step
+// StoryStep — Supports both legacy text format and new dialogue format
 //
 // NEW: Reads `meta.dialogue` (array of {speaker, portrait, textKey, color?})
 //      and renders RPG typewriter dialogue via NarrativeDialogue.
@@ -84,8 +84,9 @@ function StoryStep({ portId, onComplete, onSkip }: PortStepProps) {
     <PortStepShell
       title={t('port.steps.story', 'Story')}
       durationHint={storyStepConfig?.durationHint}
-      onNext={onComplete}
+      onNext={useDialogue && !dialogueDone ? undefined : onComplete}
       onSkip={onSkip}
+      onBack={onBack}
       nextLabel={t('common.continue', 'Continue')}
     >
       <div className="flex flex-col items-center text-center py-6 gap-6">

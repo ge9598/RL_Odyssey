@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
 import { PixelButton, PixelPanel } from '@/components/ui';
+import { getIslandConfig } from '@/config/islands';
 
 interface IslandNode {
   id: string;

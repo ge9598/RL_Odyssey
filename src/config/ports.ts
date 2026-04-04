@@ -10,6 +10,7 @@ export interface PortStepProps {
   portId: string;
   onComplete: () => void;
   onSkip?: () => void;
+  onBack?: () => void;
 }
 
 // ---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -128,7 +128,7 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
               </p>
             </div>
           </>
-        ) : (
+          ) : (
           <>
             <p className="font-pixel text-xs text-[#ffd700] uppercase tracking-wider glow-gold">
               {t('port.unlock.islandComplete', 'All ports on this island complete!')}
@@ -166,6 +166,7 @@ function UnlockStep({ portId, onComplete }: PortStepProps) {
               </div>
             )}
           </>
+          )
         )}
       </div>
 

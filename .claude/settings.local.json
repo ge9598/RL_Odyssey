@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(npm create:*)",
+      "Bash(shopt -s dotglob)",
+      "Bash(mv rl-odyssey/* .)",
+      "Bash(rmdir rl-odyssey:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 10 npx vite --host)",
+      "Bash(npm run:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "Bash(curl -s http://localhost:5173)",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "Bash(gh repo:*)",
+      "Bash(mkdir -p \"H:/AI/RL_Odyssey/src/config\")",
+      "Bash(mkdir -p \"H:/AI/RL_Odyssey/src/components/port\")",
+      "Bash(npx eslint:*)",
+      "Bash(npx vite:*)",
+      "Bash(node:*)",
+      "Bash(wc:*)",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}

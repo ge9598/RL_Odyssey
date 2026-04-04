@@ -1,4 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
+import { useGameStore } from '@/stores/gameStore';
+import { DEFAULT_PET } from '@/config/pets';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -132,6 +134,9 @@ export function TreasureChests({
   const openAnimRef = useRef<number>(0);     // 0..1 animation progress for open
   const openChestRef = useRef<number | null>(null);
   const rewardFlashRef = useRef<number>(0);
+  const petEmoji = useGameStore((s) => s.selectedPet || DEFAULT_PET);
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   // Track last selectedChest to trigger open animation
   const lastSelectedRef = useRef<number | null>(null);
@@ -302,6 +307,19 @@ export function TreasureChests({
           ctx.fillStyle = GOLD_DIM;
           ctx.fillText(`${chestCounts[i]}`, cx, barBaseY + 14);
         }
+      }
+
+      // Pet emoji — shown above the highlighted/selected chest
+      const petTargetChest = highlightChest ?? (selectedChest ?? -1);
+      if (petTargetChest >= 0 && petTargetChest < numChests) {
+        const cx = startX + petTargetChest * layout.spacing;
+        const petSize = Math.min(28, layout.chestSize * 0.55);
+        ctx.save();
+        ctx.font = `${petSize}px "Noto Color Emoji", "Segoe UI Emoji", "Apple Color Emoji", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(petEmojiRef.current, cx, layout.baseY - layout.chestSize * 0.55);
+        ctx.restore();
       }
 
       // Update and draw coin particles

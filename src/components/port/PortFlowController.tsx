@@ -85,6 +85,9 @@ function StepLoadingFallback() {
 // Main Component
 // ---------------------------------------------------------------------------
 
+// Transition state for slide animation
+type TransitionState = 'idle' | 'exiting' | 'entering';
+
 export function PortFlowController({ portId }: PortFlowControllerProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -100,6 +103,7 @@ export function PortFlowController({ portId }: PortFlowControllerProps) {
     canSkipToQuest,
     skipToQuest,
     isComplete,
+    isFirstStep,
   } = usePortFlow(portId);
 
   // ---- Slide transition state ----
@@ -151,6 +155,28 @@ export function PortFlowController({ portId }: PortFlowControllerProps) {
       navigate('/map');
     }
   }, [isComplete, portId, navigate]);
+
+  const handleNext = () => {
+    directionRef.current = 'forward';
+    SoundManager.playSfx('step_transition');
+    setTransition('exiting');
+    setTimeout(() => {
+      goNext();
+      setTransition('entering');
+      setTimeout(() => setTransition('idle'), 300);
+    }, 300);
+  };
+
+  const handleBack = () => {
+    directionRef.current = 'back';
+    SoundManager.playSfx('step_transition');
+    setTransition('exiting');
+    setTimeout(() => {
+      goBack();
+      setTransition('entering');
+      setTimeout(() => setTransition('idle'), 300);
+    }, 300);
+  };
 
   // Guard: unknown port
   if (!portConfig || !currentStepConfig) {

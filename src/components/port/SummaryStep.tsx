@@ -146,6 +146,9 @@ function ConfettiLayer({ active }: { active: boolean }) {
 // SummaryStep — Generic port summary + card reward
 // ---------------------------------------------------------------------------
 
+// Spinning rank reveal animation letters
+const RANK_CYCLE = ['C', 'B', 'A', 'S'] as const;
+
 function SummaryStep({ portId, onComplete }: PortStepProps) {
   const { t, i18n } = useTranslation();
 

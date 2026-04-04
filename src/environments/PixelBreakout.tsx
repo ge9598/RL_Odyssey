@@ -143,6 +143,9 @@ export function PixelBreakout({
   const lastTimeRef = useRef(0);
   const accumulatorRef = useRef(0);
   const gameOverCalledRef = useRef(false);
+  const petEmoji = useGameStore((s) => s.selectedPet || DEFAULT_PET);
+  const petEmojiRef = useRef(petEmoji);
+  useEffect(() => { petEmojiRef.current = petEmoji; }, [petEmoji]);
 
   // Pet emoji — via ref to avoid re-creating render loop
   const petEmoji = useGameStore((s) => s.selectedPet) ?? DEFAULT_PET;
@@ -393,6 +396,13 @@ export function PixelBreakout({
     ctx.font = '14px "Silkscreen", monospace';
     ctx.textAlign = 'left';
     ctx.fillText(`Score: ${s.score}`, 8, 20);
+
+    // Pet emoji above paddle
+    const petSize = Math.min(22, paddleW * 0.5);
+    ctx.font = `${petSize}px "Noto Color Emoji", "Segoe UI Emoji", "Apple Color Emoji", monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(petEmojiRef.current, s.paddleX, paddleTop - (showQValues && qValues ? 38 : 4));
 
     // Q-value overlay
     if (showQValues && qValues && qValues.length === 3) {
