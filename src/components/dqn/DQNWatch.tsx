@@ -22,6 +22,8 @@ export function DQNWatch({ onComplete }: DQNWatchProps) {
   const { t } = useTranslation();
 
   const dqnRef = useRef<DQN>(new DQN(5, 3, 32, 123));
+  const prevStateRef = useRef<number[] | null>(null);
+  const stepOnceRef = useRef(false);
 
   const [isRunning, setIsRunning] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -63,7 +65,10 @@ export function DQNWatch({ onComplete }: DQNWatchProps) {
 
   const handleStep = useCallback(
     (state: number[], reward: number, done: boolean, score: number) => {
-      if (!isRunning) return;
+      // Support both normal running and single-step mode
+      const isStepOnce = stepOnceRef.current;
+      if (isStepOnce) stepOnceRef.current = false; // clear immediately to prevent double fire
+      if (!isRunning && !isStepOnce) return;
 
       const dqn = dqnRef.current;
 
@@ -71,14 +76,18 @@ export function DQNWatch({ onComplete }: DQNWatchProps) {
       const result = dqn.step(state);
       setAction(result.action);
 
-      // Update with experience
-      dqn.update({
-        state,
-        action: result.action,
-        reward,
-        nextState: state, // approximate, actual nextState comes next tick
-        done,
-      });
+      // Update with experience: use the previous state as the "state before this step"
+      // and the current `state` as `nextState`.
+      if (prevStateRef.current !== null) {
+        dqn.update({
+          state: prevStateRef.current,
+          action: result.action,
+          reward,
+          nextState: state,
+          done,
+        });
+      }
+      prevStateRef.current = state;
 
       setCurrentScore(score);
       const q = dqn.getQValues(state);
@@ -108,6 +117,9 @@ export function DQNWatch({ onComplete }: DQNWatchProps) {
         const sample = dqn.getReplaySample(5);
         setReplaySample(sample.map((s) => ({ reward: s.reward, action: s.action })));
       }
+
+      // If this was a single-step, pause again
+      if (isStepOnce) setIsRunning(false);
     },
     [isRunning, showReplay],
   );
@@ -117,14 +129,18 @@ export function DQNWatch({ onComplete }: DQNWatchProps) {
   }, []);
 
   const handleSingleStep = useCallback(() => {
-    // Single step not applicable in watch mode
-  }, []);
+    if (isRunning) return; // already running, ignore
+    stepOnceRef.current = true;
+    setIsRunning(true); // run one tick, then handleStep will pause again
+  }, [isRunning]);
 
   const handleReset = useCallback(() => {
     dqnRef.current = new DQN(5, 3, 32, Date.now() % 100000);
     dqnRef.current.setHyperparameter('learningRate', lr);
     dqnRef.current.setHyperparameter('epsilon', epsilon);
     dqnRef.current.setHyperparameter('replayBufferSize', bufferSize);
+    prevStateRef.current = null;
+    stepOnceRef.current = false;
     setIsRunning(false);
     setEpisode(0);
     setCurrentScore(0);

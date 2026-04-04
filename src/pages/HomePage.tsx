@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/stores/gameStore';
@@ -12,6 +12,18 @@ import { LanguageToggle } from '@/components/ui';
 function ScrollingPrologue({ onDone }: { onDone: () => void }) {
   const { t } = useTranslation();
   const [phase, setPhase] = useState<'scroll' | 'fade'>('scroll');
+
+  // Stable star positions — generated once per mount, not on every render
+  const stars = useMemo(
+    () =>
+      Array.from({ length: 60 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: 1 + Math.random() * 2,
+        opacity: 0.3 + Math.random() * 0.5,
+      })),
+    [],
+  );
 
   useEffect(() => {
     // After scroll animation (~6s), fade out
@@ -33,18 +45,18 @@ function ScrollingPrologue({ onDone }: { onDone: () => void }) {
       style={{ background: '#0a0e27' }}
       onClick={onDone}
     >
-      {/* Stars background */}
+      {/* Stars background — positions stable via useMemo */}
       <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 60 }, (_, i) => (
+        {stars.map((star, i) => (
           <div
             key={i}
             className="absolute rounded-full bg-white"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${1 + Math.random() * 2}px`,
-              height: `${1 + Math.random() * 2}px`,
-              opacity: 0.3 + Math.random() * 0.5,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
             }}
           />
         ))}
