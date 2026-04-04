@@ -7,14 +7,9 @@ import { QTableHeatmap } from '@/components/visualizations/QTableHeatmap';
 import { GridWorldEnvironment, QLearningAlgorithm } from '@/algorithms/qlearning';
 import type { BountyRank, QuestResult } from '@/types/algorithm';
 import { BOUNTY_MULTIPLIERS } from '@/types/algorithm';
+import type { PortStepProps } from '@/config/ports';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
 
 type QuestPhase = 'briefing' | 'manual' | 'config' | 'running' | 'results';
 

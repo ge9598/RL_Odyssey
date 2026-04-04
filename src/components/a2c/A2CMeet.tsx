@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PixelButton, PixelPanel } from '@/components/ui';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 const TOTAL_SLIDES = 5;
 

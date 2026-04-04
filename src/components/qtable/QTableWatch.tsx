@@ -5,14 +5,9 @@ import { GridWorld, GRID_CONFIGS } from '@/environments/GridWorld';
 import { RewardChart } from '@/components/visualizations/RewardChart';
 import { QTableHeatmap } from '@/components/visualizations/QTableHeatmap';
 import { GridWorldEnvironment, QLearningAlgorithm } from '@/algorithms/qlearning';
+import type { PortStepProps } from '@/config/ports';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 

@@ -3,12 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PixelButton, PixelPanel } from '@/components/ui';
 import { GridWorld } from '@/environments/GridWorld';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 // Simple 3×4 grid: player tries to reach exit manually
 const GRID = {

@@ -5,12 +5,7 @@ import { GridWorld } from '@/environments/GridWorld';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
 import { REINFORCEAlgorithm } from '@/algorithms/reinforce';
 import { ActorCriticAlgorithm } from '@/algorithms/actorCritic';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 const TOTAL_SLIDES = 5;
 

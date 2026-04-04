@@ -4,14 +4,9 @@ import { PixelButton, PixelPanel, PixelSlider } from '@/components/ui';
 import { TreasureChests } from '@/environments/TreasureChests';
 import { BanditEnvironment } from '@/algorithms/bandit';
 import { argmax } from '@/utils/math';
+import type { PortStepProps } from '@/config/ports';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 const NUM_CHESTS = 5;

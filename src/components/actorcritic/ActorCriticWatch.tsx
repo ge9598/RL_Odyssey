@@ -6,12 +6,7 @@ import { RewardChart } from '@/components/visualizations/RewardChart';
 import { ActorCriticAlgorithm } from '@/algorithms/actorCritic';
 import { REINFORCEAlgorithm } from '@/algorithms/reinforce';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 const CONFIG = GRID_CONFIGS.feel;
 const NUM_STATES = CONFIG.rows * CONFIG.cols;

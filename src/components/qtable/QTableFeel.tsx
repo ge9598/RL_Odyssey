@@ -3,14 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { PixelButton, PixelPanel } from '@/components/ui';
 import { GridWorld, GRID_CONFIGS } from '@/environments/GridWorld';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
+import type { PortStepProps } from '@/config/ports';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 

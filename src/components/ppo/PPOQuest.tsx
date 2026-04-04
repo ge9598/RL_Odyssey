@@ -9,12 +9,7 @@ import type { BountyRank, QuestResult } from '@/types/algorithm';
 import { BOUNTY_MULTIPLIERS } from '@/types/algorithm';
 import { useGameStore } from '@/stores/gameStore';
 import { useCardStore } from '@/stores/cardStore';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 type QuestPhase = 'briefing' | 'config' | 'training' | 'results';
 

@@ -3,12 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PixelButton, PixelPanel } from '@/components/ui';
 import { GridWorld } from '@/environments/GridWorld';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 // Cliff-walk style grid: 4 rows × 8 cols
 // Safe path goes along row 0 (long but safe)

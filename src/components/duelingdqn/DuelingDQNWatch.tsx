@@ -5,12 +5,7 @@ import { GridWorld, GRID_CONFIGS } from '@/environments/GridWorld';
 import { RewardChart } from '@/components/visualizations/RewardChart';
 import { GridWorldEnvironment } from '@/algorithms/qlearning';
 import { DuelingDQN } from '@/algorithms/duelingDqn';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 const CONFIG = GRID_CONFIGS.feel;
 const STATE_SIZE = 4;

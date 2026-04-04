@@ -4,12 +4,7 @@ import { PixelButton, PixelPanel } from '@/components/ui';
 import { GridWorld } from '@/environments/GridWorld';
 import { GridWorldEnvironment, QLearningAlgorithm } from '@/algorithms/qlearning';
 import { SARSAAlgorithm } from '@/algorithms/sarsa';
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
+import type { PortStepProps } from '@/config/ports';
 
 const TOTAL_SLIDES = 5;
 

@@ -7,14 +7,9 @@ import { BanditAlgorithm, BanditEnvironment } from '@/algorithms/bandit';
 import { SeededRandom } from '@/utils/seededRandom';
 import type { BountyRank, QuestResult } from '@/types/algorithm';
 import { BOUNTY_MULTIPLIERS } from '@/types/algorithm';
+import type { PortStepProps } from '@/config/ports';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-
-interface PortStepProps {
-  portId: string;
-  onComplete: () => void;
-  onSkip?: () => void;
-}
 
 type QuestPhase = 'briefing' | 'config' | 'running' | 'shift' | 'results';
 
