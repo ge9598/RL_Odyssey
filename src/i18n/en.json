@@ -99,6 +99,21 @@
       "concept_reward_desc": "Feedback — did it work well or badly?"
     }
   },
+  "archie": {
+    "name": "Archie 🦜"
+  },
+  "home": {
+    "prologue": {
+      "line1": "In the Sea of Intelligence, a great mystery awaits: the Optimal Strategy.",
+      "line2": "Many captains sailed in search of it. None returned.",
+      "line3": "A dark force — the Chaos Engine — corrupts these waters.",
+      "line4": "One new captain, and their learning companion, must set it right.",
+      "skip": "Click anywhere to skip"
+    },
+    "villain": {
+      "teaser": "⚠️ The Chaos Engine corrupts these waters..."
+    }
+  },
   "map": {
     "title": "The Sea of Intelligence",
     "startingHarbor": "Starting Harbor",
@@ -112,6 +127,7 @@
       "hard": "Most advanced concepts"
     },
     "locked": "Complete the tutorial first",
+    "policyLocked": "Complete Value Archipelago first",
     "hardRouteWarning": "This route explores advanced ideas. We recommend starting with Value Archipelago — but you're the captain! Ready to set sail?"
   },
   "value": {
@@ -197,52 +213,74 @@
     "bandit": {
       "story": "You arrive at a mysterious cove lined with treasure chests. Each chest glows with a different color. A weathered pirate leans against a palm tree and grins: 'Five chests, one hundred chances. Think you can figure out which one pays the most?'",
       "primer": "What is probability? Think of it like a weather forecast. When they say '70% chance of rain,' they mean if today happened 100 times, it would rain about 70 of those times. Each treasure chest has its own hidden probability of giving you gold.",
-      "summary": "You learned the Multi-Armed Bandit problem — the art of balancing exploration (trying new things) with exploitation (sticking with what works). The epsilon-greedy strategy helps: most of the time pick the best option, but occasionally try something new."
+      "summary": "You learned the Multi-Armed Bandit problem — the art of balancing exploration (trying new things) with exploitation (sticking with what works). The epsilon-greedy strategy helps: most of the time pick the best option, but occasionally try something new.",
+      "npc": { "name": "The Pirate" },
+      "dialogue": {
+        "1": "Captain! We've arrived at Treasure Cove. See those glowing chests? The Chaos Engine cursed them — it wants us to open the same one every time!",
+        "2": "Five chests, a hundred chances. Think you can figure out which one pays the most without wasting all your turns?",
+        "3": "This is the classic explore vs. exploit problem. Open too few different chests, you'll miss the good one. Open too many, you'll waste your turns. We need a smart strategy!"
+      },
+      "bridge": "Good work, Captain! But what if each spot could lead somewhere else, with different treasures? We need an algorithm that handles sequences of decisions — say hello to Q-Learning!"
     },
     "qtable": {
       "story": "You reach a cursed island covered in fog. An old sailor warns you: 'This island shifts and traps those who wander blindly. Only a true cartographer — one who maps every path — can escape.'",
       "primer": "What is a table of values? Think of a spreadsheet where each row is a location and each column is a direction. The numbers tell you how good each choice is.",
-      "summary": "You learned Q-Learning — an algorithm that builds a complete map of how good every action is at every location. By balancing exploration and exploitation, it finds the optimal path through any grid world. The key insight: ask your future self for advice (the Bellman equation)."
+      "summary": "You learned Q-Learning — an algorithm that builds a complete map of how good every action is at every location. By balancing exploration and exploitation, it finds the optimal path through any grid world. The key insight: ask your future self for advice (the Bellman equation).",
+      "bridge": "Q-Learning is great but plays it a bit too bold near danger. What if the algorithm learned only from what it *actually* does — risky moves included? That's SARSA's secret."
     },
     "deep": {
       "story": "You've mapped the treasure-filled islands, but now you face a vast ocean of possibilities. An old navigator says: 'When the map becomes too big to draw, you need a brain that can see patterns.' Welcome to the world of neural networks.",
       "primer": "What is a neural network? Think of it like a smart pattern-matching machine. Just like your brain recognizes faces without checking every pixel, a neural network learns to recognize patterns in data. It has layers of 'neurons' that pass information forward, getting smarter with each example it sees.",
-      "summary": "You learned DQN — Deep Q-Network — which replaces the Q-table with a neural network that can handle huge state spaces. Two key tricks make it work: Experience Replay (studying from shuffled memories) and a Target Network (having a stable teacher). DQN was the first algorithm to master Atari games!"
+      "summary": "You learned DQN — Deep Q-Network — which replaces the Q-table with a neural network that can handle huge state spaces. Two key tricks make it work: Experience Replay (studying from shuffled memories) and a Target Network (having a stable teacher). DQN was the first algorithm to master Atari games!",
+      "bridge": "DQN works, but it tends to overestimate how good actions are. What if two networks kept each other honest? Double DQN brings a second opinion."
     },
     "sarsa": {
       "story": "You reach a mountain trail with a shortcut along the cliff edge. A veteran explorer warns you: 'The fast path is tempting, but it's dangerous. A wise navigator learns from every slip — not just the theoretical best move.' Enter SARSA, the cautious algorithm.",
       "primer": "What is on-policy learning? It means your algorithm learns from the actions it actually takes — including risky exploratory moves. This makes it more realistic about the dangers ahead.",
-      "summary": "SARSA learns from what it actually does, not what it could theoretically do. This on-policy approach makes it naturally more cautious near dangerous areas. The tiny change from Q-Learning (using the actual next action instead of the greedy best) leads to surprisingly different behavior!"
+      "summary": "SARSA learns from what it actually does, not what it could theoretically do. This on-policy approach makes it naturally more cautious near dangerous areas. The tiny change from Q-Learning (using the actual next action instead of the greedy best) leads to surprisingly different behavior!",
+      "bridge": "SARSA is cautious, but its Q-table has millions of rows in a big world — it would explode! What if we used a neural network to summarize all that knowledge? Enter DQN."
     },
     "doubledqn": {
       "story": "You find an ancient oracle who claims to know the value of every treasure. But whispers say the oracle always gives the highest estimate — never an honest one. To find the truth, you need a second opinion. Enter Double DQN: the algorithm that checks its own optimism.",
       "primer": "What is overestimation bias? When you always take the maximum of noisy estimates, you tend to overestimate. It's like asking a salesperson how good their product is — they'll always say great!",
-      "summary": "Double DQN fixes DQN's overestimation problem by separating which action to pick from how to evaluate it. The online network selects the action; the target network evaluates it. This tiny change reduces bias and often leads to better-performing agents."
+      "summary": "Double DQN fixes DQN's overestimation problem by separating which action to pick from how to evaluate it. The online network selects the action; the target network evaluates it. This tiny change reduces bias and often leads to better-performing agents.",
+      "bridge": "We've fixed overconfidence. But here's a deeper question: is a situation good because of WHERE you are, or WHAT you do there? Dueling DQN separates the two."
     },
     "duelingdqn": {
       "story": "You've learned to score actions. But there's a deeper question: is an action good because of WHERE you are, or WHAT you did? A wise analyst splits the two — understanding a state's inherent value separately from the advantage of each action. Enter Dueling DQN.",
       "primer": "What is state value? It's how good it is to just BE in a state, regardless of what you do next. Some states are inherently bad (near a cliff), others are inherently good (near the exit). This separation helps the network learn more efficiently.",
-      "summary": "Dueling DQN splits Q-values into state value V(s) and advantage A(s,a). This lets the network efficiently learn which states are good (even when actions barely differ) and which actions stand out. The result: better Q-value estimates with the same training data."
+      "summary": "Dueling DQN splits Q-values into state value V(s) and advantage A(s,a). This lets the network efficiently learn which states are good (even when actions barely differ) and which actions stand out. The result: better Q-value estimates with the same training data.",
+      "bridge": "You've mastered all the value methods! But there's another approach entirely — instead of scoring positions, what if the algorithm directly learned to throw better darts? That's the idea behind Policy Gradient methods on Volcanic Isle."
     },
     "reinforce": {
       "story": "You've reached the foot of the Volcanic Isle. A lone archer stands on the cliff, throwing darts at a target. She misses. She misses again. Then — thwack — a bullseye! She grins: 'Every hit, I throw more like that. Every miss, I throw less. That's all I do.' You've just witnessed REINFORCE.",
       "primer": "What is a probability distribution? Think of it like a spinner on a board game. Instead of landing on one fixed spot, the policy has different-sized slices for each action. The bigger the slice, the more often you pick that action. Learning means reshaping the slices.",
-      "summary": "You learned REINFORCE — the simplest policy gradient method. Instead of scoring positions, it directly tweaks the probability of each action. Good episodes make their actions more likely; bad episodes make them less likely. It's noisy but elegant — the foundation of all policy gradient methods."
+      "summary": "You learned REINFORCE — the simplest policy gradient method. Instead of scoring positions, it directly tweaks the probability of each action. Good episodes make their actions more likely; bad episodes make them less likely. It's noisy but elegant — the foundation of all policy gradient methods.",
+      "npc": { "name": "The Volcano Sage" },
+      "dialogue": {
+        "1": "Welcome to Policy Volcanic Isle! The Chaos Engine made this place unstable — it wants every policy to be random and chaotic. We need algorithms that can learn under pressure!",
+        "2": "I've watched this volcano for decades. The key insight: don't score every spot. Just keep track of what moves lead to success, and do more of those.",
+        "3": "This is REINFORCE — pure policy gradient. Direct, simple, elegant. But watch out for the noise. The volcano tests your patience."
+      },
+      "bridge": "REINFORCE is elegant but very noisy — like learning from a single coin flip each time. What if we had a critic to reduce that noise? Actor-Critic splits the learning into two roles."
     },
     "actorcritic": {
       "story": "Deep in the Volcanic Isle, a martial arts master trains her apprentice. 'Strike left!' the apprentice acts. 'Good — but your stance was weak,' the master critiques. With every exchange, the apprentice's moves sharpen and the master's eye sharpens too. They learn together.",
       "primer": "What is a baseline? When you say 'that was better than average,' you need to know what average is first. A baseline is that average — it tells us whether a result was surprisingly good or surprisingly bad. Subtracting the baseline from rewards reduces noise in learning.",
-      "summary": "Actor-Critic combines the best of both worlds: the Actor directly optimizes the policy, while the Critic estimates state values to reduce variance. Instead of waiting for a full episode (like REINFORCE), the TD error signal lets learning happen at every step — faster and more stable."
+      "summary": "Actor-Critic combines the best of both worlds: the Actor directly optimizes the policy, while the Critic estimates state values to reduce variance. Instead of waiting for a full episode (like REINFORCE), the TD error signal lets learning happen at every step — faster and more stable.",
+      "bridge": "One actor-critic pair is good. But what if a hundred workers explored in parallel and pooled their experience? That's A2C — Advantage Actor-Critic with parallel workers."
     },
     "a2c": {
       "story": "The volcanic summit comes into view. An army of robot soldiers fans out across the slopes, each exploring a different path. They share everything they learn. An individual might wander for hours; together, they conquer in minutes. This is the power of parallel learning.",
       "primer": "What is the advantage function? Instead of asking 'how good was this action?', advantage asks 'how much BETTER was this action than what I usually do here?' A(s,a) = Q(s,a) - V(s). Positive advantage: better than expected. Negative: worse.",
-      "summary": "A2C (Advantage Actor-Critic) extends Actor-Critic with parallel workers that share a single policy. Each worker explores independently, then contributes gradients to the shared update. The Advantage function reduces variance further, and synchronous updates keep learning stable."
+      "summary": "A2C (Advantage Actor-Critic) extends Actor-Critic with parallel workers that share a single policy. Each worker explores independently, then contributes gradients to the shared update. The Advantage function reduces variance further, and synchronous updates keep learning stable.",
+      "bridge": "A2C is powerful, but big updates can sometimes destabilize training. PPO adds guardrails — it clips updates to stay close to the last policy, making training much more robust."
     },
     "ppo": {
       "story": "You reach the volcanic throne. The final guardian is a patient strategist who has tried every trick — and learned from every mistake. 'I update slowly,' she says, 'but every step forward stays forward. No more crashing back to square one.' This is PPO.",
       "primer": "What is a clipping function? Imagine you want to change a setting, but only allow changes within a 20% range. If someone says 'change by 50%', you clip it to 20%. PPO uses this to prevent any single update from being too aggressive.",
-      "summary": "PPO (Proximal Policy Optimization) is one of the most widely used RL algorithms today. It adds a clipping mechanism to prevent updates from being too large, so training stays stable. The clip range ε controls the learning speed — too wide causes chaos, too narrow causes stagnation."
+      "summary": "PPO (Proximal Policy Optimization) is one of the most widely used RL algorithms today. It adds a clipping mechanism to prevent updates from being too large, so training stays stable. The clip range ε controls the learning speed — too wide causes chaos, too narrow causes stagnation.",
+      "bridge": "You've mastered Policy Volcanic Isle! PPO is still one of the most widely-used RL algorithms today. The Chaos Volcano awaits your final test!"
     },
     "primer": {
       "heading": "Quick Concept",
@@ -260,7 +298,12 @@
       "sailNext": "Sail to Next Port",
       "returnToIsland": "Return to Island",
       "islandComplete": "Island Complete!",
-      "bossAwaits": "The Boss Awaits..."
+      "bossAwaits": "The Boss Awaits...",
+      "incoming": "Incoming",
+      "faceTheBoss": "Face the Boss!"
+    },
+    "story": {
+      "dialogueDone": "Ready to learn how this works?"
     }
   },
   "chart": {

@@ -164,6 +164,11 @@ registerPort({
       meta: {
         storyKey: 'port.bandit.story',
         emoji: '\uD83C\uDFB0',
+        dialogue: [
+          { speaker: 'archie.name', portrait: '\uD83E\uDD9C', textKey: 'port.bandit.dialogue.1', color: '#ffd700' },
+          { speaker: 'port.bandit.npc.name', portrait: '\uD83C\uDFF4\u200D\u2620\uFE0F', textKey: 'port.bandit.dialogue.2', color: '#f87171' },
+          { speaker: 'archie.name', portrait: '\uD83E\uDD9C', textKey: 'port.bandit.dialogue.3', color: '#ffd700' },
+        ],
       },
     },
     {
@@ -224,6 +229,7 @@ registerPort({
       meta: {
         nextPortId: 'qtable',
         nextPortNameKey: 'value.qtable.name',
+        bridgeKey: 'port.bandit.bridge',
       },
     },
   ],
@@ -315,6 +321,7 @@ registerPort({
       meta: {
         nextPortId: 'sarsa',
         nextPortNameKey: 'value.sarsa.name',
+        bridgeKey: 'port.qtable.bridge',
       },
     },
   ],
@@ -372,7 +379,7 @@ registerPort({
       component: UnlockStep,
       skippable: false,
       durationHint: '30s',
-      meta: { nextPortId: 'deep', nextPortNameKey: 'value.deep.name' },
+      meta: { nextPortId: 'deep', nextPortNameKey: 'value.deep.name', bridgeKey: 'port.sarsa.bridge' },
     },
   ],
   quest: {
@@ -460,7 +467,7 @@ registerPort({
       component: UnlockStep,
       skippable: false,
       durationHint: '30s',
-      meta: { nextPortId: 'double-dqn', nextPortNameKey: 'value.doubledqn.name' },
+      meta: { nextPortId: 'double-dqn', nextPortNameKey: 'value.doubledqn.name', bridgeKey: 'port.deep.bridge' },
     },
   ],
   quest: {
@@ -516,7 +523,7 @@ registerPort({
       component: UnlockStep,
       skippable: false,
       durationHint: '30s',
-      meta: { nextPortId: 'dueling-dqn', nextPortNameKey: 'value.duelingdqn.name' },
+      meta: { nextPortId: 'dueling-dqn', nextPortNameKey: 'value.duelingdqn.name', bridgeKey: 'port.doubledqn.bridge' },
     },
   ],
   quest: {
@@ -572,7 +579,7 @@ registerPort({
       component: UnlockStep,
       skippable: false,
       durationHint: '30s',
-      meta: { nextPortId: null, nextPortNameKey: '' },
+      meta: { nextPortId: null, nextPortNameKey: '', bridgeKey: 'port.duelingdqn.bridge' },
     },
   ],
   quest: {
@@ -630,14 +637,18 @@ registerPort({
   metaphorKey: 'policy.reinforce.metaphor',
   order: 0,
   steps: [
-    { id: 'reinforce-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.reinforce.story', emoji: '\uD83C\uDFAF' } },
+    { id: 'reinforce-story', type: 'story', component: StoryStep, skippable: true, durationHint: '30s', meta: { storyKey: 'port.reinforce.story', emoji: '\uD83C\uDFAF', dialogue: [
+      { speaker: 'archie.name', portrait: '\uD83E\uDD9C', textKey: 'port.reinforce.dialogue.1', color: '#ffd700' },
+      { speaker: 'port.reinforce.npc.name', portrait: '\uD83C\uDF0B', textKey: 'port.reinforce.dialogue.2', color: '#f87171' },
+      { speaker: 'archie.name', portrait: '\uD83E\uDD9C', textKey: 'port.reinforce.dialogue.3', color: '#ffd700' },
+    ] } },
     { id: 'reinforce-primer', type: 'primer', component: PrimerStep, skippable: true, durationHint: '30s', meta: { primerKey: 'port.reinforce.primer' } },
     { id: 'reinforce-feel', type: 'feel', component: ReinforceFeel, skippable: true, durationHint: '2 min' },
     { id: 'reinforce-meet', type: 'meet', component: ReinforceMeet, skippable: true, durationHint: '3 min' },
     { id: 'reinforce-watch', type: 'watch', component: ReinforceWatch, skippable: true, durationHint: '2 min' },
     { id: 'reinforce-quest', type: 'quest', component: ReinforceQuest, skippable: false, durationHint: '5 min' },
     { id: 'reinforce-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'instinct-thrower', summaryKey: 'port.reinforce.summary' } },
-    { id: 'reinforce-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'actor-critic', nextPortNameKey: 'policy.actorcritic.name' } },
+    { id: 'reinforce-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'actor-critic', nextPortNameKey: 'policy.actorcritic.name', bridgeKey: 'port.reinforce.bridge' } },
   ],
   quest: {
     baseGold: 500,
@@ -665,7 +676,7 @@ registerPort({
     { id: 'actorcritic-watch', type: 'watch', component: ActorCriticWatch, skippable: true, durationHint: '2 min' },
     { id: 'actorcritic-quest', type: 'quest', component: ActorCriticQuest, skippable: false, durationHint: '5 min' },
     { id: 'actorcritic-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'dual-mind', summaryKey: 'port.actorcritic.summary' } },
-    { id: 'actorcritic-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'a2c', nextPortNameKey: 'policy.a2c.name' } },
+    { id: 'actorcritic-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'a2c', nextPortNameKey: 'policy.a2c.name', bridgeKey: 'port.actorcritic.bridge' } },
   ],
   quest: {
     baseGold: 700,
@@ -693,7 +704,7 @@ registerPort({
     { id: 'a2c-watch', type: 'watch', component: A2CWatch, skippable: true, durationHint: '2 min' },
     { id: 'a2c-quest', type: 'quest', component: A2CQuest, skippable: false, durationHint: '5 min' },
     { id: 'a2c-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'hivemind-captain', summaryKey: 'port.a2c.summary' } },
-    { id: 'a2c-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'ppo', nextPortNameKey: 'policy.ppo.name' } },
+    { id: 'a2c-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: 'ppo', nextPortNameKey: 'policy.ppo.name', bridgeKey: 'port.a2c.bridge' } },
   ],
   quest: {
     baseGold: 900,
@@ -721,7 +732,7 @@ registerPort({
     { id: 'ppo-watch', type: 'watch', component: PPOWatch, skippable: true, durationHint: '2 min' },
     { id: 'ppo-quest', type: 'quest', component: PPOQuest, skippable: false, durationHint: '5 min' },
     { id: 'ppo-summary', type: 'summary', component: SummaryStep, skippable: false, durationHint: '1 min', meta: { cardId: 'steady-hand', summaryKey: 'port.ppo.summary' } },
-    { id: 'ppo-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: null, nextPortNameKey: '' } },
+    { id: 'ppo-unlock', type: 'unlock', component: UnlockStep, skippable: false, durationHint: '30s', meta: { nextPortId: null, nextPortNameKey: '', bridgeKey: 'port.ppo.bridge' } },
   ],
   quest: {
     baseGold: 1100,
